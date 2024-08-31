@@ -8,7 +8,7 @@ date: { type: Date },
 rating: {
     type: Number,
     required: true,
-    min: 1, 
+    min: 0, 
     max: 5,
 },
 });
