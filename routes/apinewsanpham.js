@@ -719,7 +719,8 @@ router.get('/muangay/:idsp', async (req, res) => {
       name: sp.name,
       price: sp.price
     }
-    res.render('home/formmua.ejs', { spjson })
+    res.json(spjson)
+    // res.render('home/formmua.ejs', { spjson })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
