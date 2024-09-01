@@ -1,33 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
+:root {
+    --size-wheel: 25rem;
+}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vui chơi có thưởng</title>
-    <link rel="stylesheet" href="https://baominhmobile.com/css/gift.css" />
-</head>
+html {
+    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+}
 
-<body>
+body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('https://baominhmobile.com/images/nengift.png');
+    background-size: cover;
+}
 
+.lll {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-    <main>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        <h1 class="lll">VÒNG QUAY MAY MẮN</h1>
-
-        <section class="main">
-            <span>
-					<ul class="wheel"></ul>
-				</span>
-            <button class="btn--wheel">Quay thưởng</button>
-        </section>
-        <h1 class="msg"></h1>
-    </main>
-    <script src="https://baominhmobile.com/js/gift.js"></script>
-</body>
-
-</html>
 .msg {
     min-height: 4rem;
     font-family: Arial, Helvetica, sans-serif;
