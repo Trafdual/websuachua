@@ -270,8 +270,8 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
 
 router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
   try {
-    const namesp = req.params.namesp.replace(/-/g, ' ')
-    const nameloai = req.params.nameloai.replace(/-/g, ' ')
+    const namesp = req.params.namesp.replace(/-/g, ' ').replace(/pt/g,'%')
+    const nameloai = req.params.nameloai.replace(/-/g, ' ').replace(/pt/g,'%')
     const sp = await Sp.ChitietSp.findOne({ name: namesp })
     if (!sp) {
       return res.status(404).json({ message: 'Không tìm thấy sản phẩm' })
@@ -308,7 +308,8 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
       spjson: spjson,
       mangloai: mangloai
     }
-    // res.json(mangjson)
+    // res.json(namesp)
+    // // res.json(mangjson)
     res.render('home/single-product.ejs', { mangjson, nameloai, namesp })
   } catch (error) {
     console.error(error)
