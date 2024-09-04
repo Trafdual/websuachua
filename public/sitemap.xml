@@ -772,7 +772,7 @@
     <url>
       <loc>https://www.baominhmobile.com/contentBlog/Tat-Ca-nhung-Gi-Ban-nen-biet-Ve--IPhone-13-Pro-Max--</loc>
       <changefreq>daily</changefreq>
-      <priority>0.7</priority>
+      <priority>0.8</priority>
     </url>
   
 
@@ -804,6 +804,12 @@
 
       <url>
       <loc>https://www.baominhmobile.com/contentBlog/Danh-Gia-Cua-Hang-Dien-Thoai-Bao-Minh-Store-Chat-Luong-Uy-Tin-Hang-Dau</loc>
+      <changefreq>daily</changefreq>
+      <priority>0.8</priority>
+    </url>
+    
+      <url>
+      <loc>https://www.baominhmobile.com/contentBlog/Lieu-su-dung-video-am-thanh-co-phai-la-cach-hieu-qua-de-day-nuoc-ra-khoi-Dien-Thoai-Cua-Ban-</loc>
       <changefreq>daily</changefreq>
       <priority>0.8</priority>
     </url>
