@@ -761,13 +761,7 @@
       <changefreq>daily</changefreq>
       <priority>0.7</priority>
     </url>
-  
-    <url>
-      <loc>https://www.baominhmobile.com/blog.html</loc>
-      <changefreq>daily</changefreq>
-      <priority>0.7</priority>
-    </url>
-  
+
     <url>
       <loc>https://www.baominhmobile.com/getblog</loc>
       <changefreq>daily</changefreq>
@@ -790,7 +784,7 @@
   
 
     <url>
-      <loc>https://www.baominhmobile.com/contentBlog/Cach-xoa-anh-tren-Locket-cuc-de-dang%2C-don-dep-bot-nhung-buc-anh-cu-hoac-khong-con-phu-hop-nua</loc>
+      <loc>https://www.baominhmobile.com/contentBlog/Cach-xoa-anh-tren-Locket-cuc-de-dang-don-dep-bot-nhung-buc-anh-cu-hoac-khong-con-phu-hop-nua</loc>
       <changefreq>daily</changefreq>
       <priority>0.8</priority>
     </url>
@@ -809,7 +803,7 @@
     </url>
 
       <url>
-      <loc>https://www.baominhmobile.com/contentBlog/Danh-Gia-Cua-Hang-Dien-Thoai-Bao-Minh-Store%3A-Chat-Luong%2C-Uy-Tin-Hang-Dau</loc>
+      <loc>https://www.baominhmobile.com/contentBlog/Danh-Gia-Cua-Hang-Dien-Thoai-Bao-Minh-Store-Chat-Luong-Uy-Tin-Hang-Dau</loc>
       <changefreq>daily</changefreq>
       <priority>0.8</priority>
     </url>
