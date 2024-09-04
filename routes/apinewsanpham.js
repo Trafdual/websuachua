@@ -270,8 +270,8 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
 
 router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
   try {
-    const namesp = req.params.namesp.replace(/-/g, ' ').replace(/pt/g,'%')
-    const nameloai = req.params.nameloai.replace(/-/g, ' ').replace(/pt/g,'%')
+    const namesp = req.params.namesp.replace(/-/g, ' ').replace(/pt/g, '%')
+    const nameloai = req.params.nameloai.replace(/-/g, ' ').replace(/pt/g, '%')
     const sp = await Sp.ChitietSp.findOne({ name: namesp })
     if (!sp) {
       return res.status(404).json({ message: 'Không tìm thấy sản phẩm' })
@@ -889,7 +889,7 @@ router.get('/contentBlog/:tieude', async (req, res) => {
     const content = blog.noidung.map(noidung => {
       return {
         tieude: noidung.tieude,
-        content:noidung.content.replace(/\\n/g, '<br>'),
+        content: noidung.content.replace(/\\n/g, '<br>'),
         img: noidung.img || ''
       }
     })
@@ -907,9 +907,16 @@ router.get('/contentBlog/:tieude', async (req, res) => {
   }
 })
 
-function escapeRegExp(string) {
+function escapeRegExp (string) {
   // Hàm thoát ký tự đặc biệt trong biểu thức chính quy
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+function removeSpecialChars (str) {
+  // Danh sách các ký tự đặc biệt bạn muốn xóa
+  const specialChars = /[:+,!@#$%^&*()]/g // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
+
+  // Xóa các ký tự đặc biệt
+  return str.replace(specialChars, '')
 }
 
 function replaceKeywordsWithLinks (content, keywords, urlBase) {
@@ -944,7 +951,9 @@ router.post('/postblog', async (req, res) => {
     const { tieude_blog, img, content, tieude, img_blog, keywords, urlBase } =
       req.body
 
-    const tieude_khongdau = unicode(tieude_blog)
+    const tieude_khongdau1 = unicode(tieude_blog)
+    const tieude_khongdau = removeSpecialChars(tieude_khongdau1)
+
     const blog = new myMDBlog.blogModel({
       tieude_blog,
       img_blog,
@@ -1030,6 +1039,7 @@ router.get('/editblog/:idblog', async (req, res) => {
       idblog,
       blog,
       tieude_blog: blogg.tieude_blog,
+      tieude_khongdau: blogg.tieude_khongdau,
       img_blog: blogg.img_blog
     })
   } catch (error) {
@@ -1040,13 +1050,21 @@ router.get('/editblog/:idblog', async (req, res) => {
 
 router.post('/editblog/:idblog', async (req, res) => {
   try {
-    const { tieude_blog, img_blog, tieude, content, img, keywords, urlBase } =
-      req.body
+    const {
+      tieude_blog,
+      img_blog,
+      tieude,
+      content,
+      img,
+      keywords,
+      urlBase,
+      tieude_khongdau
+    } = req.body
     const idblog = req.params.idblog
     const blog = await myMDBlog.blogModel.findById(idblog)
     blog.tieude_blog = tieude_blog
     blog.img_blog = img_blog
-    blog.tieude_khongdau = unicode(tieude_blog)
+    blog.tieude_khongdau = tieude_khongdau
 
     if (Array.isArray(content) && Array.isArray(img) && Array.isArray(tieude)) {
       blog.noidung.forEach((nd, index) => {
