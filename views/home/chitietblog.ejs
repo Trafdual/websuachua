@@ -396,8 +396,8 @@
                             <h5 itemprop="name" class="display-7" style="font-weight: bold;">
                                 <%= item.tieude.replace(/\\n/g, "<br>") %>
                             </h5>
-                            <p style="color: black">
-                                <%- item.content.replace(/\\n/g, "<br>") %>
+                            <p style="color: black; text-align: justify; text-indent: 1em;">
+                                <%- item.content.replace(/\\n/g, "<br>&nbsp;&nbsp;&nbsp;&nbsp;") %>
                             </p>
                             <% if (item.img) { %>
                                 <div class="product-preview mb-3 d-flex justify-content-center">

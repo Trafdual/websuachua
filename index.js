@@ -50,6 +50,8 @@ app.use('/', settingsRouter)
 app.use('/', apinewsanpham)
 
 app.use(express.static(path.join(__dirname, '/public')))
+app.use(express.static(path.join(__dirname, '/uploads')))
+
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000')
