@@ -1,12 +1,10 @@
-module.exports={
-    apps:[
-        {
-            name:'Baominhstore',
-            script:'./index.js',
-            env:{
-                NODE_ENV:'production',
-                PORT:1001
-            }
-        }
-    ]
+
+module.exports = {
+  apps: [
+    {
+      name: 'Baominhstore',
+      script: './index.js',
+      watch: false
+    }
+  ]
 }

@@ -1084,6 +1084,9 @@ router.post(
 router.get('/getaddblog', async (req, res) => {
   res.render('home/addblog.ejs')
 })
+router.get('/getaddblogtest', async (req, res) => {
+  res.render('home/test.ejs')
+})
 
 router.get('/getblog', async (req, res) => {
   try {
