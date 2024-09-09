@@ -1088,6 +1088,7 @@ router.get('/getaddblogtest', async (req, res) => {
   res.render('home/test.ejs')
 })
 
+
 router.get('/getblog', async (req, res) => {
   try {
     const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 })
