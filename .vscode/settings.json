@@ -20,5 +20,6 @@
     "scss.format.preserveNewLines": false,
     "formatSelectionAsHtml.preserveNewlines": false,
     "html.format.preserveNewLines": false,
-    "javascript.format.insertSpaceAfterCommaDelimiter": true
+    "javascript.format.insertSpaceAfterCommaDelimiter": true,
+    "compile-hero.disable-compile-files-on-did-save-code": false
 }

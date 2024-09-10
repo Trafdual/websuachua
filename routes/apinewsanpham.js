@@ -916,7 +916,7 @@ function escapeRegExp (string) {
 }
 function removeSpecialChars (str) {
   // Danh sách các ký tự đặc biệt bạn muốn xóa
-  const specialChars = /[:+,!@#$%^&*()-]/g // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
+  const specialChars = /[:+,!@#$%^&*()-?/]/g // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
 
   // Xóa các ký tự đặc biệt
   return str.replace(specialChars, '')
@@ -1015,7 +1015,7 @@ router.post(
       const { tieude_blog, content, tieude, keywords, urlBase } = req.body
 
       // Xác định domain
-      const domain = 'https://www.baominhmobile.com' // Thay đổi thành domain của bạn
+      const domain = 'http://localhost:3000' // Thay đổi thành domain của bạn
 
       // Lấy tên file ảnh từ req.files và thêm domain vào trước tên file
       const imgblog = req.files['imgblog']
@@ -1088,7 +1088,6 @@ router.get('/getaddblogtest', async (req, res) => {
   res.render('home/test.ejs')
 })
 
-
 router.get('/getblog', async (req, res) => {
   try {
     const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 })
@@ -1132,84 +1131,102 @@ router.get('/editblog/:idblog', async (req, res) => {
   }
 })
 
-router.post('/editblog/:idblog', async (req, res) => {
-  try {
-    const {
-      tieude_blog,
-      img_blog,
-      tieude,
-      content,
-      img,
-      keywords,
-      urlBase,
-      tieude_khongdau
-    } = req.body
-    const idblog = req.params.idblog
-    const blog = await myMDBlog.blogModel.findById(idblog)
-    blog.tieude_blog = tieude_blog
-    blog.img_blog = img_blog
-    blog.tieude_khongdau = tieude_khongdau
-
-    if (Array.isArray(content) && Array.isArray(img) && Array.isArray(tieude)) {
-      blog.noidung.forEach((nd, index) => {
-        if (content[index]) {
-          const updatedContent = replaceKeywordsWithLinks(
-            content[index],
-            keywords[index],
-            urlBase[index]
-          )
-          nd.content = updatedContent
-        }
-        nd.keywords = keywords[index]
-        nd.urlBase = urlBase[index]
-        if (img[index]) {
-          nd.img = img[index]
-        }
-        if (tieude[index]) {
-          nd.tieude = tieude[index]
-        }
-      })
-
-      for (let i = blog.noidung.length; i < content.length; i++) {
-        const updatedContent = replaceKeywordsWithLinks(
-          content[i],
-          keywords[i],
-          urlBase[i]
-        )
-
-        blog.noidung.push({
-          content: updatedContent,
-          img: img[i],
-          tieude: tieude[i],
-          keywords: keywords[i],
-          urlBase: urlBase[i]
-        })
-      }
-    } else {
-      const updatedContent = replaceKeywordsWithLinks(
+router.post(
+  '/editblog/:idblog',
+  uploads.fields([
+    { name: 'imgblog', maxCount: 1 }, // Một ảnh duy nhất
+    { name: 'img', maxCount: 100000 } // Nhiều ảnh (có thể điều chỉnh số lượng tối đa)
+  ]),
+  async (req, res) => {
+    try {
+      const {
+        tieude_blog,
+        tieude,
         content,
         keywords,
-        urlBase
-      )
-      blog.noidung = blog.noidung.slice(0, content.length)
+        urlBase,
+        tieude_khongdau
+      } = req.body
+      const idblog = req.params.idblog
+      const blog = await myMDBlog.blogModel.findById(idblog)
+      const imgblog =
+        req.files && req.files['imgblog']
+          ? `${domain}/${req.files['imgblog'][0].filename}`
+          : blog.img_blog
+      const img =
+        req.files && req.files['img']
+          ? req.files['img'].map(file => `${domain}/${file.filename}`)
+          : blog.noidung.map(nd => nd.img).flat()
 
-      blog.noidung = blog.noidung.map(nd => {
-        nd.content = updatedContent
-        nd.img = img
-        nd.tieude = tieude
-        nd.keywords = keywords
-        nd.urlBase = urlBase
-        return nd
-      })
+      blog.tieude_blog = tieude_blog
+      blog.img_blog = imgblog
+      blog.tieude_khongdau = tieude_khongdau
+
+      if (
+        Array.isArray(content) &&
+        Array.isArray(img) &&
+        Array.isArray(tieude)
+      ) {
+        blog.noidung.forEach((nd, index) => {
+          if (content[index]) {
+            const updatedContent = replaceKeywordsWithLinks(
+              content[index],
+              keywords[index],
+              urlBase[index]
+            )
+            nd.content = updatedContent
+          }
+          nd.keywords = keywords[index]
+          nd.urlBase = urlBase[index]
+          if (img[index]) {
+            nd.img = img[index]
+          }
+          if (tieude[index]) {
+            nd.tieude = tieude[index]
+          }
+        })
+
+        for (let i = blog.noidung.length; i < content.length; i++) {
+          const updatedContent = replaceKeywordsWithLinks(
+            content[i],
+            keywords[i],
+            urlBase[i]
+          )
+
+          blog.noidung.push({
+            content: updatedContent,
+            img: img[i],
+            tieude: tieude[i],
+            keywords: keywords[i],
+            urlBase: urlBase[i]
+          })
+        }
+      } else {
+        const updatedContent = replaceKeywordsWithLinks(
+          content,
+          keywords,
+          urlBase
+        )
+        blog.noidung = blog.noidung.slice(0, content.length)
+
+        blog.noidung = blog.noidung.map(nd => {
+          nd.content = updatedContent
+          nd.img = img
+          nd.tieude = tieude
+          nd.keywords = keywords
+          nd.urlBase = urlBase
+          return nd
+        })
+      }
+
+      await blog.save()
+      res.redirect('/main')
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
     }
-
-    await blog.save()
-    res.redirect('/main')
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
-})
+)
 
 router.post('/deleteblog/:idblog', async (req, res) => {
   try {

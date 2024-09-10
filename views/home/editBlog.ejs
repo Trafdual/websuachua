@@ -13,7 +13,7 @@
                 <label class="form-label">Tiêu đề không dấu</label>
                 <input type="text" name="tieude_khongdau" class="form-control" placeholder="Nhập tiêu đề blog" value="<%= tieude_khongdau %>"><br>
                 <label class="form-label">Ảnh Blog</label>
-                <input type="text" name="img_blog" class="form-control" placeholder="Nhập link ảnh blog" value="<%= img_blog %>"><br>
+                <input type="file" name="imgblog" class="form-control" placeholder="Nhập link ảnh blog"><br>
                 <h5>Nội Dung</h5>
                 <div id="blogContentContainer">
                     <% blog.forEach((row, index) => { %>
@@ -29,7 +29,7 @@
                                 <input type="text" name="urlBase" class="form-control" placeholder="Nhập link từ khóa" value="<%= row.urlBase %>"><br>
                                 <div class="mb-3">
                                     <label for="formFileMultiple" class="form-label">Ảnh Blog</label>
-                                    <input class="form-control" type="text" name="img" id="formFileMultiple" placeholder="Nhập link ảnh" value="<%= row.img %>">
+                                    <input class="form-control" type="file" name="img" id="formFileMultiple" placeholder="Nhập link ảnh" multiple>
                                 </div>
                                 <button style="margin-bottom:5px; display: block;" type="button" class="btn btn-danger delete-btn" onclick="xoanoidung(this)">Xóa Thẻ</button>
                             </div>
@@ -57,7 +57,7 @@
                     <input type="text" name="urlBase" class="form-control" placeholder="Nhập link từ khóa"><br>
                     <div class="mb-3">
                         <label for="formFileMultiple" class="form-label">Ảnh Blog</label>
-                        <input class="form-control" type="text" name="img" id="formFileMultiple" placeholder="Nhập link ảnh">
+                        <input class="form-control" type="file" name="img" id="formFileMultiple" placeholder="Nhập link ảnh" multiple>
                     </div>
                     <button style="margin-bottom:5px" type="button" class="btn btn-danger delete-btn" onclick="xoanoidung(this)">Xóa Thẻ</button>
                 </div>
