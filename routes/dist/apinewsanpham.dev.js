@@ -2392,13 +2392,91 @@ router.get('/getblog', function _callee59(req, res) {
     }
   }, null, null, [[0, 7]]);
 });
-router.get('/editblog/:idblog', function _callee60(req, res) {
-  var removeAllLinks, idblog, blogg, blog;
+router.post('/editblog/:idblog', function _callee60(req, res) {
+  var _req$body13, tieude_blog, img_blog, tieude, content, img, keywords, urlBase, idblog, blog, i, updatedContent, _updatedContent3;
+
   return regeneratorRuntime.async(function _callee60$(_context60) {
     while (1) {
       switch (_context60.prev = _context60.next) {
         case 0:
           _context60.prev = 0;
+          _req$body13 = req.body, tieude_blog = _req$body13.tieude_blog, img_blog = _req$body13.img_blog, tieude = _req$body13.tieude, content = _req$body13.content, img = _req$body13.img, keywords = _req$body13.keywords, urlBase = _req$body13.urlBase;
+          idblog = req.params.idblog;
+          _context60.next = 5;
+          return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
+
+        case 5:
+          blog = _context60.sent;
+          blog.tieude_blog = tieude_blog;
+          blog.img_blog = img_blog;
+          blog.tieude_khongdau = unicode(tieude_blog);
+
+          if (Array.isArray(content) && Array.isArray(img) && Array.isArray(tieude)) {
+            blog.noidung.forEach(function (nd, index) {
+              if (content[index]) {
+                var updatedContent = replaceKeywordsWithLinks(content[index], keywords[index], urlBase[index]);
+                nd.content = updatedContent;
+              }
+
+              nd.keywords = keywords[index];
+              nd.urlBase = urlBase[index];
+              nd.img = img[index];
+              nd.tieude = tieude[index];
+            });
+
+            for (i = blog.noidung.length; i < content.length; i++) {
+              updatedContent = replaceKeywordsWithLinks(content[i], keywords[i], urlBase[i]);
+              blog.noidung.push({
+                content: updatedContent,
+                img: img[i],
+                tieude: tieude[i],
+                keywords: keywords[i],
+                urlBase: urlBase[i]
+              });
+            }
+          } else {
+            _updatedContent3 = replaceKeywordsWithLinks(content, keywords, urlBase);
+            blog.noidung = blog.noidung.slice(0, content.length);
+            blog.noidung = blog.noidung.map(function (nd) {
+              nd.content = _updatedContent3;
+              nd.img = img;
+              nd.tieude = tieude;
+              nd.keywords = keywords;
+              nd.urlBase = urlBase;
+              return nd;
+            });
+          }
+
+          _context60.next = 12;
+          return regeneratorRuntime.awrap(blog.save());
+
+        case 12:
+          res.redirect('/main');
+          _context60.next = 19;
+          break;
+
+        case 15:
+          _context60.prev = 15;
+          _context60.t0 = _context60["catch"](0);
+          console.error(_context60.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context60.t0)
+          });
+
+        case 19:
+        case "end":
+          return _context60.stop();
+      }
+    }
+  }, null, null, [[0, 15]]);
+});
+router.get('/editblog/:idblog', function _callee61(req, res) {
+  var removeAllLinks, idblog, blogg, blog;
+  return regeneratorRuntime.async(function _callee61$(_context61) {
+    while (1) {
+      switch (_context61.prev = _context61.next) {
+        case 0:
+          _context61.prev = 0;
 
           // Hàm để loại bỏ tất cả các thẻ <a> khỏi nội dung
           removeAllLinks = function removeAllLinks(content) {
@@ -2407,11 +2485,11 @@ router.get('/editblog/:idblog', function _callee60(req, res) {
           };
 
           idblog = req.params.idblog;
-          _context60.next = 5;
+          _context61.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blogg = _context60.sent;
+          blogg = _context61.sent;
           blog = blogg.noidung.map(function (bl) {
             return {
               content: removeAllLinks(bl.content),
@@ -2428,20 +2506,20 @@ router.get('/editblog/:idblog', function _callee60(req, res) {
             tieude_khongdau: blogg.tieude_khongdau,
             img_blog: blogg.img_blog
           });
-          _context60.next = 14;
+          _context61.next = 14;
           break;
 
         case 10:
-          _context60.prev = 10;
-          _context60.t0 = _context60["catch"](0);
-          console.error(_context60.t0);
+          _context61.prev = 10;
+          _context61.t0 = _context61["catch"](0);
+          console.error(_context61.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context60.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context61.t0)
           });
 
         case 14:
         case "end":
-          return _context60.stop();
+          return _context61.stop();
       }
     }
   }, null, null, [[0, 10]]);
@@ -2454,21 +2532,21 @@ router.post('/editblog/:idblog', uploads.fields([{
   name: 'img',
   maxCount: 100000
 } // Nhiều ảnh (có thể điều chỉnh số lượng tối đa)
-]), function _callee61(req, res) {
-  var _req$body13, tieude_blog, tieude, content, keywords, urlBase, tieude_khongdau, idblog, blog, imgblog, img, i, updatedContent, _updatedContent3;
+]), function _callee62(req, res) {
+  var _req$body14, tieude_blog, tieude, content, keywords, urlBase, tieude_khongdau, idblog, blog, imgblog, img, i, updatedContent, _updatedContent4;
 
-  return regeneratorRuntime.async(function _callee61$(_context61) {
+  return regeneratorRuntime.async(function _callee62$(_context62) {
     while (1) {
-      switch (_context61.prev = _context61.next) {
+      switch (_context62.prev = _context62.next) {
         case 0:
-          _context61.prev = 0;
-          _req$body13 = req.body, tieude_blog = _req$body13.tieude_blog, tieude = _req$body13.tieude, content = _req$body13.content, keywords = _req$body13.keywords, urlBase = _req$body13.urlBase, tieude_khongdau = _req$body13.tieude_khongdau;
+          _context62.prev = 0;
+          _req$body14 = req.body, tieude_blog = _req$body14.tieude_blog, tieude = _req$body14.tieude, content = _req$body14.content, keywords = _req$body14.keywords, urlBase = _req$body14.urlBase, tieude_khongdau = _req$body14.tieude_khongdau;
           idblog = req.params.idblog;
-          _context61.next = 5;
+          _context62.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blog = _context61.sent;
+          blog = _context62.sent;
           imgblog = req.files && req.files['imgblog'] ? "".concat(domain, "/").concat(req.files['imgblog'][0].filename) : blog.img_blog;
           img = req.files && req.files['img'] ? req.files['img'].map(function (file) {
             return "".concat(domain, "/").concat(file.filename);
@@ -2506,10 +2584,10 @@ router.post('/editblog/:idblog', uploads.fields([{
               });
             }
           } else {
-            _updatedContent3 = replaceKeywordsWithLinks(content, keywords, urlBase);
+            _updatedContent4 = replaceKeywordsWithLinks(content, keywords, urlBase);
             blog.noidung = blog.noidung.slice(0, content.length);
             blog.noidung = blog.noidung.map(function (nd) {
-              nd.content = _updatedContent3;
+              nd.content = _updatedContent4;
               nd.img = img;
               nd.tieude = tieude;
               nd.keywords = keywords;
@@ -2518,57 +2596,57 @@ router.post('/editblog/:idblog', uploads.fields([{
             });
           }
 
-          _context61.next = 14;
+          _context62.next = 14;
           return regeneratorRuntime.awrap(blog.save());
 
         case 14:
           res.redirect('/main');
-          _context61.next = 21;
+          _context62.next = 21;
           break;
 
         case 17:
-          _context61.prev = 17;
-          _context61.t0 = _context61["catch"](0);
-          console.error(_context61.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context61.t0)
-          });
-
-        case 21:
-        case "end":
-          return _context61.stop();
-      }
-    }
-  }, null, null, [[0, 17]]);
-});
-router.post('/deleteblog/:idblog', function _callee62(req, res) {
-  var idblog, blog;
-  return regeneratorRuntime.async(function _callee62$(_context62) {
-    while (1) {
-      switch (_context62.prev = _context62.next) {
-        case 0:
-          _context62.prev = 0;
-          idblog = req.params.idblog;
-          _context62.next = 4;
-          return regeneratorRuntime.awrap(myMDBlog.blogModel.findByIdAndDelete(idblog));
-
-        case 4:
-          blog = _context62.sent;
-          res.redirect('/main');
-          _context62.next = 12;
-          break;
-
-        case 8:
-          _context62.prev = 8;
+          _context62.prev = 17;
           _context62.t0 = _context62["catch"](0);
           console.error(_context62.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context62.t0)
           });
 
-        case 12:
+        case 21:
         case "end":
           return _context62.stop();
+      }
+    }
+  }, null, null, [[0, 17]]);
+});
+router.post('/deleteblog/:idblog', function _callee63(req, res) {
+  var idblog, blog;
+  return regeneratorRuntime.async(function _callee63$(_context63) {
+    while (1) {
+      switch (_context63.prev = _context63.next) {
+        case 0:
+          _context63.prev = 0;
+          idblog = req.params.idblog;
+          _context63.next = 4;
+          return regeneratorRuntime.awrap(myMDBlog.blogModel.findByIdAndDelete(idblog));
+
+        case 4:
+          blog = _context63.sent;
+          res.redirect('/main');
+          _context63.next = 12;
+          break;
+
+        case 8:
+          _context63.prev = 8;
+          _context63.t0 = _context63["catch"](0);
+          console.error(_context63.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context63.t0)
+          });
+
+        case 12:
+        case "end":
+          return _context63.stop();
       }
     }
   }, null, null, [[0, 8]]);

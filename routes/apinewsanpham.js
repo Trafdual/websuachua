@@ -1097,6 +1097,74 @@ router.get('/getblog', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
+
+router.post('/editblog/:idblog', async (req, res) => {
+  try {
+    const { tieude_blog, img_blog, tieude, content, img, keywords, urlBase } =
+      req.body
+    const idblog = req.params.idblog
+    const blog = await myMDBlog.blogModel.findById(idblog)
+    blog.tieude_blog = tieude_blog
+    blog.img_blog = img_blog
+    blog.tieude_khongdau = unicode(tieude_blog)
+
+    if (Array.isArray(content) && Array.isArray(img) && Array.isArray(tieude)) {
+      blog.noidung.forEach((nd, index) => {
+        if (content[index]) {
+          const updatedContent = replaceKeywordsWithLinks(
+            content[index],
+            keywords[index],
+            urlBase[index]
+          )
+          nd.content = updatedContent
+        }
+        nd.keywords = keywords[index]
+        nd.urlBase = urlBase[index]
+          nd.img = img[index]
+        nd.tieude = tieude[index]
+      })
+
+      for (let i = blog.noidung.length; i < content.length; i++) {
+        const updatedContent = replaceKeywordsWithLinks(
+          content[i],
+          keywords[i],
+          urlBase[i]
+        )
+
+        blog.noidung.push({
+          content: updatedContent,
+          img: img[i],
+          tieude: tieude[i],
+          keywords: keywords[i],
+          urlBase: urlBase[i]
+        })
+      }
+    } else {
+      const updatedContent = replaceKeywordsWithLinks(
+        content,
+        keywords,
+        urlBase
+      )
+      blog.noidung = blog.noidung.slice(0, content.length)
+
+      blog.noidung = blog.noidung.map(nd => {
+        nd.content = updatedContent
+        nd.img = img
+        nd.tieude = tieude
+        nd.keywords = keywords
+        nd.urlBase = urlBase
+        return nd
+      })
+    }
+
+    await blog.save()
+    res.redirect('/main')
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+
 router.get('/editblog/:idblog', async (req, res) => {
   try {
     const idblog = req.params.idblog
@@ -1130,6 +1198,7 @@ router.get('/editblog/:idblog', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
+
 
 router.post(
   '/editblog/:idblog',
