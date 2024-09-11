@@ -2488,10 +2488,7 @@ router.post('/editblog/:idblog', uploads.fields([{
 
               nd.keywords = keywords[index];
               nd.urlBase = urlBase[index];
-
-              if (img[index]) {
-                nd.img = img[index];
-              }
+              nd.img = img[index];
 
               if (tieude[index]) {
                 nd.tieude = tieude[index];
