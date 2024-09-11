@@ -68,7 +68,7 @@
 }
 
 @media (prefers-reduced-motion:no-preference) {
-    :root {
+     :root {
         scroll-behavior: smooth
     }
 }
@@ -1330,9 +1330,13 @@ progress {
         flex: 0 0 auto;
         width: 16.66666667%
     }
-    .col-lg-3 {
+    .col-lg-2-1 {
         flex: 0 0 auto;
         width: 25%
+    }
+    .col-lg-3 {
+        flex: 0 0 auto;
+        width: 32%
     }
     .col-lg-4 {
         flex: 0 0 auto;

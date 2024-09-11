@@ -1,8 +1,8 @@
 <%- include('../include/header.ejs') %>
 
     <div class="container">
-        <h3><a href="/main"><img style="width: 30px;" src="https://cdn-icons-png.flaticon.com/512/25/25694.png"></a> Cập
-            nhật loại sản phẩm</h3>
+        <h3>
+            <a href="/main"><img style="width: 30px;" src="https://cdn-icons-png.flaticon.com/512/25/25694.png"></a> Cập nhật loại sản phẩm</h3>
 
         <form action="/putloaisp/<%= tensp._id %>" method="post">
             <form class="px-4 py-3">
@@ -26,7 +26,7 @@
                 <label class="form-label">Hãng</label>
                 <input type="text" name="hang" class="form-control" value="<%=tensp.hang %>"><br>
                 <label class="form-label">Thông tin sản phẩm</label>
-                <textarea type="text" name="thongtin" class="form-control" value="<%=tensp.thongtin %>"></textarea><br>
+                <textarea type="text" name="thongtin" class="form-control"><%=tensp.thongtin %></textarea><br>
                 <button type="submit" class="btn btn-danger">Cập nhật</button>
             </form>
         </form>

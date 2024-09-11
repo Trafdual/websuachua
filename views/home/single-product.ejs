@@ -44,6 +44,10 @@
     ================================================== -->
     <style>
         @media only screen and (max-width: 700px) {
+            body.no-scroll {
+                overflow: hidden;
+                /* Ẩn cuộn cho trang */
+            }
             .message-button {
                 background-color: #3498db;
                 color: white;
@@ -318,24 +322,27 @@
                 display: none;
                 /* Ẩn modal mặc định */
                 position: fixed;
-                z-index: 1;
-                top: 10%;
+                z-index: 10;
                 width: 100%;
                 height: 100%;
                 background-color: #fefefe;
                 overflow-y: auto;
                 margin: 0 auto;
-                padding: 10%;
+                padding: 5%;
             }
             #modalContent {
                 color: black;
             }
             .close {
-                color: #aaa;
+                color: #f70404;
                 float: right;
-                font-size: 50px;
+                font-size: 40px;
                 font-weight: bold;
-                margin-left: 10px;
+                position: fixed;
+                /* Đổi từ fixed sang absolute */
+                top: 0;
+                /* Điều chỉnh vị trí */
+                right: 5px;
             }
             .close:hover,
             .close:focus {
@@ -628,6 +635,10 @@
             .bodykhuyenmai {
                 padding: 2%;
             }
+            body.no-scroll {
+                overflow: hidden;
+                /* Ẩn cuộn cho trang */
+            }
             .thongso {
                 padding: 2%;
                 background-color: rgb(251, 254, 255);
@@ -666,10 +677,8 @@
                 display: none;
                 /* Ẩn modal mặc định */
                 position: fixed;
-                z-index: 5;
-                left: 10%;
-                top: 10%;
-                width: 80%;
+                z-index: 10;
+                width: 100%;
                 height: 100%;
                 background-color: #fefefe;
                 overflow-y: auto;
@@ -680,10 +689,15 @@
                 color: black;
             }
             .close {
-                color: #aaa;
+                color: #f70404;
                 float: right;
-                font-size: 28px;
+                font-size: 50px;
                 font-weight: bold;
+                position: fixed;
+                /* Đổi từ fixed sang absolute */
+                top: 5px;
+                /* Điều chỉnh vị trí */
+                right: 20px;
             }
             .close:hover,
             .close:focus {
@@ -846,7 +860,7 @@
                                     <%= mangjson.spjson.hang %>
                                 </p>
                                 <p class="pthongso3" id="product-info">Thông tin sản phẩm:
-                                    <%= mangjson.spjson.thongtin %>
+                                    <%= mangjson.spjson.thongtin.replace(/\\n/g, "<br>") %> %>
                                 </p>
                                 <button onclick="toggleProductInfo()" id="toggle-button">Xem thêm</button>
 
@@ -1107,12 +1121,14 @@
                 // Bấm vào nút "Xem thêm"
                 readMoreBtn.onclick = function() {
                     modal.style.display = "block"; // Hiển thị modal
+                    document.body.classList.add("no-scroll");
                     modalContent.innerHTML = document.getElementById("product-info").textContent; // Gán nội dung của thẻ p vào modal
                 }
 
                 // Bấm vào nút đóng modal
                 span.onclick = function() {
                     modal.style.display = "none"; // Ẩn modal
+                    document.body.classList.remove("no-scroll");
                 }
 
                 // Bấm ra ngoài modal để đóng nó

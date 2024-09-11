@@ -130,7 +130,6 @@
                 display: inline-block;
             }
             .section {
-                padding-left: 4%;
                 padding-right: 3%;
                 padding-bottom: 3%;
                 padding-top: 2%;
@@ -145,8 +144,6 @@
                 /* Thiết lập chiều cao cố định cho swiper */
             }
             .section1 {
-                padding-left: 4%;
-                padding-right: 3%;
                 padding-bottom: 3%;
                 padding-top: 2%;
                 width: 100%;
@@ -452,8 +449,7 @@
                 background-color: #fb2104;
             }
             .section {
-                padding-left: 2%;
-                padding-right: 2%;
+                padding-right: 3%;
                 padding-top: 2%;
                 padding-bottom: 2%;
                 height: 23%;
@@ -468,8 +464,6 @@
                 /* Thiết lập chiều cao cố định cho swiper */
             }
             .section1 {
-                padding-left: 2%;
-                padding-right: 5%;
                 padding-bottom: 3%;
                 padding-top: 2%;
                 height: 23%;
@@ -918,7 +912,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section id="latest-blog" class="padding-large section">
+                        <section id="latest-blog" class="padding-large section1">
                             <div class="container">
                                 <div class="row">
                                     <div class="display-header d-flex justify-content-between pb-3">
@@ -928,8 +922,8 @@
                                         </div>
                                     </div>
                                     <div class="post-grid d-flex flex-wrap justify-content-between">
-                                        <div class="col-lg-4 col-sm-12">
-                                            <div class="card border-none me-3">
+                                        <div class="col-lg-3 col-sm-12">
+                                            <div class="card border-none">
                                                 <div class="card-image">
                                                     <img src="/images/post-item1.jpg" alt="" class="img-fluid">
                                                 </div>
@@ -944,8 +938,8 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-sm-12">
-                                            <div class="card border-none me-3">
+                                        <div class="col-lg-3 col-sm-12">
+                                            <div class="card border-none">
                                                 <div class="card-image">
                                                     <img src="/images/post-item2.jpg" alt="" class="img-fluid">
                                                 </div>
@@ -960,8 +954,8 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-sm-12">
-                                            <div class="card border-none me-3">
+                                        <div class="col-lg-3 col-sm-12">
+                                            <div class="card border-none">
                                                 <div class="card-image">
                                                     <img src="/images/post-item3.jpg" alt="" class="img-fluid">
                                                 </div>
@@ -1069,7 +1063,7 @@
                             </div>
                         </div>
 
-                        <section id="latest-blog" class="padding-large section">
+                        <section id="latest-blog" class="padding-small section1">
                             <div class="container">
                                 <div class="row">
                                     <div class="display-header d-flex justify-content-between pb-3">
@@ -1080,13 +1074,13 @@
                                     </div>
                                     <div class="post-grid d-flex flex-wrap justify-content-between">
                                         <% listBl.slice(0, 3).forEach((item)=> { %>
-                                            <div class="col-lg-4 col-sm-12">
-                                                <div class="card border-none me-3">
-                                                    <div class="card-image text-center overflow-hidden">
+                                            <div class="col-lg-3 col-sm-12 ">
+                                                <div class="card border-none ">
+                                                    <div class="card-image text-center overflow-hidden ">
                                                         <img src="<%= item.img_blog %>" alt="product-item" id="img-fluid">
                                                     </div>
                                                 </div>
-                                                <div class="card-body text-uppercase" style="word-wrap: break-word">
+                                                <div class="card-body text-center" style="word-wrap: break-word">
                                                     <h3 class="card-title">
                                                         <a href="/contentBlog/<%= encodeURIComponent(item.tieude_khongdau).replace(/%20/g, '-')%>">
                                                             <%= item.tieude_blog %>
@@ -1100,7 +1094,7 @@
                             </div>
                         </section>
 
-                        <section id="subscribe" class="container-grid padding-large position-relative overflow-hidden section">
+                        <section id="subscribe" class="container-grid padding-small position-relative overflow-hidden section">
                             <div class="container">
                                 <div class="row">
                                     <div class="subscribe-content bg-dark d-flex flex-wrap justify-content-center align-items-center padding-medium">
