@@ -1015,7 +1015,7 @@ router.post(
       const { tieude_blog, content, tieude, keywords, urlBase } = req.body
 
       // Xác định domain
-      const domain = 'http://localhost:3000' // Thay đổi thành domain của bạn
+      const domain = 'https://www.baominhmobile.com' // Thay đổi thành domain của bạn
 
       // Lấy tên file ảnh từ req.files và thêm domain vào trước tên file
       const imgblog = req.files['imgblog']

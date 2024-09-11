@@ -2266,7 +2266,7 @@ router.post('/postblog2', uploads.fields([{
           _context56.prev = 0;
           _req$body12 = req.body, tieude_blog = _req$body12.tieude_blog, content = _req$body12.content, tieude = _req$body12.tieude, keywords = _req$body12.keywords, urlBase = _req$body12.urlBase; // Xác định domain
 
-          _domain = 'http://localhost:3000'; // Thay đổi thành domain của bạn
+          _domain = 'https://www.baominhmobile.com'; // Thay đổi thành domain của bạn
           // Lấy tên file ảnh từ req.files và thêm domain vào trước tên file
 
           imgblog = req.files['imgblog'] ? "".concat(_domain, "/").concat(req.files['imgblog'][0].filename) : null;
