@@ -245,11 +245,18 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
   try {
     const nameloaisp = req.params.nameloaisp.replace(/-/g, ' ')
     const loaisp = await LoaiSP.TenSP.findOne({ name: nameloaisp })
+
     if (!loaisp) {
       return res.status(404).json({ message: 'Không tìm thấy loại sản phẩm' })
     }
 
-    const chitiet = await Promise.all(
+    // Lấy số trang từ query string, mặc định là trang 1
+    const page = parseInt(req.query.page) || 1
+    const limit = 9 // Số sản phẩm mỗi trang
+    const skip = (page - 1) * limit // Số lượng sản phẩm cần bỏ qua
+
+    // Lấy danh sách sản phẩm và tổng số sản phẩm
+    const allChitiet = await Promise.all(
       loaisp.chitietsp.map(async ct => {
         const chitietsp = await Sp.ChitietSp.findById(ct._id)
         return {
@@ -261,12 +268,24 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
         }
       })
     )
-    res.render('home/shop.ejs', { chitiet, nameloaisp })
+
+    // Phân trang sản phẩm
+    const paginatedChitiet = allChitiet.slice(skip, skip + limit)
+    const totalProducts = allChitiet.length
+    const totalPages = Math.ceil(totalProducts / limit)
+
+    res.render('home/shop.ejs', {
+      chitiet: paginatedChitiet,
+      nameloaisp,
+      totalPages,
+      currentPage: page
+    })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
+
 
 router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
   try {

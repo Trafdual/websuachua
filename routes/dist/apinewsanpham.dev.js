@@ -548,7 +548,7 @@ router.get('/getchitietsp/:idloaisp', function _callee14(req, res) {
   }, null, null, [[0, 13]]);
 });
 router.get('/getspchitiet/:nameloaisp', function _callee16(req, res) {
-  var nameloaisp, loaisp, chitiet;
+  var nameloaisp, loaisp, page, limit, skip, allChitiet, paginatedChitiet, totalProducts, totalPages;
   return regeneratorRuntime.async(function _callee16$(_context16) {
     while (1) {
       switch (_context16.prev = _context16.next) {
@@ -573,7 +573,14 @@ router.get('/getspchitiet/:nameloaisp', function _callee16(req, res) {
           }));
 
         case 7:
-          _context16.next = 9;
+          // Lấy số trang từ query string, mặc định là trang 1
+          page = parseInt(req.query.page) || 1;
+          limit = 9; // Số sản phẩm mỗi trang
+
+          skip = (page - 1) * limit; // Số lượng sản phẩm cần bỏ qua
+          // Lấy danh sách sản phẩm và tổng số sản phẩm
+
+          _context16.next = 12;
           return regeneratorRuntime.awrap(Promise.all(loaisp.chitietsp.map(function _callee15(ct) {
             var chitietsp;
             return regeneratorRuntime.async(function _callee15$(_context15) {
@@ -601,29 +608,35 @@ router.get('/getspchitiet/:nameloaisp', function _callee16(req, res) {
             });
           })));
 
-        case 9:
-          chitiet = _context16.sent;
+        case 12:
+          allChitiet = _context16.sent;
+          // Phân trang sản phẩm
+          paginatedChitiet = allChitiet.slice(skip, skip + limit);
+          totalProducts = allChitiet.length;
+          totalPages = Math.ceil(totalProducts / limit);
           res.render('home/shop.ejs', {
-            chitiet: chitiet,
-            nameloaisp: nameloaisp
+            chitiet: paginatedChitiet,
+            nameloaisp: nameloaisp,
+            totalPages: totalPages,
+            currentPage: page
           });
-          _context16.next = 17;
+          _context16.next = 23;
           break;
 
-        case 13:
-          _context16.prev = 13;
+        case 19:
+          _context16.prev = 19;
           _context16.t0 = _context16["catch"](0);
           console.error(_context16.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context16.t0)
           });
 
-        case 17:
+        case 23:
         case "end":
           return _context16.stop();
       }
     }
-  }, null, null, [[0, 13]]);
+  }, null, null, [[0, 19]]);
 });
 router.get('/getchitiet/:namesp/:nameloai', function _callee18(req, res) {
   var namesp, nameloai, sp, loai, spjson, mangloai, mangjson;
