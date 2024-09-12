@@ -28,6 +28,10 @@ body {
     box-sizing: border-box;
 }
 
+.btn--wheel {
+    width: 200px;
+}
+
 .msg {
     min-height: 4rem;
     font-family: Arial, Helvetica, sans-serif;

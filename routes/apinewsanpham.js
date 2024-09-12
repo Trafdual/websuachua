@@ -57,6 +57,10 @@ router.post('/postloaisp', async (req, res) => {
 router.get('/gift', async (req, res) => {
   res.render('home/gift.ejs')
 })
+router.get('/gift1', async (req, res) => {
+  res.render('home/gift1.ejs')
+})
+
 router.post('/putloaisp/:id', async (req, res) => {
   try {
     const id = req.params.id
@@ -245,7 +249,7 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
   try {
     const nameloaisp = req.params.nameloaisp.replace(/-/g, ' ')
     const loaisp = await LoaiSP.TenSP.findOne({ name: nameloaisp })
-    const tenloai= await LoaiSP.TenSP.find().lean();
+    const tenloai = await LoaiSP.TenSP.find().lean()
 
     if (!loaisp) {
       return res.status(404).json({ message: 'Không tìm thấy loại sản phẩm' })
@@ -287,7 +291,6 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-
 
 router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
   try {
@@ -773,6 +776,54 @@ router.post('/postnotify', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
+router.post('/postnotify1', async (req, res) => {
+  try {
+    const { tenkhach, phone, email, tensp, price, address, cccd } = req.body
+    const vietnamTime = momenttimezone().toDate()
+    const thongbao = await Notify.notify.findOne({ cccd })
+    if (thongbao.isQuay == true) {
+      res.json({ message: 'hết lượt' })
+    }
+    if(thongbao.isRead==false){
+      res.json({ message: 'chờ phê duyệt' })
+    }
+    if (!thongbao) {
+      const notify = new Notify.notify({
+        tenkhach,
+        phone,
+        email,
+        tensp,
+        price,
+        address,
+        cccd
+      })
+
+      const sp = await Sp.ChitietSp.findOne({ name: tensp })
+      notify.idsp = sp._id
+      notify.date = vietnamTime
+      await notify.save()
+      res.json({message: 'chờ duyệt'})
+    }
+    req.session.idnotify = thongbao._id
+
+    res.json({message: 'thành công'})
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+router.post('/postIsquay', async (req, res) => {
+  try {
+    const idnotify = req.session.idnotify
+    const notify = await Notify.notify.findById(idnotify)
+    notify.isQuay = true
+    await notify.save()
+    res.json({ message: 'thành công' })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra l��i: ${error}` })
+  }
+})
 
 router.post('/duyet/:idnotify', async (req, res) => {
   try {
@@ -1141,7 +1192,7 @@ router.post('/editblog/:idblog', async (req, res) => {
         }
         nd.keywords = keywords[index]
         nd.urlBase = urlBase[index]
-          nd.img = img[index]
+        nd.img = img[index]
         nd.tieude = tieude[index]
       })
 
@@ -1219,7 +1270,6 @@ router.get('/editblog/:idblog', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-
 
 router.post(
   '/editblog/:idblog',
@@ -1323,7 +1373,6 @@ router.post('/upload', uploads.single('image'), (req, res) => {
   const fileUrl = `http://localhost:3000/${req.file.filename}`
   res.json({ url: fileUrl })
 })
-
 
 router.post('/deleteblog/:idblog', async (req, res) => {
   try {
