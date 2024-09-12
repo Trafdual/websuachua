@@ -26,8 +26,57 @@
                 <label class="form-label">Hãng</label>
                 <input type="text" name="hang" class="form-control" value="<%=tensp.hang %>"><br>
                 <label class="form-label">Thông tin sản phẩm</label>
-                <textarea type="text" name="thongtin" class="form-control"><%=tensp.thongtin %></textarea><br>
+                <div id="editor-container" style="height: 400px;"></div>
+                <input type="hidden" name="thongtin" id="editor-content" value="<%=tensp.thongtin %>">
+                <br>
                 <button type="submit" class="btn btn-danger">Cập nhật</button>
             </form>
         </form>
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+        <script>
+            var quill = new Quill('#editor-container', {
+                theme: 'snow',
+                modules: {
+                    toolbar: {
+                        container: [
+                            [{
+                                'header': '1'
+                            }, {
+                                'header': '2'
+                            }],
+                            [{
+                                'font': []
+                            }],
+                            [{
+                                'list': 'ordered'
+                            }, {
+                                'list': 'bullet'
+                            }],
+                            ['bold', 'italic', 'underline'],
+                            ['link', 'image'],
+                            [{
+                                'align': []
+                            }],
+                            ['clean']
+                        ]
+                    }
+                }
+            });
+
+            function setEditorContent(content) {
+                quill.root.innerHTML = content;
+            }
+
+            // Ví dụ về cách gọi hàm để đặt nội dung
+            var initialContent = '<%-tensp.thongtin %>';
+            setEditorContent(initialContent);
+
+            // Update hidden input with Quill content on form submission
+            document.querySelector('form').addEventListener('submit', function() {
+                var content = document.querySelector('#editor-content');
+                content.value = quill.root.innerHTML;
+            });
+        </script>
     </div>

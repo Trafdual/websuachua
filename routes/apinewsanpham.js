@@ -245,6 +245,7 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
   try {
     const nameloaisp = req.params.nameloaisp.replace(/-/g, ' ')
     const loaisp = await LoaiSP.TenSP.findOne({ name: nameloaisp })
+    const tenloai= await LoaiSP.TenSP.find().lean();
 
     if (!loaisp) {
       return res.status(404).json({ message: 'Không tìm thấy loại sản phẩm' })
@@ -276,6 +277,7 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
 
     res.render('home/shop.ejs', {
       chitiet: paginatedChitiet,
+      tenloai,
       nameloaisp,
       totalPages,
       currentPage: page

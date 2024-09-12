@@ -548,7 +548,7 @@ router.get('/getchitietsp/:idloaisp', function _callee14(req, res) {
   }, null, null, [[0, 13]]);
 });
 router.get('/getspchitiet/:nameloaisp', function _callee16(req, res) {
-  var nameloaisp, loaisp, page, limit, skip, allChitiet, paginatedChitiet, totalProducts, totalPages;
+  var nameloaisp, loaisp, tenloai, page, limit, skip, allChitiet, paginatedChitiet, totalProducts, totalPages;
   return regeneratorRuntime.async(function _callee16$(_context16) {
     while (1) {
       switch (_context16.prev = _context16.next) {
@@ -562,9 +562,14 @@ router.get('/getspchitiet/:nameloaisp', function _callee16(req, res) {
 
         case 4:
           loaisp = _context16.sent;
+          _context16.next = 7;
+          return regeneratorRuntime.awrap(LoaiSP.TenSP.find().lean());
+
+        case 7:
+          tenloai = _context16.sent;
 
           if (loaisp) {
-            _context16.next = 7;
+            _context16.next = 10;
             break;
           }
 
@@ -572,7 +577,7 @@ router.get('/getspchitiet/:nameloaisp', function _callee16(req, res) {
             message: 'Không tìm thấy loại sản phẩm'
           }));
 
-        case 7:
+        case 10:
           // Lấy số trang từ query string, mặc định là trang 1
           page = parseInt(req.query.page) || 1;
           limit = 9; // Số sản phẩm mỗi trang
@@ -580,7 +585,7 @@ router.get('/getspchitiet/:nameloaisp', function _callee16(req, res) {
           skip = (page - 1) * limit; // Số lượng sản phẩm cần bỏ qua
           // Lấy danh sách sản phẩm và tổng số sản phẩm
 
-          _context16.next = 12;
+          _context16.next = 15;
           return regeneratorRuntime.awrap(Promise.all(loaisp.chitietsp.map(function _callee15(ct) {
             var chitietsp;
             return regeneratorRuntime.async(function _callee15$(_context15) {
@@ -608,7 +613,7 @@ router.get('/getspchitiet/:nameloaisp', function _callee16(req, res) {
             });
           })));
 
-        case 12:
+        case 15:
           allChitiet = _context16.sent;
           // Phân trang sản phẩm
           paginatedChitiet = allChitiet.slice(skip, skip + limit);
@@ -616,27 +621,28 @@ router.get('/getspchitiet/:nameloaisp', function _callee16(req, res) {
           totalPages = Math.ceil(totalProducts / limit);
           res.render('home/shop.ejs', {
             chitiet: paginatedChitiet,
+            tenloai: tenloai,
             nameloaisp: nameloaisp,
             totalPages: totalPages,
             currentPage: page
           });
-          _context16.next = 23;
+          _context16.next = 26;
           break;
 
-        case 19:
-          _context16.prev = 19;
+        case 22:
+          _context16.prev = 22;
           _context16.t0 = _context16["catch"](0);
           console.error(_context16.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context16.t0)
           });
 
-        case 23:
+        case 26:
         case "end":
           return _context16.stop();
       }
     }
-  }, null, null, [[0, 19]]);
+  }, null, null, [[0, 22]]);
 });
 router.get('/getchitiet/:namesp/:nameloai', function _callee18(req, res) {
   var namesp, nameloai, sp, loai, spjson, mangloai, mangjson;

@@ -544,21 +544,16 @@
                             <div class="widget-product-categories pt-5">
                                 <h5 class="widget-title text-decoration-underline text-uppercase">Thể loại</h5>
                                 <ul class="product-categories sidebar-list list-unstyled">
-                                    <li class="cat-item">
-                                        <a href="/collections/categories">Tất cả</a>
+                                    <li class="cat-item"></li>
+                                    <a href="/" style="font-size: 20px;">Tất cả</a>
                                     </li>
-                                    <li class="cat-item">
-                                        <a href="">11 Series</a>
-                                    </li>
-                                    <li class="cat-item">
-                                        <a href="">12 Serise</a>
-                                    </li>
-                                    <li class="cat-item">
-                                        <a href="">13 Series</a>
-                                    </li>
-                                    <li class="cat-item">
-                                        <a href="">Phụ kiện</a>
-                                    </li>
+                                    <% tenloai.forEach((tl) => { %>
+                                        <li class="cat-item">
+                                            <a href="/getspchitiet/<%= encodeURIComponent(tl.name).replace(/%20/g, '-') %>" style="">
+                                                <%= tl.name %>
+                                            </a>
+                                        </li>
+                                        <% }) %>
                                 </ul>
                             </div>
                             <div class="widget-product-brands pt-3">
