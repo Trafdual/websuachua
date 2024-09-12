@@ -6,25 +6,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vui chơi có thưởng</title>
-    <link rel="stylesheet" href="https://www.baominhmobile.com/css/gift.css" />
+    <link rel="stylesheet" href="http://localhost:3000/css/gift.css" />
 </head>
 
 <body>
 
+    <div class="container">
+        <!-- Phần 80% hiển thị vòng quay -->
+        <main class="main-content">
+            <h1 class="lll">VÒNG QUAY MAY MẮN</h1>
+            <section class="main">
+                <span>
+                    <ul class="wheel"></ul>
+                </span>
+                <div class="row">
+                    <button class="btn--wheel" id="thuong">Quay thưởng</button>
+                    <button class="btn--wheel" id="thu">Quay thử</button>
+                </div>
+            </section>
+            <h1 class="msg"></h1>
+        </main>
 
-    <main>
+        <!-- Phần 20% chứa thông tin người dùng đã trúng thưởng -->
+        <aside class="info-section">
+            <h2>Thông tin trúng thưởng</h2>
+            <div class="user-info">
+                <p class="thongtin">Người dùng A: Tai nghe không dây</p>
+                <p class="thongtin">Người dùng B: Xe máy Wave Alpha</p>
+            </div>
+            
+        </aside>
+    </div>
 
-        <h1 class="lll">VÒNG QUAY MAY MẮN</h1>
-
-        <section class="main">
-            <span>
-					<ul class="wheel"></ul>
-				</span>
-            <button class="btn--wheel">Quay thưởng</button>
-        </section>
-        <h1 class="msg"></h1>
-    </main>
-    <script src="https://www.baominhmobile.com/js/gift.js"></script>
+    <script src="http://localhost:3000/js/gift.js"></script>
 </body>
 
 </html>
