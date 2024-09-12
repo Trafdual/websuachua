@@ -102,7 +102,7 @@ body {
 
 p {
     font-size: 1.2em;
-    color: var(--gray-color-500);
+    color: black;
     line-height: 30px;
 }
 
