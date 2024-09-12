@@ -116,6 +116,27 @@
 
   btnWheel.addEventListener('click', () => {
     !isRotating && start(false)
+    const path = window.location.pathname // Lấy đường dẫn từ URL
+    const segments = path.split('/') // Tách đường dẫn thành các phần tử
+    const id = segments[segments.length - 1] // ID là phần tử cuối cùng
+console.log('ID from URL:', id)
+
+    fetch(`/postIsquay/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === 'thành công') {
+          btnWheel.style.display = 'none'
+
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
   })
 
   btnWheel1.addEventListener('click', () => {

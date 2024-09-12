@@ -24,10 +24,6 @@ var notifySchema = new db.mongoose.Schema({
   address: {
     type: String
   },
-  idsp: {
-    type: db.mongoose.Schema.Types.ObjectId,
-    ref: 'chitietsp'
-  },
   isRead: {
     type: Boolean,
     "default": false

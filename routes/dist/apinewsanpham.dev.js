@@ -94,21 +94,53 @@ router.post('/postloaisp', function _callee2(req, res) {
     }
   }, null, null, [[0, 8]]);
 });
-router.get('/gift', function _callee3(req, res) {
+router.get('/gift1/:idnotify', function _callee3(req, res) {
+  var idnotify, notify, message, message2;
   return regeneratorRuntime.async(function _callee3$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          res.render('home/gift.ejs');
+          _context3.prev = 0;
+          idnotify = req.params.idnotify;
+          _context3.next = 4;
+          return regeneratorRuntime.awrap(Notify.notify.findById(idnotify));
 
-        case 1:
+        case 4:
+          notify = _context3.sent;
+
+          if (notify.isRead === false) {
+            message = 'chưa được duyệt';
+          } else {
+            message = 'thành công';
+
+            if (notify.isQuay === true) {
+              message2 = 'hết lượt';
+            }
+          }
+
+          res.render('home/gift.ejs', {
+            message: message,
+            message2: message2
+          });
+          _context3.next = 13;
+          break;
+
+        case 9:
+          _context3.prev = 9;
+          _context3.t0 = _context3["catch"](0);
+          console.error(_context3.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context3.t0)
+          });
+
+        case 13:
         case "end":
           return _context3.stop();
       }
     }
-  });
+  }, null, null, [[0, 9]]);
 });
-router.get('/gift1', function _callee4(req, res) {
+router.get('/gift', function _callee4(req, res) {
   return regeneratorRuntime.async(function _callee4$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
@@ -1879,7 +1911,7 @@ router.post('/postnotify', function _callee49(req, res) {
   }, null, null, [[0, 14]]);
 });
 router.post('/postnotify1', function _callee50(req, res) {
-  var _req$body10, tenkhach, phone, email, tensp, price, address, cccd, vietnamTime, thongbao, notify, sp;
+  var _req$body10, tenkhach, phone, email, tensp, price, address, cccd, vietnamTime, thongbao, notify;
 
   return regeneratorRuntime.async(function _callee50$(_context50) {
     while (1) {
@@ -1896,20 +1928,8 @@ router.post('/postnotify1', function _callee50(req, res) {
         case 5:
           thongbao = _context50.sent;
 
-          if (thongbao.isQuay == true) {
-            res.json({
-              message: 'hết lượt'
-            });
-          }
-
-          if (thongbao.isRead == false) {
-            res.json({
-              message: 'chờ phê duyệt'
-            });
-          }
-
           if (thongbao) {
-            _context50.next = 18;
+            _context50.next = 15;
             break;
           }
 
@@ -1922,54 +1942,61 @@ router.post('/postnotify1', function _callee50(req, res) {
             address: address,
             cccd: cccd
           });
-          _context50.next = 12;
-          return regeneratorRuntime.awrap(Sp.ChitietSp.findOne({
-            name: tensp
-          }));
-
-        case 12:
-          sp = _context50.sent;
-          notify.idsp = sp._id;
           notify.date = vietnamTime;
-          _context50.next = 17;
+          _context50.next = 11;
           return regeneratorRuntime.awrap(notify.save());
 
-        case 17:
-          res.json({
-            message: 'chờ duyệt'
-          });
+        case 11:
+          req.session.idnotify = notify._id;
+          return _context50.abrupt("return", res.json({
+            message: 'thành công',
+            tbid: notify._id
+          }));
 
-        case 18:
+        case 15:
+          if (!(thongbao.isQuay == true)) {
+            _context50.next = 17;
+            break;
+          }
+
+          return _context50.abrupt("return", res.json({
+            message: 'hết lượt'
+          }));
+
+        case 17:
           req.session.idnotify = thongbao._id;
-          res.json({
-            message: 'thành công'
-          });
-          _context50.next = 26;
+          return _context50.abrupt("return", res.json({
+            message: 'thành công',
+            tbid: thongbao._id
+          }));
+
+        case 19:
+          _context50.next = 25;
           break;
 
-        case 22:
-          _context50.prev = 22;
+        case 21:
+          _context50.prev = 21;
           _context50.t0 = _context50["catch"](0);
           console.error(_context50.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context50.t0)
           });
 
-        case 26:
+        case 25:
         case "end":
           return _context50.stop();
       }
     }
-  }, null, null, [[0, 22]]);
+  }, null, null, [[0, 21]]);
 });
-router.post('/postIsquay', function _callee51(req, res) {
+router.post('/postIsquay/:idnotify', function _callee51(req, res) {
   var idnotify, notify;
   return regeneratorRuntime.async(function _callee51$(_context51) {
     while (1) {
       switch (_context51.prev = _context51.next) {
         case 0:
           _context51.prev = 0;
-          idnotify = req.session.idnotify;
+          idnotify = req.params.idnotify;
           _context51.next = 4;
           return regeneratorRuntime.awrap(Notify.notify.findById(idnotify));
 

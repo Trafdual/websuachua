@@ -8,7 +8,6 @@ cccd:{type:String},
 tensp:{type:String},
 price:{type:String},
 address:{type:String},
-idsp:{type: db.mongoose.Schema.Types.ObjectId, ref: 'chitietsp'},
 isRead: { type: Boolean, default: false },
 date: { type: Date },
 isQuay:{type:Boolean,default:false}

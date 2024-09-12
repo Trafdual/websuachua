@@ -54,10 +54,28 @@ router.post('/postloaisp', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-router.get('/gift', async (req, res) => {
-  res.render('home/gift.ejs')
+router.get('/gift1/:idnotify', async (req, res) => {
+  try {
+    const idnotify = req.params.idnotify
+    const notify = await Notify.notify.findById(idnotify)
+    let message
+    let message2
+    if (notify.isRead === false) {
+      message = 'chưa được duyệt'
+    } else {
+      message = 'thành công'
+      if (notify.isQuay === true) {
+        message2 = 'hết lượt'
+      }
+    }
+
+    res.render('home/gift.ejs', { message, message2 })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
 })
-router.get('/gift1', async (req, res) => {
+router.get('/gift', async (req, res) => {
   res.render('home/gift1.ejs')
 })
 
@@ -781,12 +799,7 @@ router.post('/postnotify1', async (req, res) => {
     const { tenkhach, phone, email, tensp, price, address, cccd } = req.body
     const vietnamTime = momenttimezone().toDate()
     const thongbao = await Notify.notify.findOne({ cccd })
-    if (thongbao.isQuay == true) {
-      res.json({ message: 'hết lượt' })
-    }
-    if(thongbao.isRead==false){
-      res.json({ message: 'chờ phê duyệt' })
-    }
+
     if (!thongbao) {
       const notify = new Notify.notify({
         tenkhach,
@@ -797,24 +810,25 @@ router.post('/postnotify1', async (req, res) => {
         address,
         cccd
       })
-
-      const sp = await Sp.ChitietSp.findOne({ name: tensp })
-      notify.idsp = sp._id
       notify.date = vietnamTime
       await notify.save()
-      res.json({message: 'chờ duyệt'})
+      req.session.idnotify = notify._id
+      return res.json({ message: 'thành công', tbid: notify._id })
+    } else {
+      if (thongbao.isQuay == true) {
+       return res.json({ message: 'hết lượt' })
+      }
+      req.session.idnotify = thongbao._id
+      return res.json({ message: 'thành công', tbid: thongbao._id })
     }
-    req.session.idnotify = thongbao._id
-
-    res.json({message: 'thành công'})
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-router.post('/postIsquay', async (req, res) => {
+router.post('/postIsquay/:idnotify', async (req, res) => {
   try {
-    const idnotify = req.session.idnotify
+    const idnotify = req.params.idnotify
     const notify = await Notify.notify.findById(idnotify)
     notify.isQuay = true
     await notify.save()

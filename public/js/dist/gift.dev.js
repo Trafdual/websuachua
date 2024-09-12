@@ -155,6 +155,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   btnWheel.addEventListener('click', function () {
     !isRotating && start(false);
+    var path = window.location.pathname; // Lấy đường dẫn từ URL
+
+    var segments = path.split('/'); // Tách đường dẫn thành các phần tử
+
+    var id = segments[segments.length - 1]; // ID là phần tử cuối cùng
+
+    console.log('ID from URL:', id);
+    fetch("/postIsquay/".concat(id), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      if (data.message === 'thành công') {
+        btnWheel.style.display = 'none';
+      }
+    })["catch"](function (error) {
+      console.error('Error:', error);
+    });
   });
   btnWheel1.addEventListener('click', function () {
     !isRotating && start(true);
