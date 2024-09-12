@@ -4,7 +4,7 @@
             <a href="/main"><img style="width: 35px;" src="https://cdn-icons-png.flaticon.com/512/25/25694.png"></a>
             Thêm loại sản phẩm</h2>
 
-        <form action="/postloaisp" method="post">
+        <form action="/postloaisp" method="post" enctype="multipart/form-data">
 
             <br>
             <label class="form-label">Tên loại</label>
@@ -60,18 +60,39 @@
                                 'align': []
                             }],
                             ['clean']
-                        ]
+                        ],
+                        handlers: {
+                            image: imageHandler
+                        }
                     }
                 }
             });
 
-            function setEditorContent(content) {
-                quill.root.innerHTML = content;
-            }
+            function imageHandler() {
+                var range = quill.getSelection();
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                input.addEventListener('change', function() {
+                    var file = input.files[0];
+                    var formData = new FormData();
+                    formData.append('image', file);
 
-            // Ví dụ về cách gọi hàm để đặt nội dung
-            var initialContent = '<%-tensp.thongtin %>';
-            setEditorContent(initialContent);
+                    fetch('/upload', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            var url = result.url; // URL returned from server
+                            quill.insertEmbed(range.index, 'image', url);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
+                input.click();
+            };
 
             // Update hidden input with Quill content on form submission
             document.querySelector('form').addEventListener('submit', function() {

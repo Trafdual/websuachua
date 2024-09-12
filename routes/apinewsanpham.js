@@ -1316,6 +1316,15 @@ router.post(
   }
 )
 
+router.post('/upload', uploads.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' })
+  }
+  const fileUrl = `http://localhost:3000/${req.file.filename}`
+  res.json({ url: fileUrl })
+})
+
+
 router.post('/deleteblog/:idblog', async (req, res) => {
   try {
     const idblog = req.params.idblog

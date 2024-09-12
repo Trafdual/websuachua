@@ -2638,6 +2638,18 @@ router.post('/editblog/:idblog', uploads.fields([{
     }
   }, null, null, [[0, 17]]);
 });
+router.post('/upload', uploads.single('image'), function (req, res) {
+  if (!req.file) {
+    return res.status(400).json({
+      error: 'No file uploaded'
+    });
+  }
+
+  var fileUrl = "http://localhost:3000/".concat(req.file.filename);
+  res.json({
+    url: fileUrl
+  });
+});
 router.post('/deleteblog/:idblog', function _callee63(req, res) {
   var idblog, blog;
   return regeneratorRuntime.async(function _callee63$(_context63) {
