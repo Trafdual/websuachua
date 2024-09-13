@@ -394,7 +394,11 @@ router.get('/', function _callee11(req, res) {
             return {
               id: tensp._id,
               name: tensp.name,
-              chitietsp: tensp.chitietsp.map(function (chitietsp) {
+              chitietsp: Array.isArray(tensp.chitietsp) // Kiểm tra nếu chitietsp là một mảng
+              ? tensp.chitietsp.sort(function () {
+                return Math.random() - 0.5;
+              }) // Sắp xếp ngẫu nhiên nếu là mảng
+              .map(function (chitietsp) {
                 return {
                   id: chitietsp._id,
                   name: chitietsp.name,
@@ -402,7 +406,8 @@ router.get('/', function _callee11(req, res) {
                   price: chitietsp.price,
                   image: chitietsp.image
                 };
-              })
+              }) : [] // Nếu không phải mảng thì trả về mảng rỗng
+
             };
           }); // Lọc và chuyển đổi đánh giá
 

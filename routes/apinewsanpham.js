@@ -71,7 +71,7 @@ router.get('/gift1/:idnotify', async (req, res) => {
       }
     }
 
-    res.render('home/gift.ejs', { message, message2,idnotify })
+    res.render('home/gift.ejs', { message, message2, idnotify })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -95,7 +95,6 @@ router.get('/notify-status/:idnotify', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-
 
 router.post('/putloaisp/:id', async (req, res) => {
   try {
@@ -185,13 +184,17 @@ router.get('/', async (req, res) => {
     const tenspjson = allsp.map(tensp => ({
       id: tensp._id,
       name: tensp.name,
-      chitietsp: tensp.chitietsp.map(chitietsp => ({
-        id: chitietsp._id,
-        name: chitietsp.name,
-        noidung: chitietsp.content,
-        price: chitietsp.price,
-        image: chitietsp.image
-      }))
+      chitietsp: Array.isArray(tensp.chitietsp) // Kiểm tra nếu chitietsp là một mảng
+        ? tensp.chitietsp
+            .sort(() => Math.random() - 0.5) // Sắp xếp ngẫu nhiên nếu là mảng
+            .map(chitietsp => ({
+              id: chitietsp._id,
+              name: chitietsp.name,
+              noidung: chitietsp.content,
+              price: chitietsp.price,
+              image: chitietsp.image
+            }))
+        : [] // Nếu không phải mảng thì trả về mảng rỗng
     }))
 
     // Lọc và chuyển đổi đánh giá
@@ -211,6 +214,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error.message}` })
   }
 })
+
 
 router.post('/deleteloaisp/:id', async (req, res) => {
   try {
@@ -812,26 +816,26 @@ router.post('/postnotify', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-router.get('/form',async(req,res)=>{
+router.get('/form', async (req, res) => {
   res.render('home/baominh.ejs')
 })
 router.post('/postnotify1', async (req, res) => {
   try {
     const { tenkhach, phone, email, tensp, price, address, cccd } = req.body
     const vietnamTime = momenttimezone().toDate()
-      const notify = new Notify.notify({
-        tenkhach,
-        phone,
-        email,
-        tensp,
-        price,
-        address,
-        cccd
-      })
-      notify.date = vietnamTime
-      await notify.save()
-      req.session.idnotify = notify._id
-      return res.json({ message: 'thành công', tbid: notify._id })
+    const notify = new Notify.notify({
+      tenkhach,
+      phone,
+      email,
+      tensp,
+      price,
+      address,
+      cccd
+    })
+    notify.date = vietnamTime
+    await notify.save()
+    req.session.idnotify = notify._id
+    return res.json({ message: 'thành công', tbid: notify._id })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -862,7 +866,7 @@ router.post('/duyet/:idnotify', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-router.post('/deletenotify/:idnotify',async(req,res)=>{
+router.post('/deletenotify/:idnotify', async (req, res) => {
   try {
     const idnotify = req.params.idnotify
     await Notify.notify.findByIdAndDelete(idnotify)
@@ -873,25 +877,27 @@ router.post('/deletenotify/:idnotify',async(req,res)=>{
   }
 })
 router.get('/orders/search', async (req, res) => {
-    try {
-        const searchQuery = req.query.query || '';
-        const regex = new RegExp(searchQuery, 'i'); // Tạo biểu thức chính quy không phân biệt chữ hoa chữ thường
+  try {
+    const searchQuery = req.query.query || ''
+    const regex = new RegExp(searchQuery, 'i') // Tạo biểu thức chính quy không phân biệt chữ hoa chữ thường
 
-        // Tìm kiếm đơn hàng đã được duyệt
-        const donHangIsReadTrue = await Notify.notify.find({
-            isRead: true,
-            $or: [
-                { tenkhach: regex },
-                { phone: regex },
-                { email: regex },
-                { address: regex },
-                { tensp: regex }
-            ]
-        });
+    // Tìm kiếm đơn hàng đã được duyệt
+    const donHangIsReadTrue = await Notify.notify.find({
+      isRead: true,
+      $or: [
+        { tenkhach: regex },
+        { phone: regex },
+        { email: regex },
+        { address: regex },
+        { tensp: regex }
+      ]
+    })
 
-        // Render HTML cho bảng kết quả tìm kiếm
-        res.json({
-            html: donHangIsReadTrue.map(row => `
+    // Render HTML cho bảng kết quả tìm kiếm
+    res.json({
+      html: donHangIsReadTrue
+        .map(
+          row => `
                 <tr>
                     <td>${row.tenkhach}</td>
                     <td><a href="">${row.phone}</a></td>
@@ -901,15 +907,17 @@ router.get('/orders/search', async (req, res) => {
                     <td>${row.price}</td>
                     <td>${moment(row.date).format('DD/MM/YYYY HH:mm:ss')}</td>
                 </tr>
-            `).join('')
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Đã xảy ra lỗi.' });
-    }
-});
+            `
+        )
+        .join('')
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Đã xảy ra lỗi.' })
+  }
+})
 
-router.get('/donhang',checkAuth2, async (req, res) => {
+router.get('/donhang', checkAuth2, async (req, res) => {
   try {
     const donhang = await Notify.notify.find()
 
@@ -1007,7 +1015,6 @@ router.get('/donhang/longpoll', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-
 
 router.post('/danhgia', async (req, res) => {
   try {

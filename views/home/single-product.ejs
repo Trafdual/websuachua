@@ -944,19 +944,16 @@
                                     </div>
                                 </div>
                                 <div class="d-flex loai ">
-                                    <% mangjson.mangloai.forEach((item,index)=> { %>
+                                    <% mangjson.mangloai.forEach((item, index) => { %>
                                         <div class="d-flex divloai">
-                                            <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>">
+                                            <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>" <%=index===0 ? 'checked' : '' %>>
                                             <div class="divconloai">
-                                                <strong class="strongloai">
-                          <%= item.name %>
-                        </strong>
-                                                <strong class="strongloai2 price<%= index %>">
-                          <%= item.price %>
-                        </strong>
+                                                <strong class="strongloai"><%= item.name %></strong>
+                                                <strong class="strongloai2 price<%= index %>"><%= item.price %></strong>
                                             </div>
                                         </div>
                                         <% }); %>
+
                                 </div>
                                 <p>
                                     <%= mangjson.spjson.content %>
@@ -1199,8 +1196,23 @@
                 var productInfoElement = document.getElementById("ttin");
                 truncateText(productInfoElement, 330); // Giới hạn 100 ký tự
 
-                const pricestrongInitialValue = document.querySelector('.pricestrong').textContent.trim();
-                const pricestrongInitialValue2 = document.querySelector('.pricemobile2').textContent.trim();
+                // Thiết lập giá trị ban đầu cho checkbox đầu tiên
+                const firstCheckbox = document.querySelector('.inputloai');
+                if (firstCheckbox) {
+                    const price = parseFloat(firstCheckbox.getAttribute('data-price'));
+                    const index = firstCheckbox.getAttribute('data-index');
+                    const priceElement = document.querySelector(`.price${index}`);
+                    const priceValue = priceElement.textContent.trim();
+
+                    const pricestrong = document.querySelector('.pricestrong');
+                    const pricestrong2 = document.querySelector('.pricemobile2');
+
+                    // Đặt giá trị ban đầu cho pricestrong và pricestrong2
+                    pricestrong.textContent = priceValue;
+                    pricestrong2.textContent = priceValue;
+                }
+
+                // Xử lý sự kiện khi checkbox được click
                 document.querySelectorAll('.inputloai').forEach(item => {
                     item.addEventListener('click', function() {
                         // Loại bỏ chọn các checkbox khác
