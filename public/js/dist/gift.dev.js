@@ -18,8 +18,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var wheel = $('.wheel');
   var btnWheel = $('#thuong'); // Nút Quay thưởng
 
-  var btnWheel1 = $('#thu'); // Nút Quay thử
-
+  var btnxong = $('#xong');
   var showMsg = $('.msg');
   var listGift = [{
     text: 'Wave Alpha 110',
@@ -172,12 +171,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }).then(function (data) {
       if (data.message === 'thành công') {
         btnWheel.style.display = 'none';
+        btnxong.style.display = 'block';
       }
     })["catch"](function (error) {
       console.error('Error:', error);
     });
   });
-  btnWheel1.addEventListener('click', function () {
-    !isRotating && start(true);
+  btnxong.addEventListener('click', function () {
+    window.location.href = 'gift';
   });
 })();

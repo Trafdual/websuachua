@@ -54,10 +54,11 @@
                     <ul class="wheel"></ul>
                 </span>
                 <div class="row">
-                    <button class="btn--wheel" id="thuong">Quay thưởng</button>
+                    <button class="btn--wheel" id="thuong">Quay thưởng</button>
                 </div>
             </section>
             <h1 class="msg"></h1>
+            <button class="btn--wheel" id="xong">Đã xong</button>
         </main>
 
         <!-- Phần 20% chứa thông tin người dùng đã trúng thưởng -->
@@ -67,28 +68,44 @@
                 <p class="thongtin">Người dùng A: Tai nghe không dây</p>
                 <p class="thongtin">Người dùng B: Xe máy Wave Alpha</p>
             </div>
-
         </aside>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const message = '<%= message %>'; // Nhận giá trị message từ server
             const message2 = '<%= message2 %>';
             const modal = document.getElementById('messageModal');
             const modalMessage = document.getElementById('modalMessage');
+
             if (message === 'chưa được duyệt') {
                 modalMessage.innerText = "Đơn đăng ký của quý khách đang đợi duyệt xin vui lòng đợi giây lát ..."; // Đặt nội dung thông báo vào modal
                 modal.style.display = 'block'; // Hiển thị modal
-            }
-            if (message === 'thành công') {
+            } else if (message === 'thành công') {
                 modal.style.display = 'none';
                 if (message2 === 'hết lượt') {
                     document.getElementById('thuong').style.display = 'none';
                 }
+                // Bắt đầu kiểm tra trạng thái isRead
+                const idnotify = '<%= idnotify %>'; // Thay thế giá trị idnotify nếu cần
+                const checkStatusInterval = setInterval(() => {
+                    fetch(`/notify-status/${idnotify}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.isRead === true) {
+                                clearInterval(checkStatusInterval);
+                                window.location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            clearInterval(checkStatusInterval);
+                        });
+                }, 3000); // Kiểm tra mỗi 3 giây
             }
         });
     </script>
-    <script src="https://baominhmobile.com/js/gift.js"></script>
+    <script src="http://localhost:3000/js/gift.js"></script>
 </body>
 
 </html>

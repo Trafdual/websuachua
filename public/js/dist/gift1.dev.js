@@ -8,16 +8,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-;
-
 (function () {
   var $ = document.querySelector.bind(document);
   var timeRotate = 7000;
   var currentRotate = 0;
   var isRotating = false;
   var wheel = $('.wheel');
-  var btnWheel = $('#thuong'); // Nút Quay thưởng
-
   var btnWheel1 = $('#thu'); // Nút Quay thử
 
   var showMsg = $('.msg');
@@ -146,27 +142,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       showMsg.innerHTML = "Ch\xFAc m\u1EEBng b\u1EA1n \u0111\xE3 nh\u1EADn \u0111\u01B0\u1EE3c \"".concat(gift.text, "\"");
       clearTimeout(timer);
     }, timeRotate);
-  }; // Sự kiện click cho nút "Quay thưởng"
+  }; // Sự kiện click cho nút "Quay thử"
 
-
-  btnWheel.addEventListener('click', function () {
-    !isRotating && start(false); // Quay thưởng (fixed prize)
-
-    fetch('/postIsquay', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      if (data.message === 'thành công') {}
-    })["catch"](function (error) {
-      console.error('Error:', error);
-    });
-  }); // Sự kiện click cho nút "Quay thử"
 
   btnWheel1.addEventListener('click', function () {
-    !isRotating && start(true);
+    !isRotating && start(true); // Quay thử (random prize with percentage)
   });
 })();

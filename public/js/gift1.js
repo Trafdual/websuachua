@@ -1,11 +1,10 @@
-;(() => {
+(() => {
   const $ = document.querySelector.bind(document)
 
   let timeRotate = 7000
   let currentRotate = 0
   let isRotating = false
   const wheel = $('.wheel')
-  const btnWheel = $('#thuong') // Nút Quay thưởng
   const btnWheel1 = $('#thu') // Nút Quay thử
 
   const showMsg = $('.msg')
@@ -110,29 +109,8 @@
     }, timeRotate)
   }
 
-  // Sự kiện click cho nút "Quay thưởng"
-  btnWheel.addEventListener('click', () => {
-    !isRotating && start(false) // Quay thưởng (fixed prize)
-    fetch('/postIsquay', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
-  .then(response => response.json())
-  .then(data => {
-    if (data.message === 'thành công') {
-        
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error)
-  })
-
-  })
-
   // Sự kiện click cho nút "Quay thử"
   btnWheel1.addEventListener('click', () => {
-    !isRotating && start(true)
+    !isRotating && start(true) // Quay thử (random prize with percentage)
   })
 })()

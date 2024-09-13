@@ -6,7 +6,7 @@
   let isRotating = false
   const wheel = $('.wheel')
   const btnWheel = $('#thuong') // Nút Quay thưởng
-  const btnWheel1 = $('#thu') // Nút Quay thử
+  const btnxong = $('#xong')
 
   const showMsg = $('.msg')
 
@@ -119,7 +119,7 @@
     const path = window.location.pathname // Lấy đường dẫn từ URL
     const segments = path.split('/') // Tách đường dẫn thành các phần tử
     const id = segments[segments.length - 1] // ID là phần tử cuối cùng
-console.log('ID from URL:', id)
+    console.log('ID from URL:', id)
 
     fetch(`/postIsquay/${id}`, {
       method: 'POST',
@@ -131,15 +131,14 @@ console.log('ID from URL:', id)
       .then(data => {
         if (data.message === 'thành công') {
           btnWheel.style.display = 'none'
-
+          btnxong.style.display = 'block'
         }
       })
       .catch(error => {
         console.error('Error:', error)
       })
   })
-
-  btnWheel1.addEventListener('click', () => {
-    !isRotating && start(true)
+  btnxong.addEventListener('click', () => {
+    window.location.href = 'gift'
   })
 })()

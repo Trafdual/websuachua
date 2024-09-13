@@ -69,7 +69,7 @@ router.get('/gift1/:idnotify', async (req, res) => {
       }
     }
 
-    res.render('home/gift.ejs', { message, message2 })
+    res.render('home/gift.ejs', { message, message2,idnotify })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -78,6 +78,22 @@ router.get('/gift1/:idnotify', async (req, res) => {
 router.get('/gift', async (req, res) => {
   res.render('home/gift1.ejs')
 })
+router.get('/notify-status/:idnotify', async (req, res) => {
+  try {
+    const idnotify = req.params.idnotify
+    const notify = await Notify.notify.findById(idnotify)
+
+    if (notify) {
+      res.json({ isRead: notify.isRead })
+    } else {
+      res.status(404).json({ message: 'Notification not found' })
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+
 
 router.post('/putloaisp/:id', async (req, res) => {
   try {
