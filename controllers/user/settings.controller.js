@@ -86,7 +86,7 @@ exports.login1 = async (req, res, next) => {
           // có tồn tại user == kiểm tra password
           if (objU.passwrd == req.body.passwrd) {
             const token = jwt.sign({ userId: objU._id }, 'mysecretkey', {
-              expiresIn: '10m'
+              expiresIn: '1d'
             })
             req.session.userLogin = objU
             req.session.token = token

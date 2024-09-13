@@ -193,7 +193,7 @@ exports.login1 = function _callee3(req, res, next) {
           token = jwt.sign({
             userId: objU._id
           }, 'mysecretkey', {
-            expiresIn: '10m'
+            expiresIn: '1d'
           });
           req.session.userLogin = objU;
           req.session.token = token;

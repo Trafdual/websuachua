@@ -872,6 +872,42 @@ router.post('/deletenotify/:idnotify',async(req,res)=>{
     res.status(500).json({ message: `Đã xảy ra l��i: ${error}` })
   }
 })
+router.get('/orders/search', async (req, res) => {
+    try {
+        const searchQuery = req.query.query || '';
+        const regex = new RegExp(searchQuery, 'i'); // Tạo biểu thức chính quy không phân biệt chữ hoa chữ thường
+
+        // Tìm kiếm đơn hàng đã được duyệt
+        const donHangIsReadTrue = await Notify.notify.find({
+            isRead: true,
+            $or: [
+                { tenkhach: regex },
+                { phone: regex },
+                { email: regex },
+                { address: regex },
+                { tensp: regex }
+            ]
+        });
+
+        // Render HTML cho bảng kết quả tìm kiếm
+        res.json({
+            html: donHangIsReadTrue.map(row => `
+                <tr>
+                    <td>${row.tenkhach}</td>
+                    <td><a href="">${row.phone}</a></td>
+                    <td>${row.email}</td>
+                    <td>${row.address}</td>
+                    <td>${row.tensp}</td>
+                    <td>${row.price}</td>
+                    <td>${moment(row.date).format('DD/MM/YYYY HH:mm:ss')}</td>
+                </tr>
+            `).join('')
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Đã xảy ra lỗi.' });
+    }
+});
 
 router.get('/donhang',checkAuth2, async (req, res) => {
   try {
@@ -912,6 +948,66 @@ router.get('/donhang',checkAuth2, async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
+
+router.get('/donhang/longpoll', async (req, res) => {
+  try {
+    // Thay đổi thời gian chờ phù hợp với nhu cầu của bạn
+    const timeout = 30000 // 30 giây
+    const startTime = Date.now()
+
+    const checkForUpdates = () => {
+      // Kiểm tra dữ liệu cập nhật mới
+      Notify.notify
+        .find()
+        .then(donhang => {
+          const donHangIsReadTrue = donhang
+            .filter(d => d.isRead === true)
+            .map(d => ({
+              _id: d._id,
+              tenkhach: d.tenkhach,
+              phone: d.phone,
+              email: d.email,
+              address: d.address,
+              tensp: d.tensp,
+              price: d.price,
+              date: moment(d.date).format('DD/MM/YYYY HH:mm:ss')
+            }))
+
+          const donHangIsReadFalse = donhang
+            .filter(d => d.isRead === false)
+            .map(d => ({
+              _id: d._id,
+              tenkhach: d.tenkhach,
+              phone: d.phone,
+              email: d.email,
+              address: d.address,
+              tensp: d.tensp,
+              price: d.price,
+              date: moment(d.date).format('DD/MM/YYYY HH:mm:ss')
+            }))
+
+          if (donHangIsReadTrue.length > 0 || donHangIsReadFalse.length > 0) {
+            res.json({ donHangIsReadTrue, donHangIsReadFalse })
+          } else if (Date.now() - startTime > timeout) {
+            res.json({ donHangIsReadTrue: [], donHangIsReadFalse: [] })
+          } else {
+            // Nếu không có cập nhật mới, tiếp tục chờ
+            setTimeout(checkForUpdates, 1000) // 1 giây
+          }
+        })
+        .catch(err => {
+          console.error(err)
+          res.status(500).json({ message: `Đã xảy ra lỗi: ${err}` })
+        })
+    }
+
+    checkForUpdates()
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+
 
 router.post('/danhgia', async (req, res) => {
   try {
