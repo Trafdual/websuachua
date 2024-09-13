@@ -19,7 +19,7 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
 router.get('/mess', async (req, res) => {
-  res.render('home/test.ejs')
+  res.render('home/mess.ejs')
 })
 router.post('/postloaisp', async (req, res) => {
   try {

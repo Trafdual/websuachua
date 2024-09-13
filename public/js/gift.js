@@ -139,6 +139,6 @@
       })
   })
   btnxong.addEventListener('click', () => {
-    window.location.href = 'gift'
+    window.location.href = 'https://baominhmobile.com/gift'
   })
 })()

@@ -86,22 +86,28 @@
                 if (message2 === 'hết lượt') {
                     document.getElementById('thuong').style.display = 'none';
                 }
-                // Bắt đầu kiểm tra trạng thái isRead
+
+                // Kiểm tra nếu chưa bắt đầu kiểm tra trạng thái isRead
                 const idnotify = '<%= idnotify %>'; // Thay thế giá trị idnotify nếu cần
-                const checkStatusInterval = setInterval(() => {
-                    fetch(`/notify-status/${idnotify}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.isRead === true) {
+
+                // Kiểm tra trạng thái lưu trữ để không lặp lại kiểm tra
+                if (!sessionStorage.getItem('hasCheckedStatus')) {
+                    const checkStatusInterval = setInterval(() => {
+                        fetch(`/notify-status/${idnotify}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.isRead === true) {
+                                    clearInterval(checkStatusInterval);
+                                    sessionStorage.setItem('hasCheckedStatus', 'true');
+                                    window.location.reload();
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
                                 clearInterval(checkStatusInterval);
-                                window.location.reload();
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            clearInterval(checkStatusInterval);
-                        });
-                }, 3000); // Kiểm tra mỗi 5 giây
+                            });
+                    }, 5000); // Kiểm tra mỗi 5 giây
+                }
             }
         });
     </script>

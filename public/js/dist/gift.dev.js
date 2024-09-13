@@ -178,6 +178,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     });
   });
   btnxong.addEventListener('click', function () {
-    window.location.href = 'gift';
+    window.location.href = 'https://baominhmobile.com/gift';
   });
 })();

@@ -41,7 +41,7 @@ router.get('/mess', function _callee(req, res) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          res.render('home/test.ejs');
+          res.render('home/mess.ejs');
 
         case 1:
         case "end":
