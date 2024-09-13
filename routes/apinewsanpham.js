@@ -862,6 +862,16 @@ router.post('/duyet/:idnotify', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
+router.post('/deletenotify/:idnotify',async(req,res)=>{
+  try {
+    const idnotify = req.params.idnotify
+    await Notify.notify.findByIdAndDelete(idnotify)
+    res.redirect('/donhang')
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra l��i: ${error}` })
+  }
+})
 
 router.get('/donhang',checkAuth2, async (req, res) => {
   try {

@@ -9,7 +9,7 @@ var checkAuth = function checkAuth(req, res, next) {
 
   try {
     var decoded = jwt.verify(req.session.token, 'mysecretkey', {
-      expiresIn: '10m'
+      expiresIn: '1d'
     });
     req.userData = decoded;
     next();

@@ -5,7 +5,7 @@ const checkAuth = (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(req.session.token, 'mysecretkey', {
-      expiresIn: '10m'
+      expiresIn: '1d'
     })
     req.userData = decoded
     next()
