@@ -803,12 +803,15 @@ router.post('/postnotify', async (req, res) => {
     notify.date = vietnamTime
     await notify.save()
     setTimeout(() => {
-      res.redirect('/')
-    }, 3000)
+      res.redirect('/form')
+    }, 2000)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
+})
+router.get('/form',async(req,res)=>{
+  res.render('home/baominh.ejs')
 })
 router.post('/postnotify1', async (req, res) => {
   try {

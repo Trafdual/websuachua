@@ -1933,8 +1933,8 @@ router.post('/postnotify', function _callee50(req, res) {
 
         case 11:
           setTimeout(function () {
-            res.redirect('/');
-          }, 3000);
+            res.redirect('/form');
+          }, 2000);
           _context50.next = 18;
           break;
 
@@ -1953,26 +1953,40 @@ router.post('/postnotify', function _callee50(req, res) {
     }
   }, null, null, [[0, 14]]);
 });
-router.post('/postnotify1', function _callee51(req, res) {
-  var _req$body10, tenkhach, phone, email, tensp, price, address, cccd, vietnamTime, thongbao, notify;
-
+router.get('/form', function _callee51(req, res) {
   return regeneratorRuntime.async(function _callee51$(_context51) {
     while (1) {
       switch (_context51.prev = _context51.next) {
         case 0:
-          _context51.prev = 0;
+          res.render('home/baominh.ejs');
+
+        case 1:
+        case "end":
+          return _context51.stop();
+      }
+    }
+  });
+});
+router.post('/postnotify1', function _callee52(req, res) {
+  var _req$body10, tenkhach, phone, email, tensp, price, address, cccd, vietnamTime, thongbao, notify;
+
+  return regeneratorRuntime.async(function _callee52$(_context52) {
+    while (1) {
+      switch (_context52.prev = _context52.next) {
+        case 0:
+          _context52.prev = 0;
           _req$body10 = req.body, tenkhach = _req$body10.tenkhach, phone = _req$body10.phone, email = _req$body10.email, tensp = _req$body10.tensp, price = _req$body10.price, address = _req$body10.address, cccd = _req$body10.cccd;
           vietnamTime = momenttimezone().toDate();
-          _context51.next = 5;
+          _context52.next = 5;
           return regeneratorRuntime.awrap(Notify.notify.findOne({
             cccd: cccd
           }));
 
         case 5:
-          thongbao = _context51.sent;
+          thongbao = _context52.sent;
 
           if (thongbao) {
-            _context51.next = 15;
+            _context52.next = 15;
             break;
           }
 
@@ -1986,92 +2000,53 @@ router.post('/postnotify1', function _callee51(req, res) {
             cccd: cccd
           });
           notify.date = vietnamTime;
-          _context51.next = 11;
+          _context52.next = 11;
           return regeneratorRuntime.awrap(notify.save());
 
         case 11:
           req.session.idnotify = notify._id;
-          return _context51.abrupt("return", res.json({
+          return _context52.abrupt("return", res.json({
             message: 'thành công',
             tbid: notify._id
           }));
 
         case 15:
           if (!(thongbao.isQuay == true)) {
-            _context51.next = 17;
+            _context52.next = 17;
             break;
           }
 
-          return _context51.abrupt("return", res.json({
+          return _context52.abrupt("return", res.json({
             message: 'hết lượt'
           }));
 
         case 17:
           req.session.idnotify = thongbao._id;
-          return _context51.abrupt("return", res.json({
+          return _context52.abrupt("return", res.json({
             message: 'thành công',
             tbid: thongbao._id
           }));
 
         case 19:
-          _context51.next = 25;
+          _context52.next = 25;
           break;
 
         case 21:
-          _context51.prev = 21;
-          _context51.t0 = _context51["catch"](0);
-          console.error(_context51.t0);
+          _context52.prev = 21;
+          _context52.t0 = _context52["catch"](0);
+          console.error(_context52.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context51.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context52.t0)
           });
 
         case 25:
         case "end":
-          return _context51.stop();
+          return _context52.stop();
       }
     }
   }, null, null, [[0, 21]]);
 });
-router.post('/postIsquay/:idnotify', function _callee52(req, res) {
-  var idnotify, notify;
-  return regeneratorRuntime.async(function _callee52$(_context52) {
-    while (1) {
-      switch (_context52.prev = _context52.next) {
-        case 0:
-          _context52.prev = 0;
-          idnotify = req.params.idnotify;
-          _context52.next = 4;
-          return regeneratorRuntime.awrap(Notify.notify.findById(idnotify));
-
-        case 4:
-          notify = _context52.sent;
-          notify.isQuay = true;
-          _context52.next = 8;
-          return regeneratorRuntime.awrap(notify.save());
-
-        case 8:
-          res.json({
-            message: 'thành công'
-          });
-          _context52.next = 15;
-          break;
-
-        case 11:
-          _context52.prev = 11;
-          _context52.t0 = _context52["catch"](0);
-          console.error(_context52.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\uFFFD\uFFFDi: ".concat(_context52.t0)
-          });
-
-        case 15:
-        case "end":
-          return _context52.stop();
-      }
-    }
-  }, null, null, [[0, 11]]);
-});
-router.post('/duyet/:idnotify', function _callee53(req, res) {
+router.post('/postIsquay/:idnotify', function _callee53(req, res) {
   var idnotify, notify;
   return regeneratorRuntime.async(function _callee53$(_context53) {
     while (1) {
@@ -2084,12 +2059,14 @@ router.post('/duyet/:idnotify', function _callee53(req, res) {
 
         case 4:
           notify = _context53.sent;
-          notify.isRead = true;
+          notify.isQuay = true;
           _context53.next = 8;
           return regeneratorRuntime.awrap(notify.save());
 
         case 8:
-          res.redirect('/donhang');
+          res.json({
+            message: 'thành công'
+          });
           _context53.next = 15;
           break;
 
@@ -2098,7 +2075,7 @@ router.post('/duyet/:idnotify', function _callee53(req, res) {
           _context53.t0 = _context53["catch"](0);
           console.error(_context53.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context53.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\uFFFD\uFFFDi: ".concat(_context53.t0)
           });
 
         case 15:
@@ -2108,18 +2085,55 @@ router.post('/duyet/:idnotify', function _callee53(req, res) {
     }
   }, null, null, [[0, 11]]);
 });
-router.get('/donhang', function _callee54(req, res) {
-  var donhang, donHangIsReadTrue, donHangIsReadFalse;
+router.post('/duyet/:idnotify', function _callee54(req, res) {
+  var idnotify, notify;
   return regeneratorRuntime.async(function _callee54$(_context54) {
     while (1) {
       switch (_context54.prev = _context54.next) {
         case 0:
           _context54.prev = 0;
-          _context54.next = 3;
+          idnotify = req.params.idnotify;
+          _context54.next = 4;
+          return regeneratorRuntime.awrap(Notify.notify.findById(idnotify));
+
+        case 4:
+          notify = _context54.sent;
+          notify.isRead = true;
+          _context54.next = 8;
+          return regeneratorRuntime.awrap(notify.save());
+
+        case 8:
+          res.redirect('/donhang');
+          _context54.next = 15;
+          break;
+
+        case 11:
+          _context54.prev = 11;
+          _context54.t0 = _context54["catch"](0);
+          console.error(_context54.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context54.t0)
+          });
+
+        case 15:
+        case "end":
+          return _context54.stop();
+      }
+    }
+  }, null, null, [[0, 11]]);
+});
+router.get('/donhang', function _callee55(req, res) {
+  var donhang, donHangIsReadTrue, donHangIsReadFalse;
+  return regeneratorRuntime.async(function _callee55$(_context55) {
+    while (1) {
+      switch (_context55.prev = _context55.next) {
+        case 0:
+          _context55.prev = 0;
+          _context55.next = 3;
           return regeneratorRuntime.awrap(Notify.notify.find());
 
         case 3:
-          donhang = _context54.sent;
+          donhang = _context55.sent;
           donHangIsReadTrue = donhang.filter(function (d) {
             return d.isRead === true;
           }).map(function (d) {
@@ -2152,45 +2166,6 @@ router.get('/donhang', function _callee54(req, res) {
             donHangIsReadTrue: donHangIsReadTrue,
             donHangIsReadFalse: donHangIsReadFalse
           });
-          _context54.next = 13;
-          break;
-
-        case 9:
-          _context54.prev = 9;
-          _context54.t0 = _context54["catch"](0);
-          console.error(_context54.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context54.t0)
-          });
-
-        case 13:
-        case "end":
-          return _context54.stop();
-      }
-    }
-  }, null, null, [[0, 9]]);
-});
-router.post('/danhgia', function _callee55(req, res) {
-  var _req$body11, tenkhach, content, rating, vietnamTime, danhgia;
-
-  return regeneratorRuntime.async(function _callee55$(_context55) {
-    while (1) {
-      switch (_context55.prev = _context55.next) {
-        case 0:
-          _context55.prev = 0;
-          _req$body11 = req.body, tenkhach = _req$body11.tenkhach, content = _req$body11.content, rating = _req$body11.rating;
-          vietnamTime = momenttimezone().toDate();
-          danhgia = new DanhGia.danhgia({
-            tenkhach: tenkhach,
-            content: content,
-            rating: rating,
-            date: vietnamTime
-          });
-          _context55.next = 6;
-          return regeneratorRuntime.awrap(danhgia.save());
-
-        case 6:
-          res.redirect('/');
           _context55.next = 13;
           break;
 
@@ -2209,18 +2184,57 @@ router.post('/danhgia', function _callee55(req, res) {
     }
   }, null, null, [[0, 9]]);
 });
-router.get('/getdanhgia', function _callee56(req, res) {
-  var danhgia, danhgiaIsReadTrue, danhgiaIsReadFalse;
+router.post('/danhgia', function _callee56(req, res) {
+  var _req$body11, tenkhach, content, rating, vietnamTime, danhgia;
+
   return regeneratorRuntime.async(function _callee56$(_context56) {
     while (1) {
       switch (_context56.prev = _context56.next) {
         case 0:
           _context56.prev = 0;
-          _context56.next = 3;
+          _req$body11 = req.body, tenkhach = _req$body11.tenkhach, content = _req$body11.content, rating = _req$body11.rating;
+          vietnamTime = momenttimezone().toDate();
+          danhgia = new DanhGia.danhgia({
+            tenkhach: tenkhach,
+            content: content,
+            rating: rating,
+            date: vietnamTime
+          });
+          _context56.next = 6;
+          return regeneratorRuntime.awrap(danhgia.save());
+
+        case 6:
+          res.redirect('/');
+          _context56.next = 13;
+          break;
+
+        case 9:
+          _context56.prev = 9;
+          _context56.t0 = _context56["catch"](0);
+          console.error(_context56.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context56.t0)
+          });
+
+        case 13:
+        case "end":
+          return _context56.stop();
+      }
+    }
+  }, null, null, [[0, 9]]);
+});
+router.get('/getdanhgia', function _callee57(req, res) {
+  var danhgia, danhgiaIsReadTrue, danhgiaIsReadFalse;
+  return regeneratorRuntime.async(function _callee57$(_context57) {
+    while (1) {
+      switch (_context57.prev = _context57.next) {
+        case 0:
+          _context57.prev = 0;
+          _context57.next = 3;
           return regeneratorRuntime.awrap(DanhGia.danhgia.find());
 
         case 3:
-          danhgia = _context56.sent;
+          danhgia = _context57.sent;
           danhgiaIsReadTrue = danhgia.filter(function (d) {
             return d.isRead === true;
           }).map(function (d) {
@@ -2247,99 +2261,99 @@ router.get('/getdanhgia', function _callee56(req, res) {
             danhgiaIsReadTrue: danhgiaIsReadTrue,
             danhgiaIsReadFalse: danhgiaIsReadFalse
           });
-          _context56.next = 13;
+          _context57.next = 13;
           break;
 
         case 9:
-          _context56.prev = 9;
-          _context56.t0 = _context56["catch"](0);
-          console.error(_context56.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context56.t0)
-          });
-
-        case 13:
-        case "end":
-          return _context56.stop();
-      }
-    }
-  }, null, null, [[0, 9]]);
-});
-router.post('/duyetdanhgia/:iddanhgia', function _callee57(req, res) {
-  var iddanhgia, danhgia;
-  return regeneratorRuntime.async(function _callee57$(_context57) {
-    while (1) {
-      switch (_context57.prev = _context57.next) {
-        case 0:
-          _context57.prev = 0;
-          iddanhgia = req.params.iddanhgia;
-          _context57.next = 4;
-          return regeneratorRuntime.awrap(DanhGia.danhgia.findById(iddanhgia));
-
-        case 4:
-          danhgia = _context57.sent;
-          danhgia.isRead = true;
-          _context57.next = 8;
-          return regeneratorRuntime.awrap(danhgia.save());
-
-        case 8:
-          res.redirect('/getdanhgia');
-          _context57.next = 15;
-          break;
-
-        case 11:
-          _context57.prev = 11;
+          _context57.prev = 9;
           _context57.t0 = _context57["catch"](0);
           console.error(_context57.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context57.t0)
           });
 
-        case 15:
+        case 13:
         case "end":
           return _context57.stop();
       }
     }
-  }, null, null, [[0, 11]]);
+  }, null, null, [[0, 9]]);
 });
-router.get('/contentBlog/:tieude', function _callee58(req, res) {
-  var tieude_khongdau, blog, allsp, listBl, content;
+router.post('/duyetdanhgia/:iddanhgia', function _callee58(req, res) {
+  var iddanhgia, danhgia;
   return regeneratorRuntime.async(function _callee58$(_context58) {
     while (1) {
       switch (_context58.prev = _context58.next) {
         case 0:
           _context58.prev = 0;
-          tieude_khongdau = decodeURIComponent(req.params.tieude).replace(/-/g, ' ');
+          iddanhgia = req.params.iddanhgia;
           _context58.next = 4;
+          return regeneratorRuntime.awrap(DanhGia.danhgia.findById(iddanhgia));
+
+        case 4:
+          danhgia = _context58.sent;
+          danhgia.isRead = true;
+          _context58.next = 8;
+          return regeneratorRuntime.awrap(danhgia.save());
+
+        case 8:
+          res.redirect('/getdanhgia');
+          _context58.next = 15;
+          break;
+
+        case 11:
+          _context58.prev = 11;
+          _context58.t0 = _context58["catch"](0);
+          console.error(_context58.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context58.t0)
+          });
+
+        case 15:
+        case "end":
+          return _context58.stop();
+      }
+    }
+  }, null, null, [[0, 11]]);
+});
+router.get('/contentBlog/:tieude', function _callee59(req, res) {
+  var tieude_khongdau, blog, allsp, listBl, content;
+  return regeneratorRuntime.async(function _callee59$(_context59) {
+    while (1) {
+      switch (_context59.prev = _context59.next) {
+        case 0:
+          _context59.prev = 0;
+          tieude_khongdau = decodeURIComponent(req.params.tieude).replace(/-/g, ' ');
+          _context59.next = 4;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findOne({
             tieude_khongdau: tieude_khongdau
           }));
 
         case 4:
-          blog = _context58.sent;
-          _context58.next = 7;
+          blog = _context59.sent;
+          _context59.next = 7;
           return regeneratorRuntime.awrap(LoaiSP.TenSP.find().populate('chitietsp'));
 
         case 7:
-          allsp = _context58.sent;
+          allsp = _context59.sent;
 
           if (blog) {
-            _context58.next = 10;
+            _context59.next = 10;
             break;
           }
 
-          return _context58.abrupt("return", res.status(404).json({
+          return _context59.abrupt("return", res.status(404).json({
             message: 'Blog không tồn tại'
           }));
 
         case 10:
-          _context58.next = 12;
+          _context59.next = 12;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.find().sort({
             _id: -1
           }));
 
         case 12:
-          listBl = _context58.sent;
+          listBl = _context59.sent;
           content = blog.noidung.map(function (noidung) {
             return {
               tieude: noidung.tieude,
@@ -2354,20 +2368,20 @@ router.get('/contentBlog/:tieude', function _callee58(req, res) {
             image_blog: blog.img_blog,
             allsp: allsp
           });
-          _context58.next = 21;
+          _context59.next = 21;
           break;
 
         case 17:
-          _context58.prev = 17;
-          _context58.t0 = _context58["catch"](0);
-          console.error(_context58.t0);
+          _context59.prev = 17;
+          _context59.t0 = _context59["catch"](0);
+          console.error(_context59.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context58.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context59.t0)
           });
 
         case 21:
         case "end":
-          return _context58.stop();
+          return _context59.stop();
       }
     }
   }, null, null, [[0, 17]]);
@@ -2413,14 +2427,14 @@ function replaceKeywordsWithLinks(content, keywords, urlBase) {
   return content;
 }
 
-router.post('/postblog', function _callee59(req, res) {
+router.post('/postblog', function _callee60(req, res) {
   var _req$body12, tieude_blog, img, content, tieude, img_blog, keywords, urlBase, tieude_khongdau1, tieude_khongdau, blog, i, updatedContent, _updatedContent;
 
-  return regeneratorRuntime.async(function _callee59$(_context59) {
+  return regeneratorRuntime.async(function _callee60$(_context60) {
     while (1) {
-      switch (_context59.prev = _context59.next) {
+      switch (_context60.prev = _context60.next) {
         case 0:
-          _context59.prev = 0;
+          _context60.prev = 0;
           _req$body12 = req.body, tieude_blog = _req$body12.tieude_blog, img = _req$body12.img, content = _req$body12.content, tieude = _req$body12.tieude, img_blog = _req$body12.img_blog, keywords = _req$body12.keywords, urlBase = _req$body12.urlBase;
           tieude_khongdau1 = unicode(tieude_blog);
           tieude_khongdau = removeSpecialChars(tieude_khongdau1);
@@ -2451,25 +2465,25 @@ router.post('/postblog', function _callee59(req, res) {
             }, "keywords", keywords));
           }
 
-          _context59.next = 8;
+          _context60.next = 8;
           return regeneratorRuntime.awrap(blog.save());
 
         case 8:
           res.redirect('/main');
-          _context59.next = 15;
+          _context60.next = 15;
           break;
 
         case 11:
-          _context59.prev = 11;
-          _context59.t0 = _context59["catch"](0);
-          console.error(_context59.t0);
+          _context60.prev = 11;
+          _context60.t0 = _context60["catch"](0);
+          console.error(_context60.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context59.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context60.t0)
           });
 
         case 15:
         case "end":
-          return _context59.stop();
+          return _context60.stop();
       }
     }
   }, null, null, [[0, 11]]);
@@ -2482,14 +2496,14 @@ router.post('/postblog2', uploads.fields([{
   name: 'img',
   maxCount: 100000
 } // Nhiều ảnh (có thể điều chỉnh số lượng tối đa)
-]), function _callee60(req, res) {
+]), function _callee61(req, res) {
   var _req$body13, tieude_blog, content, tieude, keywords, urlBase, _domain, imgblog, img, tieude_khongdau1, tieude_khongdau, blog, i, updatedContent, _updatedContent2;
 
-  return regeneratorRuntime.async(function _callee60$(_context60) {
+  return regeneratorRuntime.async(function _callee61$(_context61) {
     while (1) {
-      switch (_context60.prev = _context60.next) {
+      switch (_context61.prev = _context61.next) {
         case 0:
-          _context60.prev = 0;
+          _context61.prev = 0;
           _req$body13 = req.body, tieude_blog = _req$body13.tieude_blog, content = _req$body13.content, tieude = _req$body13.tieude, keywords = _req$body13.keywords, urlBase = _req$body13.urlBase; // Xác định domain
 
           _domain = 'https://www.baominhmobile.com'; // Thay đổi thành domain của bạn
@@ -2532,49 +2546,35 @@ router.post('/postblog2', uploads.fields([{
             });
           }
 
-          _context60.next = 11;
+          _context61.next = 11;
           return regeneratorRuntime.awrap(blog.save());
 
         case 11:
           res.redirect('/main');
-          _context60.next = 18;
+          _context61.next = 18;
           break;
 
         case 14:
-          _context60.prev = 14;
-          _context60.t0 = _context60["catch"](0);
-          console.error(_context60.t0);
+          _context61.prev = 14;
+          _context61.t0 = _context61["catch"](0);
+          console.error(_context61.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context60.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context61.t0)
           });
 
         case 18:
         case "end":
-          return _context60.stop();
+          return _context61.stop();
       }
     }
   }, null, null, [[0, 14]]);
 });
-router.get('/getaddblog', function _callee61(req, res) {
-  return regeneratorRuntime.async(function _callee61$(_context61) {
-    while (1) {
-      switch (_context61.prev = _context61.next) {
-        case 0:
-          res.render('home/addblog.ejs');
-
-        case 1:
-        case "end":
-          return _context61.stop();
-      }
-    }
-  });
-});
-router.get('/getaddblogtest', function _callee62(req, res) {
+router.get('/getaddblog', function _callee62(req, res) {
   return regeneratorRuntime.async(function _callee62$(_context62) {
     while (1) {
       switch (_context62.prev = _context62.next) {
         case 0:
-          res.render('home/test.ejs');
+          res.render('home/addblog.ejs');
 
         case 1:
         case "end":
@@ -2583,56 +2583,70 @@ router.get('/getaddblogtest', function _callee62(req, res) {
     }
   });
 });
-router.get('/getblog', function _callee63(req, res) {
-  var listBl;
+router.get('/getaddblogtest', function _callee63(req, res) {
   return regeneratorRuntime.async(function _callee63$(_context63) {
     while (1) {
       switch (_context63.prev = _context63.next) {
         case 0:
-          _context63.prev = 0;
-          _context63.next = 3;
-          return regeneratorRuntime.awrap(myMDBlog.blogModel.find().sort({
-            _id: -1
-          }));
+          res.render('home/test.ejs');
 
-        case 3:
-          listBl = _context63.sent;
-          res.render('home/blog.ejs', {
-            listBl: listBl
-          });
-          _context63.next = 11;
-          break;
-
-        case 7:
-          _context63.prev = 7;
-          _context63.t0 = _context63["catch"](0);
-          console.error(_context63.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context63.t0)
-          });
-
-        case 11:
+        case 1:
         case "end":
           return _context63.stop();
       }
     }
-  }, null, null, [[0, 7]]);
+  });
 });
-router.post('/editblog/:idblog', function _callee64(req, res) {
-  var _req$body14, tieude_blog, img_blog, tieude, content, img, keywords, urlBase, idblog, blog, i, updatedContent, _updatedContent3;
-
+router.get('/getblog', function _callee64(req, res) {
+  var listBl;
   return regeneratorRuntime.async(function _callee64$(_context64) {
     while (1) {
       switch (_context64.prev = _context64.next) {
         case 0:
           _context64.prev = 0;
+          _context64.next = 3;
+          return regeneratorRuntime.awrap(myMDBlog.blogModel.find().sort({
+            _id: -1
+          }));
+
+        case 3:
+          listBl = _context64.sent;
+          res.render('home/blog.ejs', {
+            listBl: listBl
+          });
+          _context64.next = 11;
+          break;
+
+        case 7:
+          _context64.prev = 7;
+          _context64.t0 = _context64["catch"](0);
+          console.error(_context64.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context64.t0)
+          });
+
+        case 11:
+        case "end":
+          return _context64.stop();
+      }
+    }
+  }, null, null, [[0, 7]]);
+});
+router.post('/editblog/:idblog', function _callee65(req, res) {
+  var _req$body14, tieude_blog, img_blog, tieude, content, img, keywords, urlBase, idblog, blog, i, updatedContent, _updatedContent3;
+
+  return regeneratorRuntime.async(function _callee65$(_context65) {
+    while (1) {
+      switch (_context65.prev = _context65.next) {
+        case 0:
+          _context65.prev = 0;
           _req$body14 = req.body, tieude_blog = _req$body14.tieude_blog, img_blog = _req$body14.img_blog, tieude = _req$body14.tieude, content = _req$body14.content, img = _req$body14.img, keywords = _req$body14.keywords, urlBase = _req$body14.urlBase;
           idblog = req.params.idblog;
-          _context64.next = 5;
+          _context65.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blog = _context64.sent;
+          blog = _context65.sent;
           blog.tieude_blog = tieude_blog;
           blog.img_blog = img_blog;
           blog.tieude_khongdau = unicode(tieude_blog);
@@ -2673,36 +2687,36 @@ router.post('/editblog/:idblog', function _callee64(req, res) {
             });
           }
 
-          _context64.next = 12;
+          _context65.next = 12;
           return regeneratorRuntime.awrap(blog.save());
 
         case 12:
           res.redirect('/main');
-          _context64.next = 19;
+          _context65.next = 19;
           break;
 
         case 15:
-          _context64.prev = 15;
-          _context64.t0 = _context64["catch"](0);
-          console.error(_context64.t0);
+          _context65.prev = 15;
+          _context65.t0 = _context65["catch"](0);
+          console.error(_context65.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context64.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context65.t0)
           });
 
         case 19:
         case "end":
-          return _context64.stop();
+          return _context65.stop();
       }
     }
   }, null, null, [[0, 15]]);
 });
-router.get('/editblog/:idblog', function _callee65(req, res) {
+router.get('/editblog/:idblog', function _callee66(req, res) {
   var removeAllLinks, idblog, blogg, blog;
-  return regeneratorRuntime.async(function _callee65$(_context65) {
+  return regeneratorRuntime.async(function _callee66$(_context66) {
     while (1) {
-      switch (_context65.prev = _context65.next) {
+      switch (_context66.prev = _context66.next) {
         case 0:
-          _context65.prev = 0;
+          _context66.prev = 0;
 
           // Hàm để loại bỏ tất cả các thẻ <a> khỏi nội dung
           removeAllLinks = function removeAllLinks(content) {
@@ -2711,11 +2725,11 @@ router.get('/editblog/:idblog', function _callee65(req, res) {
           };
 
           idblog = req.params.idblog;
-          _context65.next = 5;
+          _context66.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blogg = _context65.sent;
+          blogg = _context66.sent;
           blog = blogg.noidung.map(function (bl) {
             return {
               content: removeAllLinks(bl.content),
@@ -2732,20 +2746,20 @@ router.get('/editblog/:idblog', function _callee65(req, res) {
             tieude_khongdau: blogg.tieude_khongdau,
             img_blog: blogg.img_blog
           });
-          _context65.next = 14;
+          _context66.next = 14;
           break;
 
         case 10:
-          _context65.prev = 10;
-          _context65.t0 = _context65["catch"](0);
-          console.error(_context65.t0);
+          _context66.prev = 10;
+          _context66.t0 = _context66["catch"](0);
+          console.error(_context66.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context65.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context66.t0)
           });
 
         case 14:
         case "end":
-          return _context65.stop();
+          return _context66.stop();
       }
     }
   }, null, null, [[0, 10]]);
@@ -2758,21 +2772,21 @@ router.post('/editblog/:idblog', uploads.fields([{
   name: 'img',
   maxCount: 100000
 } // Nhiều ảnh (có thể điều chỉnh số lượng tối đa)
-]), function _callee66(req, res) {
+]), function _callee67(req, res) {
   var _req$body15, tieude_blog, tieude, content, keywords, urlBase, tieude_khongdau, idblog, blog, imgblog, img, i, updatedContent, _updatedContent4;
 
-  return regeneratorRuntime.async(function _callee66$(_context66) {
+  return regeneratorRuntime.async(function _callee67$(_context67) {
     while (1) {
-      switch (_context66.prev = _context66.next) {
+      switch (_context67.prev = _context67.next) {
         case 0:
-          _context66.prev = 0;
+          _context67.prev = 0;
           _req$body15 = req.body, tieude_blog = _req$body15.tieude_blog, tieude = _req$body15.tieude, content = _req$body15.content, keywords = _req$body15.keywords, urlBase = _req$body15.urlBase, tieude_khongdau = _req$body15.tieude_khongdau;
           idblog = req.params.idblog;
-          _context66.next = 5;
+          _context67.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blog = _context66.sent;
+          blog = _context67.sent;
           imgblog = req.files && req.files['imgblog'] ? "".concat(domain, "/").concat(req.files['imgblog'][0].filename) : blog.img_blog;
           img = req.files && req.files['img'] ? req.files['img'].map(function (file) {
             return "".concat(domain, "/").concat(file.filename);
@@ -2822,25 +2836,25 @@ router.post('/editblog/:idblog', uploads.fields([{
             });
           }
 
-          _context66.next = 14;
+          _context67.next = 14;
           return regeneratorRuntime.awrap(blog.save());
 
         case 14:
           res.redirect('/main');
-          _context66.next = 21;
+          _context67.next = 21;
           break;
 
         case 17:
-          _context66.prev = 17;
-          _context66.t0 = _context66["catch"](0);
-          console.error(_context66.t0);
+          _context67.prev = 17;
+          _context67.t0 = _context67["catch"](0);
+          console.error(_context67.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context66.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context67.t0)
           });
 
         case 21:
         case "end":
-          return _context66.stop();
+          return _context67.stop();
       }
     }
   }, null, null, [[0, 17]]);
@@ -2857,34 +2871,34 @@ router.post('/upload', uploads.single('image'), function (req, res) {
     url: fileUrl
   });
 });
-router.post('/deleteblog/:idblog', function _callee67(req, res) {
+router.post('/deleteblog/:idblog', function _callee68(req, res) {
   var idblog, blog;
-  return regeneratorRuntime.async(function _callee67$(_context67) {
+  return regeneratorRuntime.async(function _callee68$(_context68) {
     while (1) {
-      switch (_context67.prev = _context67.next) {
+      switch (_context68.prev = _context68.next) {
         case 0:
-          _context67.prev = 0;
+          _context68.prev = 0;
           idblog = req.params.idblog;
-          _context67.next = 4;
+          _context68.next = 4;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findByIdAndDelete(idblog));
 
         case 4:
-          blog = _context67.sent;
+          blog = _context68.sent;
           res.redirect('/main');
-          _context67.next = 12;
+          _context68.next = 12;
           break;
 
         case 8:
-          _context67.prev = 8;
-          _context67.t0 = _context67["catch"](0);
-          console.error(_context67.t0);
+          _context68.prev = 8;
+          _context68.t0 = _context68["catch"](0);
+          console.error(_context68.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context67.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context68.t0)
           });
 
         case 12:
         case "end":
-          return _context67.stop();
+          return _context68.stop();
       }
     }
   }, null, null, [[0, 8]]);
