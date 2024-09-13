@@ -18,6 +18,8 @@ var myMDBlog = require('../models/blog.model');
 
 var checkAuth = require('../controllers/checkAuth');
 
+var checkAuth2 = require('../controllers/checkAuth2');
+
 var LinkKien = require('../models/LinkKienModel');
 
 var LoaiLinkKien = require('../models/LoaiLinhKien');
@@ -1968,7 +1970,7 @@ router.get('/form', function _callee51(req, res) {
   });
 });
 router.post('/postnotify1', function _callee52(req, res) {
-  var _req$body10, tenkhach, phone, email, tensp, price, address, cccd, vietnamTime, thongbao, notify;
+  var _req$body10, tenkhach, phone, email, tensp, price, address, cccd, vietnamTime, notify;
 
   return regeneratorRuntime.async(function _callee52$(_context52) {
     while (1) {
@@ -1977,19 +1979,6 @@ router.post('/postnotify1', function _callee52(req, res) {
           _context52.prev = 0;
           _req$body10 = req.body, tenkhach = _req$body10.tenkhach, phone = _req$body10.phone, email = _req$body10.email, tensp = _req$body10.tensp, price = _req$body10.price, address = _req$body10.address, cccd = _req$body10.cccd;
           vietnamTime = momenttimezone().toDate();
-          _context52.next = 5;
-          return regeneratorRuntime.awrap(Notify.notify.findOne({
-            cccd: cccd
-          }));
-
-        case 5:
-          thongbao = _context52.sent;
-
-          if (thongbao) {
-            _context52.next = 15;
-            break;
-          }
-
           notify = new Notify.notify({
             tenkhach: tenkhach,
             phone: phone,
@@ -2000,51 +1989,30 @@ router.post('/postnotify1', function _callee52(req, res) {
             cccd: cccd
           });
           notify.date = vietnamTime;
-          _context52.next = 11;
+          _context52.next = 7;
           return regeneratorRuntime.awrap(notify.save());
 
-        case 11:
+        case 7:
           req.session.idnotify = notify._id;
           return _context52.abrupt("return", res.json({
             message: 'thành công',
             tbid: notify._id
           }));
 
-        case 15:
-          if (!(thongbao.isQuay == true)) {
-            _context52.next = 17;
-            break;
-          }
-
-          return _context52.abrupt("return", res.json({
-            message: 'hết lượt'
-          }));
-
-        case 17:
-          req.session.idnotify = thongbao._id;
-          return _context52.abrupt("return", res.json({
-            message: 'thành công',
-            tbid: thongbao._id
-          }));
-
-        case 19:
-          _context52.next = 25;
-          break;
-
-        case 21:
-          _context52.prev = 21;
+        case 11:
+          _context52.prev = 11;
           _context52.t0 = _context52["catch"](0);
           console.error(_context52.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context52.t0)
           });
 
-        case 25:
+        case 15:
         case "end":
           return _context52.stop();
       }
     }
-  }, null, null, [[0, 21]]);
+  }, null, null, [[0, 11]]);
 });
 router.post('/postIsquay/:idnotify', function _callee53(req, res) {
   var idnotify, notify;
@@ -2122,7 +2090,7 @@ router.post('/duyet/:idnotify', function _callee54(req, res) {
     }
   }, null, null, [[0, 11]]);
 });
-router.get('/donhang', function _callee55(req, res) {
+router.get('/donhang', checkAuth2, function _callee55(req, res) {
   var donhang, donHangIsReadTrue, donHangIsReadFalse;
   return regeneratorRuntime.async(function _callee55$(_context55) {
     while (1) {

@@ -1,0 +1,29 @@
+"use strict";
+
+var jwt = require('jsonwebtoken');
+
+var checkAuth = function checkAuth(req, res, next) {
+  if (!req.session.token) {
+    return res.redirect('/login1');
+  }
+
+  try {
+    var decoded = jwt.verify(req.session.token, 'mysecretkey', {
+      expiresIn: '10m'
+    });
+    req.userData = decoded;
+    next();
+  } catch (error) {
+    if (error.name === 'TokenExpiredError') {
+      req.session.destroy();
+      return res.redirect('/login1');
+    } else {
+      console.error(error);
+      return res.status(500).json({
+        message: 'Đã xảy ra lỗi.'
+      });
+    }
+  }
+};
+
+module.exports = checkAuth;

@@ -6,6 +6,8 @@ const LoaiSP = require('../models/tenSpModel')
 const multer = require('multer')
 var myMDBlog = require('../models/blog.model')
 const checkAuth = require('../controllers/checkAuth')
+const checkAuth2 = require('../controllers/checkAuth2')
+
 const LinkKien = require('../models/LinkKienModel')
 const LoaiLinkKien = require('../models/LoaiLinhKien')
 const Notify = require('../models/NotifyModel')
@@ -817,9 +819,6 @@ router.post('/postnotify1', async (req, res) => {
   try {
     const { tenkhach, phone, email, tensp, price, address, cccd } = req.body
     const vietnamTime = momenttimezone().toDate()
-    const thongbao = await Notify.notify.findOne({ cccd })
-
-    if (!thongbao) {
       const notify = new Notify.notify({
         tenkhach,
         phone,
@@ -833,13 +832,6 @@ router.post('/postnotify1', async (req, res) => {
       await notify.save()
       req.session.idnotify = notify._id
       return res.json({ message: 'thành công', tbid: notify._id })
-    } else {
-      if (thongbao.isQuay == true) {
-       return res.json({ message: 'hết lượt' })
-      }
-      req.session.idnotify = thongbao._id
-      return res.json({ message: 'thành công', tbid: thongbao._id })
-    }
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -871,7 +863,7 @@ router.post('/duyet/:idnotify', async (req, res) => {
   }
 })
 
-router.get('/donhang', async (req, res) => {
+router.get('/donhang',checkAuth2, async (req, res) => {
   try {
     const donhang = await Notify.notify.find()
 

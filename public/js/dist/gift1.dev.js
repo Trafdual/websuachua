@@ -8,14 +8,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+;
+
 (function () {
   var $ = document.querySelector.bind(document);
   var timeRotate = 7000;
   var currentRotate = 0;
   var isRotating = false;
   var wheel = $('.wheel');
-  var btnWheel1 = $('#thu'); // Nút Quay thử
-
+  var btnWheel1 = $('#thu');
   var showMsg = $('.msg');
   var listGift = [{
     text: 'Wave Alpha 110',
@@ -34,10 +35,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     percent: 0.05
   }, {
     text: 'Iphone 13 New',
-    percent: 0.4
+    percent: 0.2
   }, {
     text: '5.000.000đ',
-    percent: 0.2
+    percent: 0.1
   }, {
     text: 'Thay pin miễn phí không giới hạn',
     percent: 0.2
@@ -50,7 +51,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     elm.style.transform = "rotate(".concat(rotate * index, "deg) skewY(-").concat(skewY, "deg)");
     var textClasses = ['text-1', 'text-2'];
     var textClass = textClasses[index % textClasses.length];
-    elm.innerHTML = "\n            <p style=\"transform: skewY(".concat(skewY, "deg) rotate(").concat(rotate / 2, "deg);\" class=\"text ").concat(textClass, "\">\n                <b>").concat(item.text, "</b>\n            </p>\n          \n        ");
+    elm.innerHTML = "\n            <p style=\"transform: skewY(".concat(skewY, "deg) rotate(").concat(rotate / 2, "deg);\" class=\"text ").concat(textClass, "\">\n                <b>").concat(item.text, "</b>\n            </p>\n        ");
     wheel.appendChild(elm);
   });
 
@@ -66,18 +67,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var rotateWheel = function rotateWheel(currentRotate, index) {
     wheel.style.transform = "rotate(".concat(currentRotate - index * rotate - rotate / 2, "deg)");
-  }; // Hàm lấy phần thưởng, tùy thuộc vào kiểu quay (thưởng hay thử)
-
+  };
 
   var getGift = function getGift(randomNumber, isTest) {
     if (isTest) {
       var _ret = function () {
-        // Quay thử: random tỉ lệ theo yêu cầu
         var prizes = [{
           text: 'Wave Alpha 110',
           percent: 0.1
         }, {
-          text: 'Iphone 13',
+          text: 'Iphone 13 New',
           percent: 0.2
         }, {
           text: 'Other',
@@ -90,9 +89,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           if (randomNumber < cumulativePercent) {
             if (prizes[i].text === 'Other') {
-              // Random giữa các phần thưởng còn lại
               var otherGifts = listGift.filter(function (gift) {
-                return gift.text !== 'Wave Alpha 110' && gift.text !== 'Iphone 13';
+                return gift.text !== 'Wave Alpha 110' && gift.text !== 'Iphone 13 New';
               });
               var randomOtherIndex = Math.floor(Math.random() * otherGifts.length);
               return {
@@ -126,7 +124,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (_typeof(_ret) === "object") return _ret.v;
     } else {
-      // Quay thưởng: luôn trả về "Tai nghe không dây"
       var fixedGiftIndex = listGift.findIndex(function (gift) {
         return gift.text === 'Tai nghe không dây';
       });
@@ -136,16 +133,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
   };
 
+  var updateUserInfo = function updateUserInfo(gift) {
+    var userInfoList = document.querySelector('.user-info');
+    var listItem = document.createElement('p');
+    listItem.classList.add('thongtin');
+    listItem.textContent = "B\u1EA1n \u0111\xE3 tr\xFAng \"".concat(gift.text, "\"");
+    userInfoList.appendChild(listItem); // Thêm thẻ <p> mới vào danh sách user-info
+  };
+
   var showGift = function showGift(gift) {
     var timer = setTimeout(function () {
       isRotating = false;
       showMsg.innerHTML = "Ch\xFAc m\u1EEBng b\u1EA1n \u0111\xE3 nh\u1EADn \u0111\u01B0\u1EE3c \"".concat(gift.text, "\"");
+      updateUserInfo(gift);
       clearTimeout(timer);
     }, timeRotate);
-  }; // Sự kiện click cho nút "Quay thử"
-
+  };
 
   btnWheel1.addEventListener('click', function () {
-    !isRotating && start(true); // Quay thử (random prize with percentage)
+    !isRotating && start(true);
   });
 })();

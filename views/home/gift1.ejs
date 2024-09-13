@@ -147,11 +147,10 @@
                 <p class="thongtin">Người dùng A: Tai nghe không dây</p>
                 <p class="thongtin">Người dùng B: Xe máy Wave Alpha</p>
             </div>
-
         </aside>
     </div>
 
-    <script src="https://baominhmobile.com/js/gift1.js"></script>
+    <script src="http://localhost:3000/js/gift1.js"></script>
     <script>
         document.getElementById('btn2').addEventListener('click', function() {
             document.querySelector('.login-form').style.display = 'block';
@@ -181,9 +180,6 @@
                 .then(data => {
                     if (data.message === 'thành công') {
                         window.location.href = `gift1/${data.tbid}`;
-                    } else if (data.message === 'hết lượt') {
-                        document.getElementById('error-message').textContent = 'Qúy khách đã hết lượt quay';
-                        document.getElementById('errorModal').style.display = 'block';
                     }
                 })
                 .catch(error => {

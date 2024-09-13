@@ -1,11 +1,12 @@
-(() => {
+;(() => {
   const $ = document.querySelector.bind(document)
 
   let timeRotate = 7000
   let currentRotate = 0
   let isRotating = false
   const wheel = $('.wheel')
-  const btnWheel1 = $('#thu') // Nút Quay thử
+const btnWheel1 = $('#thu')
+
 
   const showMsg = $('.msg')
 
@@ -15,8 +16,8 @@
     { text: '150.000đ', percent: 0.2 },
     { text: 'Sạc dự phòng 10.000W', percent: 0.1 },
     { text: 'Tai nghe không dây', percent: 0.05 },
-    { text: 'Iphone 13 New', percent: 0.4 },
-    { text: '5.000.000đ', percent: 0.2 },
+    { text: 'Iphone 13 New', percent: 0.2 },
+    { text: '5.000.000đ', percent: 0.1 },
     { text: 'Thay pin miễn phí không giới hạn', percent: 0.2 }
   ]
 
@@ -35,7 +36,6 @@
     }deg);" class="text ${textClass}">
                 <b>${item.text}</b>
             </p>
-          
         `
     wheel.appendChild(elm)
   })
@@ -58,13 +58,11 @@
     }deg)`
   }
 
-  // Hàm lấy phần thưởng, tùy thuộc vào kiểu quay (thưởng hay thử)
   const getGift = (randomNumber, isTest) => {
     if (isTest) {
-      // Quay thử: random tỉ lệ theo yêu cầu
       const prizes = [
         { text: 'Wave Alpha 110', percent: 0.1 },
-        { text: 'Iphone 13', percent: 0.2 },
+        { text: 'Iphone 13 New', percent: 0.2 },
         { text: 'Other', percent: 0.7 }
       ]
       let cumulativePercent = 0
@@ -72,10 +70,9 @@
         cumulativePercent += prizes[i].percent
         if (randomNumber < cumulativePercent) {
           if (prizes[i].text === 'Other') {
-            // Random giữa các phần thưởng còn lại
             const otherGifts = listGift.filter(
               gift =>
-                gift.text !== 'Wave Alpha 110' && gift.text !== 'Iphone 13'
+                gift.text !== 'Wave Alpha 110' && gift.text !== 'Iphone 13 New'
             )
             const randomOtherIndex = Math.floor(
               Math.random() * otherGifts.length
@@ -93,7 +90,6 @@
         }
       }
     } else {
-      // Quay thưởng: luôn trả về "Tai nghe không dây"
       const fixedGiftIndex = listGift.findIndex(
         gift => gift.text === 'Tai nghe không dây'
       )
@@ -101,16 +97,25 @@
     }
   }
 
+  const updateUserInfo = gift => {
+    const userInfoList = document.querySelector('.user-info')
+    const listItem = document.createElement('p')
+    listItem.classList.add('thongtin')
+    listItem.textContent = `Bạn đã trúng "${gift.text}"`
+    userInfoList.appendChild(listItem) // Thêm thẻ <p> mới vào danh sách user-info
+  }
+
   const showGift = gift => {
     let timer = setTimeout(() => {
       isRotating = false
       showMsg.innerHTML = `Chúc mừng bạn đã nhận được "${gift.text}"`
+      updateUserInfo(gift)
       clearTimeout(timer)
     }, timeRotate)
   }
 
-  // Sự kiện click cho nút "Quay thử"
   btnWheel1.addEventListener('click', () => {
-    !isRotating && start(true) // Quay thử (random prize with percentage)
+    !isRotating && start(true)
   })
+
 })()
