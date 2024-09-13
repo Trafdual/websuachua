@@ -115,7 +115,7 @@
             </h2>
             <input type="text" name="tensp" placeholder="Tên sản phẩm" required>
             <input type="text" name="price" placeholder="Giá" required>
-            <button type="button" id="btnlogin">Đăng nhập</button>
+            <button type="submit" id="btnlogin">Đăng nhập</button>
         </form>
     </div>
 
@@ -163,8 +163,8 @@
             document.querySelector('.overlay').style.display = 'none';
         });
 
-        document.getElementById('btnlogin').addEventListener('click', function(event) {
-            event.preventDefault();
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Ngăn chặn gửi biểu mẫu mặc định
 
             // Lấy dữ liệu từ form
             const formData = new FormData(document.getElementById('loginForm'));
@@ -192,7 +192,6 @@
                     document.getElementById('errorModal').style.display = 'block';
                 });
         });
-
 
         document.getElementById('modalCloseButton').addEventListener('click', function() {
             document.getElementById('errorModal').style.display = 'none';

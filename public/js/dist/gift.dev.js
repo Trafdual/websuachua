@@ -147,6 +147,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var timer = setTimeout(function () {
       isRotating = false;
       showMsg.innerHTML = "Ch\xFAc m\u1EEBng b\u1EA1n \u0111\xE3 nh\u1EADn \u0111\u01B0\u1EE3c \"".concat(gift.text, "\"");
+      btnxong.style.display = 'block';
       updateUserInfo(gift);
       clearTimeout(timer);
     }, timeRotate);
@@ -171,7 +172,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }).then(function (data) {
       if (data.message === 'thành công') {
         btnWheel.style.display = 'none';
-        btnxong.style.display = 'block';
       }
     })["catch"](function (error) {
       console.error('Error:', error);

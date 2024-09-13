@@ -109,6 +109,7 @@
     let timer = setTimeout(() => {
       isRotating = false
       showMsg.innerHTML = `Chúc mừng bạn đã nhận được "${gift.text}"`
+      btnxong.style.display = 'block'
       updateUserInfo(gift)
       clearTimeout(timer)
     }, timeRotate)
@@ -131,7 +132,6 @@
       .then(data => {
         if (data.message === 'thành công') {
           btnWheel.style.display = 'none'
-          btnxong.style.display = 'block'
         }
       })
       .catch(error => {
