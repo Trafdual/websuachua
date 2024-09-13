@@ -86,25 +86,20 @@
                 modalMessage.innerText = "Đơn đăng ký của quý khách đang đợi duyệt xin vui lòng đợi giây lát ..."; // Đặt nội dung thông báo vào modal
                 modal.style.display = 'block'; // Hiển thị modal
                 const idnotify = '<%= idnotify %>'; // Thay thế giá trị idnotify nếu cần
-
-                // Kiểm tra trạng thái lưu trữ để không lặp lại kiểm tra
-                if (!sessionStorage.getItem('hasCheckedStatus')) {
-                    const checkStatusInterval = setInterval(() => {
-                        fetch(`/notify-status/${idnotify}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.isRead === true) {
-                                    clearInterval(checkStatusInterval);
-                                    sessionStorage.setItem('hasCheckedStatus', 'true');
-                                    window.location.reload();
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
+                const checkStatusInterval = setInterval(() => {
+                    fetch(`/notify-status/${idnotify}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.isRead === true) {
                                 clearInterval(checkStatusInterval);
-                            });
-                    }, 5000); // Kiểm tra mỗi 5 giây
-                }
+                                window.location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            clearInterval(checkStatusInterval);
+                        });
+                }, 5000); // Kiểm tra mỗi 5 giây
             } else if (message === 'thành công') {
                 modal.style.display = 'none';
                 if (message2 === 'hết lượt') {
