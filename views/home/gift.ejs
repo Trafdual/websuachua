@@ -7,12 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vui chơi có thưởng</title>
     <link rel="stylesheet" href="https://baominhmobile.com/css/gift.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         .modal {
             display: none;
             /* Ẩn modal mặc định */
             position: fixed;
-            z-index: 1;
+            z-index: 3;
             padding-top: 100px;
             left: 0;
             top: 0;
@@ -26,9 +27,13 @@
         .modal-content {
             background-color: #fefefe;
             margin: auto;
-            padding: 20px;
+            padding: 30px;
             border: 1px solid #888;
-            width: 80%;
+            width: 50%;
+            text-align: center;
+            margin-top: 300px;
+            font-size: 30px;
+            border-radius: 15px;
         }
     </style>
 </head>
@@ -36,7 +41,6 @@
 <body>
     <div id="messageModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
             <p id="modalMessage"></p>
         </div>
     </div>
@@ -73,7 +77,7 @@
             const modal = document.getElementById('messageModal');
             const modalMessage = document.getElementById('modalMessage');
             if (message === 'chưa được duyệt') {
-                modalMessage.innerText = "Đơn đăng ký của quý khách đang đợi duyệt xin vui lòng đợi giây lát"; // Đặt nội dung thông báo vào modal
+                modalMessage.innerText = "Đơn đăng ký của quý khách đang đợi duyệt xin vui lòng đợi giây lát ..."; // Đặt nội dung thông báo vào modal
                 modal.style.display = 'block'; // Hiển thị modal
             }
             if (message === 'thành công') {
@@ -84,7 +88,7 @@
             }
         });
     </script>
-    <script src="http://localhost:3000/js/gift.js"></script>
+    <script src="https://baominhmobile.com/js/gift.js"></script>
 </body>
 
 </html>

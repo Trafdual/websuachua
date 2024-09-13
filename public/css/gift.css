@@ -15,7 +15,9 @@ body {
     align-items: center;
     background-image: url('https://www.baominhmobile.com/images/nengift.png');
     background-size: cover;
+    font-family: "Roboto", sans-serif;
 }
+
 .container {
     display: flex;
     height: 100vh;
@@ -23,7 +25,9 @@ body {
     position: relative;
 }
 
+
 /* Phần 80% hiển thị vòng quay */
+
 .main-content {
     flex: 8;
     display: flex;
@@ -32,9 +36,11 @@ body {
     align-items: center;
     padding: 20px;
 }
+
 .info-section {
     flex: 2;
-    background: rgba(255, 255, 255, 0.8); /* Background trong suốt */
+    background: rgba(255, 255, 255, 0.8);
+    /* Background trong suốt */
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -54,13 +60,14 @@ body {
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
 }
+
 .thongtin {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.2rem;
     font-weight: 300;
     line-height: 1.4;
-    border-bottom: 0.5px solid #8a8a8a; 
-    padding: 0.5rem 0; 
+    border-bottom: 0.5px solid #8a8a8a;
+    padding: 0.5rem 0;
 }
 
 .lll {
@@ -90,6 +97,7 @@ body {
 .btn--wheel {
     width: 200px;
 }
+
 .wheel {
     position: relative;
     padding: 0;
@@ -189,7 +197,6 @@ li {
     justify-content: center;
     flex-direction: column;
 }
-
 
 button {
     display: inline-block;
