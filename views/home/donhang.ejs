@@ -200,7 +200,7 @@
         });
     </script>
     <script>
-        const socket = new WebSocket('wss://ws.baominhmobile.com');
+        const socket = new WebSocket('wss://baominhmobile.com:3005');
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
