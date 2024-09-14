@@ -682,7 +682,9 @@ router.get('/getspchitiet/:nameloaisp', function _callee18(req, res) {
           // Lấy danh sách sản phẩm và tổng số sản phẩm
 
           _context18.next = 15;
-          return regeneratorRuntime.awrap(Promise.all(loaisp.chitietsp.map(function _callee17(ct) {
+          return regeneratorRuntime.awrap(Promise.all(loaisp.chitietsp.sort(function () {
+            return Math.random() - 0.5;
+          }).map(function _callee17(ct) {
             var chitietsp;
             return regeneratorRuntime.async(function _callee17$(_context17) {
               while (1) {
@@ -2158,7 +2160,7 @@ router.get('/orders/search', function _callee56(req, res) {
           // Render HTML cho bảng kết quả tìm kiếm
           res.json({
             html: donHangIsReadTrue.map(function (row) {
-              return "\n                <tr>\n                    <td>".concat(row.tenkhach, "</td>\n                    <td><a href=\"\">").concat(row.phone, "</a></td>\n                    <td>").concat(row.email, "</td>\n                    <td>").concat(row.address, "</td>\n                    <td>").concat(row.tensp, "</td>\n                    <td>").concat(row.price, "</td>\n                    <td>").concat(moment(row.date).format('DD/MM/YYYY HH:mm:ss'), "</td>\n                    <td>\n  <form action='/deletenotify/").concat(row._id, "' method='post' id='deleteForm'>\n    <button\n      type='button'\n      class='btn btn-light'\n      data-bs-toggle='modal'\n      data-bs-target='#deletexoa").concat(row._id, "'\n    >\n      X\xF3a\n    </button>\n\n    <div\n      class='modal fade'\n      id='deletexoa").concat(row._id, "'\n      data-bs-keyboard='false'\n      aria-labelledby='staticBackdropLabel'\n    >\n      <div class='modal-dialog'>\n        <div class='modal-content'>\n          <div class='modal-header'>\n            <h1 class='modal-title fs-5' id='staticBackdropLabel'>\n              Ch\u1EAFc ch\u1EAFn mu\u1ED1n x\xF3a?\n            </h1>\n            <button\n              type='button'\n              class='btn-close'\n              data-bs-dismiss='modal'\n              aria-label='Close'\n            ></button>\n          </div>\n          <div class='modal-footer'>\n            <button\n              type='button'\n              class='btn btn-secondary'\n              data-bs-dismiss='modal'\n            >\n              Kh\xF4ng\n            </button>\n            <button type='submit' class='btn btn-primary'>\n              C\xF3\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </form>\n</td>\n                </tr>\n            ");
+              return "\n                <tr>\n                    <td>".concat(row.tenkhach, "</td>\n                    <td><a href=\"\">").concat(row.phone, "</a></td>\n                    <td>").concat(row.email, "</td>\n                    <td>").concat(row.address, "</td>\n                    <td>").concat(row.tensp, "</td>\n                    <td>").concat(row.price, "</td>\n                    <td>").concat(moment(row.date).format('DD/MM/YYYY HH:mm:ss'), "</td>\n                </tr>\n            ");
             }).join('')
           });
           _context56.next = 13;

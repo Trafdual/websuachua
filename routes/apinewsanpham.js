@@ -301,7 +301,7 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
 
     // Lấy danh sách sản phẩm và tổng số sản phẩm
     const allChitiet = await Promise.all(
-      loaisp.chitietsp.map(async ct => {
+      loaisp.chitietsp.sort(() => Math.random() - 0.5).map(async ct => {
         const chitietsp = await Sp.ChitietSp.findById(ct._id)
         return {
           _id: chitietsp._id,
@@ -905,53 +905,6 @@ router.get('/orders/search', async (req, res) => {
                     <td>${row.tensp}</td>
                     <td>${row.price}</td>
                     <td>${moment(row.date).format('DD/MM/YYYY HH:mm:ss')}</td>
-                    <td>
-  <form action='/deletenotify/${row._id}' method='post' id='deleteForm'>
-    <button
-      type='button'
-      class='btn btn-light'
-      data-bs-toggle='modal'
-      data-bs-target='#deletexoa${row._id}'
-    >
-      Xóa
-    </button>
-
-    <div
-      class='modal fade'
-      id='deletexoa${row._id}'
-      data-bs-keyboard='false'
-      aria-labelledby='staticBackdropLabel'
-    >
-      <div class='modal-dialog'>
-        <div class='modal-content'>
-          <div class='modal-header'>
-            <h1 class='modal-title fs-5' id='staticBackdropLabel'>
-              Chắc chắn muốn xóa?
-            </h1>
-            <button
-              type='button'
-              class='btn-close'
-              data-bs-dismiss='modal'
-              aria-label='Close'
-            ></button>
-          </div>
-          <div class='modal-footer'>
-            <button
-              type='button'
-              class='btn btn-secondary'
-              data-bs-dismiss='modal'
-            >
-              Không
-            </button>
-            <button type='submit' class='btn btn-primary'>
-              Có
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-</td>
                 </tr>
             `
         )
