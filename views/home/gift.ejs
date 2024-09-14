@@ -117,7 +117,7 @@
                             console.error('Error:', error);
                             clearInterval(checkStatusInterval);
                         });
-                }, 5000); // Kiểm tra mỗi 5 giây
+                }, 1000); // Kiểm tra mỗi 1 giây
             } else if (message === 'thành công') {
                 modal.style.display = 'none';
                 if (message2 === 'hết lượt') {
