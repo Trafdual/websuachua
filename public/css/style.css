@@ -442,6 +442,7 @@ h3.cart-title {
     background: var(--primary-color);
     color: var(--light-color);
     border: none;
+    margin-top: 2%;
 }
 
 .btn.btn-primary:hover {
