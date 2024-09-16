@@ -173,22 +173,23 @@ router.get('/main', checkAuth, async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    // Tải tất cả các sản phẩm và thông tin chi tiết
-    const allsp = await LoaiSP.TenSP.find().populate('chitietsp').lean()
-    // Tải các blog và sắp xếp theo thứ tự giảm dần của _id
-    const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 }).lean()
-    // Tải đánh giá
-    const danhgia = await DanhGia.danhgia.find().lean()
-    const tenloai = await LoaiSP.TenSP.find().lean()
-    const page = parseInt(req.query.page, 10) || 1 
+    const page = parseInt(req.query.page, 10) || 1
+
+    // Tải dữ liệu đồng thời
+    const [allsp, listBl, danhgia, tenloai] = await Promise.all([
+      LoaiSP.TenSP.find().populate('chitietsp').lean(),
+      myMDBlog.blogModel.find().sort({ _id: -1 }).lean(),
+      DanhGia.danhgia.find().lean(),
+      LoaiSP.TenSP.find().lean()
+    ])
 
     // Chuyển đổi dữ liệu sản phẩm
     const tenspjson = allsp.map(tensp => ({
       id: tensp._id,
       name: tensp.name,
-      chitietsp: Array.isArray(tensp.chitietsp) // Kiểm tra nếu chitietsp là một mảng
+      chitietsp: Array.isArray(tensp.chitietsp)
         ? tensp.chitietsp
-            .sort(() => Math.random() - 0.5) // Sắp xếp ngẫu nhiên nếu là mảng
+            .sort(() => Math.random() - 0.5)
             .map(chitietsp => ({
               id: chitietsp._id,
               name: chitietsp.name,
@@ -196,12 +197,12 @@ router.get('/', async (req, res) => {
               price: chitietsp.price,
               image: chitietsp.image
             }))
-        : [] // Nếu không phải mảng thì trả về mảng rỗng
+        : []
     }))
 
     // Lọc và chuyển đổi đánh giá
     const danhgiaIsReadTrue = danhgia
-      .filter(d => d.isRead === true)
+      .filter(d => d.isRead)
       .map(d => ({
         _id: d._id,
         tenkhach: d.tenkhach,
@@ -216,13 +217,13 @@ router.get('/', async (req, res) => {
       danhgiaIsReadTrue,
       tenloai,
       currentPage: page
-
     })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error.message}` })
   }
 })
+
 
 router.post('/deleteloaisp/:id', async (req, res) => {
   try {

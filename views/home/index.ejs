@@ -26,6 +26,9 @@
             .nav-search {
                 display: block;
             }
+            .searchSection {
+                display: block;
+            }
             .message-button {
                 background-color: #3498db;
                 color: white;
@@ -343,11 +346,36 @@
             #img-fluid {
                 height: 200px;
             }
+            .inputSearch {
+                font-size: 15px;
+                height: 50px;
+                border: 2px solid rgb(221, 221, 221);
+                border-top-left-radius: 15px;
+                border-bottom-left-radius: 15px;
+                padding-left: 10px;
+                transition: box-shadow 0.3s, border-color 0.3s;
+                flex: 1;
+            }
+            .inputSearch:focus {
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+                border-color: rgb(200, 0, 0);
+            }
+            .btnSearch {
+                border: none;
+                font-size: 15px;
+                border-top-right-radius: 15px;
+                border-bottom-right-radius: 15px;
+                background-color: red;
+                color: white;
+                font-weight: bold;
+                height: 50px;
+                cursor: pointer;
+            }
         }
         
         @media only screen and (min-width: 701px) {
             .nav-search {
-                display: none;
+                display: block;
             }
             .message-button {
                 background-color: #3498db;
@@ -741,6 +769,9 @@
             #img-fluid {
                 height: 200px;
             }
+            .searchSection {
+                display: none;
+            }
         }
     </style>
     <!-- script
@@ -820,6 +851,23 @@
         </form>
 
         <div class="container" style="height: 100px;"></div>
+        <section id="mobile-products" class="product-store position-relative no-padding-top section searchSection">
+            <div class="container sp">
+                <div class="row">
+                    <div class="display-header justify-content-between">
+                        <div>
+                            <h4>Tìm kiếm sản phẩm</h4>
+                            <form action="/search-products" style="display: flex;" role="search" method="get">
+                                <input class="inputSearch" type="text" placeholder="Nhập từ khóa tìm kiếm" name="query">
+                                <button class="btnSearch" type="submit">Tìm kiếm</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="overlay" class="overlay"></div>
+        </section>
+
         <section id="yearly-sale" class="bg-light-blue mt-2 mb-2 overflow-hidden sale46">
             <div class="container ">
                 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">

@@ -2,6 +2,14 @@
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 var express = require('express');
 
 var router = express.Router();
@@ -366,45 +374,35 @@ router.get('/main', checkAuth, function _callee10(req, res) {
   }, null, null, [[0, 13]]);
 });
 router.get('/', function _callee11(req, res) {
-  var allsp, listBl, danhgia, tenloai, page, tenspjson, danhgiaIsReadTrue;
+  var page, _ref, _ref2, allsp, listBl, danhgia, tenloai, tenspjson, danhgiaIsReadTrue;
+
   return regeneratorRuntime.async(function _callee11$(_context11) {
     while (1) {
       switch (_context11.prev = _context11.next) {
         case 0:
           _context11.prev = 0;
-          _context11.next = 3;
-          return regeneratorRuntime.awrap(LoaiSP.TenSP.find().populate('chitietsp').lean());
+          page = parseInt(req.query.page, 10) || 1; // Tải dữ liệu đồng thời
 
-        case 3:
-          allsp = _context11.sent;
-          _context11.next = 6;
-          return regeneratorRuntime.awrap(myMDBlog.blogModel.find().sort({
+          _context11.next = 4;
+          return regeneratorRuntime.awrap(Promise.all([LoaiSP.TenSP.find().populate('chitietsp').lean(), myMDBlog.blogModel.find().sort({
             _id: -1
-          }).lean());
+          }).lean(), DanhGia.danhgia.find().lean(), LoaiSP.TenSP.find().lean()]));
 
-        case 6:
-          listBl = _context11.sent;
-          _context11.next = 9;
-          return regeneratorRuntime.awrap(DanhGia.danhgia.find().lean());
-
-        case 9:
-          danhgia = _context11.sent;
-          _context11.next = 12;
-          return regeneratorRuntime.awrap(LoaiSP.TenSP.find().lean());
-
-        case 12:
-          tenloai = _context11.sent;
-          page = parseInt(req.query.page, 10) || 1; // Chuyển đổi dữ liệu sản phẩm
-
+        case 4:
+          _ref = _context11.sent;
+          _ref2 = _slicedToArray(_ref, 4);
+          allsp = _ref2[0];
+          listBl = _ref2[1];
+          danhgia = _ref2[2];
+          tenloai = _ref2[3];
+          // Chuyển đổi dữ liệu sản phẩm
           tenspjson = allsp.map(function (tensp) {
             return {
               id: tensp._id,
               name: tensp.name,
-              chitietsp: Array.isArray(tensp.chitietsp) // Kiểm tra nếu chitietsp là một mảng
-              ? tensp.chitietsp.sort(function () {
+              chitietsp: Array.isArray(tensp.chitietsp) ? tensp.chitietsp.sort(function () {
                 return Math.random() - 0.5;
-              }) // Sắp xếp ngẫu nhiên nếu là mảng
-              .map(function (chitietsp) {
+              }).map(function (chitietsp) {
                 return {
                   id: chitietsp._id,
                   name: chitietsp.name,
@@ -412,13 +410,12 @@ router.get('/', function _callee11(req, res) {
                   price: chitietsp.price,
                   image: chitietsp.image
                 };
-              }) : [] // Nếu không phải mảng thì trả về mảng rỗng
-
+              }) : []
             };
           }); // Lọc và chuyển đổi đánh giá
 
           danhgiaIsReadTrue = danhgia.filter(function (d) {
-            return d.isRead === true;
+            return d.isRead;
           }).map(function (d) {
             return {
               _id: d._id,
@@ -435,23 +432,23 @@ router.get('/', function _callee11(req, res) {
             tenloai: tenloai,
             currentPage: page
           });
-          _context11.next = 23;
+          _context11.next = 19;
           break;
 
-        case 19:
-          _context11.prev = 19;
+        case 15:
+          _context11.prev = 15;
           _context11.t0 = _context11["catch"](0);
           console.error(_context11.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context11.t0.message)
           });
 
-        case 23:
+        case 19:
         case "end":
           return _context11.stop();
       }
     }
-  }, null, null, [[0, 19]]);
+  }, null, null, [[0, 15]]);
 });
 router.post('/deleteloaisp/:id', function _callee13(req, res) {
   var id, xam;

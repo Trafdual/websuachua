@@ -26,6 +26,7 @@
       $(document).keyup(function(b) {
           "27" === b.which && $(".search-popup").removeClass("is-visible")
       })
+      
     }
 
     var initProductQty = function(){

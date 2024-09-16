@@ -754,6 +754,7 @@ icon messenger
     font-size: 24px;
     height: 60px;
     padding: 26px;
+    pointer-events: auto;
 }
 
 .search-popup .search-form button {
