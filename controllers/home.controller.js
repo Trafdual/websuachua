@@ -1,5 +1,6 @@
 var myMD = require("../models/sanpham.model");
 var myMDBlog = require("../models/blog.model");
+var LoaiSP=require('../models/tenSpModel')
 
 
 
@@ -56,11 +57,17 @@ exports.home2 = async (req, res, next) => {
 };
 exports.contact = async (req, res, next) => {
   let list_TL = await myMD.spModel.find();
-  res.render("home/contact.ejs", { listSP: list_TL });
+  const tenloai = await LoaiSP.TenSP.find().lean()
+const page = parseInt(req.query.page, 10) || 1
+
+  res.render("home/contact.ejs", { listSP: list_TL,tenloai,currentPage: page });
 };
 exports.thanhtoan = async (req, res, next) => {
   let list_TL = await myMD.spModel.find();
-  res.render("home/thanhtoan.ejs", { listSP: list_TL });
+  const tenloai = await LoaiSP.TenSP.find().lean()
+  const page = parseInt(req.query.page, 10) || 1
+
+  res.render("home/thanhtoan.ejs", { listSP: list_TL,tenloai,currentPage: page });
 };
 exports.searchByName = async (req, res, next) => {
   const searchQuery = req.query.search;

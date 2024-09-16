@@ -42,6 +42,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         @media only screen and (max-width: 700px) {
+            .nav-search {
+                display: block;
+            }
             .subscribe-content {
                 display: block;
             }
@@ -225,6 +228,9 @@
         }
         
         @media only screen and (min-width: 701px) {
+            .nav-search {
+                display: none;
+            }
             .message-button {
                 background-color: #3498db;
                 color: white;
@@ -476,7 +482,7 @@
               </select>
                             </div>
                         </div>
-                        <div class="product-content product-store d-flex justify-content-between flex-wrap overflow-hidden">
+                        <div class="product-content product-store d-flex flex-wrap overflow-hidden">
                             <% chitiet.forEach((product) => { %>
                                 <div style="width: 30%;" class="col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="product-card position-relative ">

@@ -366,7 +366,7 @@ router.get('/main', checkAuth, function _callee10(req, res) {
   }, null, null, [[0, 13]]);
 });
 router.get('/', function _callee11(req, res) {
-  var allsp, listBl, danhgia, tenspjson, danhgiaIsReadTrue;
+  var allsp, listBl, danhgia, tenloai, page, tenspjson, danhgiaIsReadTrue;
   return regeneratorRuntime.async(function _callee11$(_context11) {
     while (1) {
       switch (_context11.prev = _context11.next) {
@@ -389,7 +389,13 @@ router.get('/', function _callee11(req, res) {
 
         case 9:
           danhgia = _context11.sent;
-          // Chuyển đổi dữ liệu sản phẩm
+          _context11.next = 12;
+          return regeneratorRuntime.awrap(LoaiSP.TenSP.find().lean());
+
+        case 12:
+          tenloai = _context11.sent;
+          page = parseInt(req.query.page, 10) || 1; // Chuyển đổi dữ liệu sản phẩm
+
           tenspjson = allsp.map(function (tensp) {
             return {
               id: tensp._id,
@@ -425,25 +431,27 @@ router.get('/', function _callee11(req, res) {
           res.render('home/index.ejs', {
             tenspjson: tenspjson,
             listBl: listBl,
-            danhgiaIsReadTrue: danhgiaIsReadTrue
+            danhgiaIsReadTrue: danhgiaIsReadTrue,
+            tenloai: tenloai,
+            currentPage: page
           });
-          _context11.next = 19;
+          _context11.next = 23;
           break;
 
-        case 15:
-          _context11.prev = 15;
+        case 19:
+          _context11.prev = 19;
           _context11.t0 = _context11["catch"](0);
           console.error(_context11.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context11.t0.message)
           });
 
-        case 19:
+        case 23:
         case "end":
           return _context11.stop();
       }
     }
-  }, null, null, [[0, 15]]);
+  }, null, null, [[0, 19]]);
 });
 router.post('/deleteloaisp/:id', function _callee13(req, res) {
   var id, xam;
@@ -742,51 +750,133 @@ router.get('/getspchitiet/:nameloaisp', function _callee18(req, res) {
     }
   }, null, null, [[0, 22]]);
 });
-router.get('/getchitiet/:namesp/:nameloai', function _callee20(req, res) {
-  var namesp, nameloai, sp, loai, spjson, mangloai, mangjson;
-  return regeneratorRuntime.async(function _callee20$(_context20) {
+router.get('/search-products', function _callee19(req, res) {
+  var query, page, limit, skip, tenloai, searchTerms, regex, searchResults, totalProducts, totalPages;
+  return regeneratorRuntime.async(function _callee19$(_context19) {
     while (1) {
-      switch (_context20.prev = _context20.next) {
+      switch (_context19.prev = _context19.next) {
         case 0:
-          _context20.prev = 0;
+          _context19.prev = 0;
+          query = req.query.query || ''; // Từ khóa tìm kiếm
+
+          page = parseInt(req.query.page, 10) || 1; // Trang hiện tại, mặc định là 1
+
+          limit = 9; // Số sản phẩm mỗi trang
+
+          skip = (page - 1) * limit; // Số lượng sản phẩm cần bỏ qua
+
+          _context19.next = 7;
+          return regeneratorRuntime.awrap(LoaiSP.TenSP.find().lean());
+
+        case 7:
+          tenloai = _context19.sent;
+          // Phân tách từ khóa thành các phần
+          searchTerms = query.split(/\s+/).map(function (term) {
+            return term.trim();
+          }).filter(function (term) {
+            return term.length > 0;
+          });
+          regex = new RegExp(searchTerms.join('.*'), 'i'); // Biểu thức chính quy tìm kiếm các từ khóa
+          // Tìm kiếm sản phẩm dựa trên từ khóa
+
+          _context19.next = 12;
+          return regeneratorRuntime.awrap(Sp.ChitietSp.find({
+            name: {
+              $regex: regex
+            }
+          }).skip(skip).limit(limit).lean());
+
+        case 12:
+          searchResults = _context19.sent;
+          _context19.next = 15;
+          return regeneratorRuntime.awrap(Sp.ChitietSp.countDocuments({
+            name: {
+              $regex: regex
+            }
+          }));
+
+        case 15:
+          totalProducts = _context19.sent;
+          totalPages = Math.ceil(totalProducts / limit); // Render kết quả tìm kiếm
+
+          res.render('home/shop2.ejs', {
+            chitiet: searchResults,
+            tenloai: tenloai,
+            // Có thể để trống hoặc lấy dữ liệu liên quan nếu cần
+            nameloaisp: query,
+            // Truyền từ khóa tìm kiếm cho giao diện
+            totalPages: totalPages,
+            currentPage: page
+          });
+          _context19.next = 24;
+          break;
+
+        case 20:
+          _context19.prev = 20;
+          _context19.t0 = _context19["catch"](0);
+          console.error(_context19.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context19.t0)
+          });
+
+        case 24:
+        case "end":
+          return _context19.stop();
+      }
+    }
+  }, null, null, [[0, 20]]);
+});
+router.get('/getchitiet/:namesp/:nameloai', function _callee21(req, res) {
+  var namesp, nameloai, sp, tenloai, page, loai, spjson, mangloai, mangjson;
+  return regeneratorRuntime.async(function _callee21$(_context21) {
+    while (1) {
+      switch (_context21.prev = _context21.next) {
+        case 0:
+          _context21.prev = 0;
           namesp = req.params.namesp.replace(/-/g, ' ').replace(/pt/g, '%');
           nameloai = req.params.nameloai.replace(/-/g, ' ').replace(/pt/g, '%');
-          _context20.next = 5;
+          _context21.next = 5;
           return regeneratorRuntime.awrap(Sp.ChitietSp.findOne({
             name: namesp
           }));
 
         case 5:
-          sp = _context20.sent;
+          sp = _context21.sent;
+          _context21.next = 8;
+          return regeneratorRuntime.awrap(LoaiSP.TenSP.find().lean());
+
+        case 8:
+          tenloai = _context21.sent;
+          page = parseInt(req.query.page, 10) || 1;
 
           if (sp) {
-            _context20.next = 8;
+            _context21.next = 12;
             break;
           }
 
-          return _context20.abrupt("return", res.status(404).json({
+          return _context21.abrupt("return", res.status(404).json({
             message: 'Không tìm thấy sản phẩm'
           }));
 
-        case 8:
-          _context20.next = 10;
+        case 12:
+          _context21.next = 14;
           return regeneratorRuntime.awrap(LoaiSP.TenSP.findOne({
             name: nameloai
           }));
 
-        case 10:
-          loai = _context20.sent;
+        case 14:
+          loai = _context21.sent;
 
           if (loai) {
-            _context20.next = 13;
+            _context21.next = 17;
             break;
           }
 
-          return _context20.abrupt("return", res.status(404).json({
+          return _context21.abrupt("return", res.status(404).json({
             message: 'Không tìm thấy loại sản phẩm'
           }));
 
-        case 13:
+        case 17:
           spjson = {
             image: sp.image,
             name: sp.name,
@@ -802,27 +892,27 @@ router.get('/getchitiet/:namesp/:nameloai', function _callee20(req, res) {
             hang: loai.hang,
             thongtin: loai.thongtin
           };
-          _context20.next = 16;
-          return regeneratorRuntime.awrap(Promise.all(sp.chitiet.map(function _callee19(mang) {
-            return regeneratorRuntime.async(function _callee19$(_context19) {
+          _context21.next = 20;
+          return regeneratorRuntime.awrap(Promise.all(sp.chitiet.map(function _callee20(mang) {
+            return regeneratorRuntime.async(function _callee20$(_context20) {
               while (1) {
-                switch (_context19.prev = _context19.next) {
+                switch (_context20.prev = _context20.next) {
                   case 0:
-                    return _context19.abrupt("return", {
+                    return _context20.abrupt("return", {
                       name: mang.name,
                       price: mang.price
                     });
 
                   case 1:
                   case "end":
-                    return _context19.stop();
+                    return _context20.stop();
                 }
               }
             });
           })));
 
-        case 16:
-          mangloai = _context20.sent;
+        case 20:
+          mangloai = _context21.sent;
           mangjson = {
             spjson: spjson,
             mangloai: mangloai
@@ -832,70 +922,30 @@ router.get('/getchitiet/:namesp/:nameloai', function _callee20(req, res) {
           res.render('home/single-product.ejs', {
             mangjson: mangjson,
             nameloai: nameloai,
-            namesp: namesp
+            namesp: namesp,
+            tenloai: tenloai,
+            currentPage: page
           });
-          _context20.next = 25;
+          _context21.next = 29;
           break;
-
-        case 21:
-          _context20.prev = 21;
-          _context20.t0 = _context20["catch"](0);
-          console.error(_context20.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context20.t0)
-          });
 
         case 25:
-        case "end":
-          return _context20.stop();
-      }
-    }
-  }, null, null, [[0, 21]]);
-});
-router.post('/postloaichitiet/:chitietspid', function _callee21(req, res) {
-  var chitietspid, _req$body4, name, price, chitietsp;
-
-  return regeneratorRuntime.async(function _callee21$(_context21) {
-    while (1) {
-      switch (_context21.prev = _context21.next) {
-        case 0:
-          _context21.prev = 0;
-          chitietspid = req.params.chitietspid;
-          _req$body4 = req.body, name = _req$body4.name, price = _req$body4.price;
-          _context21.next = 5;
-          return regeneratorRuntime.awrap(Sp.ChitietSp.findById(chitietspid));
-
-        case 5:
-          chitietsp = _context21.sent;
-          chitietsp.chitiet.push({
-            name: name,
-            price: price
-          });
-          _context21.next = 9;
-          return regeneratorRuntime.awrap(chitietsp.save());
-
-        case 9:
-          res.redirect("/getloaichitiet/".concat(chitietspid));
-          _context21.next = 16;
-          break;
-
-        case 12:
-          _context21.prev = 12;
+          _context21.prev = 25;
           _context21.t0 = _context21["catch"](0);
           console.error(_context21.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context21.t0)
           });
 
-        case 16:
+        case 29:
         case "end":
           return _context21.stop();
       }
     }
-  }, null, null, [[0, 12]]);
+  }, null, null, [[0, 25]]);
 });
-router.post('/editloaichitiet/:chitietspid/:id', function _callee22(req, res) {
-  var chitietspid, _req$body5, name, price, chitietsp, id, index;
+router.post('/postloaichitiet/:chitietspid', function _callee22(req, res) {
+  var chitietspid, _req$body4, name, price, chitietsp;
 
   return regeneratorRuntime.async(function _callee22$(_context22) {
     while (1) {
@@ -903,102 +953,100 @@ router.post('/editloaichitiet/:chitietspid/:id', function _callee22(req, res) {
         case 0:
           _context22.prev = 0;
           chitietspid = req.params.chitietspid;
-          _req$body5 = req.body, name = _req$body5.name, price = _req$body5.price;
+          _req$body4 = req.body, name = _req$body4.name, price = _req$body4.price;
           _context22.next = 5;
           return regeneratorRuntime.awrap(Sp.ChitietSp.findById(chitietspid));
 
         case 5:
           chitietsp = _context22.sent;
-          id = req.params.id;
-          index = chitietsp.chitiet.findIndex(function (item) {
-            return item._id.toString() === id;
+          chitietsp.chitiet.push({
+            name: name,
+            price: price
           });
-
-          if (!(index !== -1)) {
-            _context22.next = 13;
-            break;
-          }
-
-          chitietsp.chitiet[index].name = name;
-          chitietsp.chitiet[index].price = price;
-          _context22.next = 14;
-          break;
-
-        case 13:
-          return _context22.abrupt("return", res.status(404).json({
-            message: 'Không tìm thấy id trong danh sách chitiet'
-          }));
-
-        case 14:
-          _context22.next = 16;
+          _context22.next = 9;
           return regeneratorRuntime.awrap(chitietsp.save());
 
-        case 16:
+        case 9:
           res.redirect("/getloaichitiet/".concat(chitietspid));
-          _context22.next = 23;
+          _context22.next = 16;
           break;
 
-        case 19:
-          _context22.prev = 19;
+        case 12:
+          _context22.prev = 12;
           _context22.t0 = _context22["catch"](0);
           console.error(_context22.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context22.t0)
           });
 
-        case 23:
+        case 16:
         case "end":
           return _context22.stop();
       }
     }
-  }, null, null, [[0, 19]]);
+  }, null, null, [[0, 12]]);
 });
-router.get('/geteditloaichitiet/:chitietspid/:id', function _callee23(req, res) {
-  var chitietspid, id, chitietsp, index, json;
+router.post('/editloaichitiet/:chitietspid/:id', function _callee23(req, res) {
+  var chitietspid, _req$body5, name, price, chitietsp, id, index;
+
   return regeneratorRuntime.async(function _callee23$(_context23) {
     while (1) {
       switch (_context23.prev = _context23.next) {
         case 0:
           _context23.prev = 0;
           chitietspid = req.params.chitietspid;
-          id = req.params.id;
+          _req$body5 = req.body, name = _req$body5.name, price = _req$body5.price;
           _context23.next = 5;
           return regeneratorRuntime.awrap(Sp.ChitietSp.findById(chitietspid));
 
         case 5:
           chitietsp = _context23.sent;
+          id = req.params.id;
           index = chitietsp.chitiet.findIndex(function (item) {
             return item._id.toString() === id;
           });
-          json = {
-            name: chitietsp.chitiet[index].name,
-            price: chitietsp.chitiet[index].price
-          };
-          res.render('home/editloaichitiet.ejs', {
-            chitietspid: chitietspid,
-            id: id,
-            json: json
-          });
-          _context23.next = 15;
+
+          if (!(index !== -1)) {
+            _context23.next = 13;
+            break;
+          }
+
+          chitietsp.chitiet[index].name = name;
+          chitietsp.chitiet[index].price = price;
+          _context23.next = 14;
           break;
 
-        case 11:
-          _context23.prev = 11;
+        case 13:
+          return _context23.abrupt("return", res.status(404).json({
+            message: 'Không tìm thấy id trong danh sách chitiet'
+          }));
+
+        case 14:
+          _context23.next = 16;
+          return regeneratorRuntime.awrap(chitietsp.save());
+
+        case 16:
+          res.redirect("/getloaichitiet/".concat(chitietspid));
+          _context23.next = 23;
+          break;
+
+        case 19:
+          _context23.prev = 19;
           _context23.t0 = _context23["catch"](0);
           console.error(_context23.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context23.t0)
           });
 
-        case 15:
+        case 23:
         case "end":
           return _context23.stop();
       }
     }
-  }, null, null, [[0, 11]]);
+  }, null, null, [[0, 19]]);
 });
-router.post('/deleteloaichitiet/:chitietspid/:id', function _callee24(req, res) {
-  var chitietspid, id, chitietsp, updatedChitiet;
+router.get('/geteditloaichitiet/:chitietspid/:id', function _callee24(req, res) {
+  var chitietspid, id, chitietsp, index, json;
   return regeneratorRuntime.async(function _callee24$(_context24) {
     while (1) {
       switch (_context24.prev = _context24.next) {
@@ -1011,38 +1059,82 @@ router.post('/deleteloaichitiet/:chitietspid/:id', function _callee24(req, res) 
 
         case 5:
           chitietsp = _context24.sent;
-          updatedChitiet = chitietsp.chitiet.filter(function (item) {
-            return item._id != id;
+          index = chitietsp.chitiet.findIndex(function (item) {
+            return item._id.toString() === id;
           });
-          chitietsp.chitiet = updatedChitiet;
-          _context24.next = 10;
-          return regeneratorRuntime.awrap(chitietsp.save());
-
-        case 10:
-          res.redirect("/getloaichitiet/".concat(chitietspid));
-          _context24.next = 17;
+          json = {
+            name: chitietsp.chitiet[index].name,
+            price: chitietsp.chitiet[index].price
+          };
+          res.render('home/editloaichitiet.ejs', {
+            chitietspid: chitietspid,
+            id: id,
+            json: json
+          });
+          _context24.next = 15;
           break;
 
-        case 13:
-          _context24.prev = 13;
+        case 11:
+          _context24.prev = 11;
           _context24.t0 = _context24["catch"](0);
           console.error(_context24.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context24.t0)
           });
 
-        case 17:
+        case 15:
         case "end":
           return _context24.stop();
       }
     }
-  }, null, null, [[0, 13]]);
+  }, null, null, [[0, 11]]);
 });
-router.get('/getaddloaichitiet/:chitietspid', function _callee25(req, res) {
-  var chitietspid;
+router.post('/deleteloaichitiet/:chitietspid/:id', function _callee25(req, res) {
+  var chitietspid, id, chitietsp, updatedChitiet;
   return regeneratorRuntime.async(function _callee25$(_context25) {
     while (1) {
       switch (_context25.prev = _context25.next) {
+        case 0:
+          _context25.prev = 0;
+          chitietspid = req.params.chitietspid;
+          id = req.params.id;
+          _context25.next = 5;
+          return regeneratorRuntime.awrap(Sp.ChitietSp.findById(chitietspid));
+
+        case 5:
+          chitietsp = _context25.sent;
+          updatedChitiet = chitietsp.chitiet.filter(function (item) {
+            return item._id != id;
+          });
+          chitietsp.chitiet = updatedChitiet;
+          _context25.next = 10;
+          return regeneratorRuntime.awrap(chitietsp.save());
+
+        case 10:
+          res.redirect("/getloaichitiet/".concat(chitietspid));
+          _context25.next = 17;
+          break;
+
+        case 13:
+          _context25.prev = 13;
+          _context25.t0 = _context25["catch"](0);
+          console.error(_context25.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context25.t0)
+          });
+
+        case 17:
+        case "end":
+          return _context25.stop();
+      }
+    }
+  }, null, null, [[0, 13]]);
+});
+router.get('/getaddloaichitiet/:chitietspid', function _callee26(req, res) {
+  var chitietspid;
+  return regeneratorRuntime.async(function _callee26$(_context26) {
+    while (1) {
+      switch (_context26.prev = _context26.next) {
         case 0:
           try {
             chitietspid = req.params.chitietspid;
@@ -1058,42 +1150,42 @@ router.get('/getaddloaichitiet/:chitietspid', function _callee25(req, res) {
 
         case 1:
         case "end":
-          return _context25.stop();
+          return _context26.stop();
       }
     }
   });
 });
-router.get('/getloaichitiet/:idsp', function _callee27(req, res) {
+router.get('/getloaichitiet/:idsp', function _callee28(req, res) {
   var idsp, sp, mangloai;
-  return regeneratorRuntime.async(function _callee27$(_context27) {
+  return regeneratorRuntime.async(function _callee28$(_context28) {
     while (1) {
-      switch (_context27.prev = _context27.next) {
+      switch (_context28.prev = _context28.next) {
         case 0:
-          _context27.prev = 0;
+          _context28.prev = 0;
           idsp = req.params.idsp;
-          _context27.next = 4;
+          _context28.next = 4;
           return regeneratorRuntime.awrap(Sp.ChitietSp.findById(idsp));
 
         case 4:
-          sp = _context27.sent;
+          sp = _context28.sent;
 
           if (sp) {
-            _context27.next = 7;
+            _context28.next = 7;
             break;
           }
 
-          return _context27.abrupt("return", res.status(404).json({
+          return _context28.abrupt("return", res.status(404).json({
             message: 'Không tìm thấy sản phẩm'
           }));
 
         case 7:
-          _context27.next = 9;
-          return regeneratorRuntime.awrap(Promise.all(sp.chitiet.map(function _callee26(mang) {
-            return regeneratorRuntime.async(function _callee26$(_context26) {
+          _context28.next = 9;
+          return regeneratorRuntime.awrap(Promise.all(sp.chitiet.map(function _callee27(mang) {
+            return regeneratorRuntime.async(function _callee27$(_context27) {
               while (1) {
-                switch (_context26.prev = _context26.next) {
+                switch (_context27.prev = _context27.next) {
                   case 0:
-                    return _context26.abrupt("return", {
+                    return _context27.abrupt("return", {
                       _id: mang._id,
                       name: mang.name,
                       price: mang.price
@@ -1101,116 +1193,53 @@ router.get('/getloaichitiet/:idsp', function _callee27(req, res) {
 
                   case 1:
                   case "end":
-                    return _context26.stop();
+                    return _context27.stop();
                 }
               }
             });
           })));
 
         case 9:
-          mangloai = _context27.sent;
+          mangloai = _context28.sent;
           // res.json(mangjson)
           res.render('home/loaichitietsp.ejs', {
             mangloai: mangloai,
             idsp: idsp
           });
-          _context27.next = 17;
+          _context28.next = 17;
           break;
 
         case 13:
-          _context27.prev = 13;
-          _context27.t0 = _context27["catch"](0);
-          console.error(_context27.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context27.t0)
-          });
-
-        case 17:
-        case "end":
-          return _context27.stop();
-      }
-    }
-  }, null, null, [[0, 13]]);
-});
-router.post('/deletechitietsp/:id', function _callee28(req, res) {
-  var id, chitietsp, loaisp;
-  return regeneratorRuntime.async(function _callee28$(_context28) {
-    while (1) {
-      switch (_context28.prev = _context28.next) {
-        case 0:
-          _context28.prev = 0;
-          id = req.params.id;
-          _context28.next = 4;
-          return regeneratorRuntime.awrap(Sp.ChitietSp.findById(id));
-
-        case 4:
-          chitietsp = _context28.sent;
-
-          if (chitietsp) {
-            _context28.next = 7;
-            break;
-          }
-
-          return _context28.abrupt("return", res.status(404).json({
-            message: 'Không tìm thấy chi tiết sản phẩm'
-          }));
-
-        case 7:
-          _context28.next = 9;
-          return regeneratorRuntime.awrap(LoaiSP.TenSP.findById(chitietsp.idloaisp));
-
-        case 9:
-          loaisp = _context28.sent;
-          loaisp.chitietsp = loaisp.chitietsp.filter(function (chitiet) {
-            return chitiet.toString() !== id;
-          });
-          _context28.next = 13;
-          return regeneratorRuntime.awrap(loaisp.save());
-
-        case 13:
-          _context28.next = 15;
-          return regeneratorRuntime.awrap(Sp.ChitietSp.deleteOne({
-            _id: id
-          }));
-
-        case 15:
-          res.redirect('/main');
-          _context28.next = 22;
-          break;
-
-        case 18:
-          _context28.prev = 18;
+          _context28.prev = 13;
           _context28.t0 = _context28["catch"](0);
           console.error(_context28.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context28.t0)
           });
 
-        case 22:
+        case 17:
         case "end":
           return _context28.stop();
       }
     }
-  }, null, null, [[0, 18]]);
+  }, null, null, [[0, 13]]);
 });
-router.post('/updatechitietsp/:id', function _callee29(req, res) {
-  var id, _req$body6, name, content, price, chitietsp;
-
+router.post('/deletechitietsp/:id', function _callee29(req, res) {
+  var id, chitietsp, loaisp;
   return regeneratorRuntime.async(function _callee29$(_context29) {
     while (1) {
       switch (_context29.prev = _context29.next) {
         case 0:
           _context29.prev = 0;
           id = req.params.id;
-          _req$body6 = req.body, name = _req$body6.name, content = _req$body6.content, price = _req$body6.price;
-          _context29.next = 5;
+          _context29.next = 4;
           return regeneratorRuntime.awrap(Sp.ChitietSp.findById(id));
 
-        case 5:
+        case 4:
           chitietsp = _context29.sent;
 
           if (chitietsp) {
-            _context29.next = 8;
+            _context29.next = 7;
             break;
           }
 
@@ -1218,93 +1247,156 @@ router.post('/updatechitietsp/:id', function _callee29(req, res) {
             message: 'Không tìm thấy chi tiết sản phẩm'
           }));
 
-        case 8:
-          chitietsp.content = content;
-          chitietsp.price = price;
-          chitietsp.name = name;
+        case 7:
+          _context29.next = 9;
+          return regeneratorRuntime.awrap(LoaiSP.TenSP.findById(chitietsp.idloaisp));
+
+        case 9:
+          loaisp = _context29.sent;
+          loaisp.chitietsp = loaisp.chitietsp.filter(function (chitiet) {
+            return chitiet.toString() !== id;
+          });
           _context29.next = 13;
-          return regeneratorRuntime.awrap(chitietsp.save());
+          return regeneratorRuntime.awrap(loaisp.save());
 
         case 13:
+          _context29.next = 15;
+          return regeneratorRuntime.awrap(Sp.ChitietSp.deleteOne({
+            _id: id
+          }));
+
+        case 15:
           res.redirect('/main');
-          _context29.next = 20;
+          _context29.next = 22;
           break;
 
-        case 16:
-          _context29.prev = 16;
+        case 18:
+          _context29.prev = 18;
           _context29.t0 = _context29["catch"](0);
           console.error(_context29.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context29.t0)
           });
 
-        case 20:
+        case 22:
         case "end":
           return _context29.stop();
       }
     }
-  }, null, null, [[0, 16]]);
+  }, null, null, [[0, 18]]);
 });
-router.get('/editsp/:id', function _callee30(req, res) {
-  var id, sp;
+router.post('/updatechitietsp/:id', function _callee30(req, res) {
+  var id, _req$body6, name, content, price, chitietsp;
+
   return regeneratorRuntime.async(function _callee30$(_context30) {
     while (1) {
       switch (_context30.prev = _context30.next) {
         case 0:
           _context30.prev = 0;
           id = req.params.id;
-          _context30.next = 4;
+          _req$body6 = req.body, name = _req$body6.name, content = _req$body6.content, price = _req$body6.price;
+          _context30.next = 5;
           return regeneratorRuntime.awrap(Sp.ChitietSp.findById(id));
 
-        case 4:
-          sp = _context30.sent;
-          res.render('home/edit.ejs', {
-            sp: sp
-          });
-          _context30.next = 12;
-          break;
+        case 5:
+          chitietsp = _context30.sent;
+
+          if (chitietsp) {
+            _context30.next = 8;
+            break;
+          }
+
+          return _context30.abrupt("return", res.status(404).json({
+            message: 'Không tìm thấy chi tiết sản phẩm'
+          }));
 
         case 8:
-          _context30.prev = 8;
+          chitietsp.content = content;
+          chitietsp.price = price;
+          chitietsp.name = name;
+          _context30.next = 13;
+          return regeneratorRuntime.awrap(chitietsp.save());
+
+        case 13:
+          res.redirect('/main');
+          _context30.next = 20;
+          break;
+
+        case 16:
+          _context30.prev = 16;
           _context30.t0 = _context30["catch"](0);
           console.error(_context30.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context30.t0)
           });
 
-        case 12:
+        case 20:
         case "end":
           return _context30.stop();
       }
     }
+  }, null, null, [[0, 16]]);
+});
+router.get('/editsp/:id', function _callee31(req, res) {
+  var id, sp;
+  return regeneratorRuntime.async(function _callee31$(_context31) {
+    while (1) {
+      switch (_context31.prev = _context31.next) {
+        case 0:
+          _context31.prev = 0;
+          id = req.params.id;
+          _context31.next = 4;
+          return regeneratorRuntime.awrap(Sp.ChitietSp.findById(id));
+
+        case 4:
+          sp = _context31.sent;
+          res.render('home/edit.ejs', {
+            sp: sp
+          });
+          _context31.next = 12;
+          break;
+
+        case 8:
+          _context31.prev = 8;
+          _context31.t0 = _context31["catch"](0);
+          console.error(_context31.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context31.t0)
+          });
+
+        case 12:
+        case "end":
+          return _context31.stop();
+      }
+    }
   }, null, null, [[0, 8]]);
 });
-router.get('/suachua', function _callee33(req, res) {
+router.get('/suachua', function _callee34(req, res) {
   var loailinhkien, loailinhkienjson;
-  return regeneratorRuntime.async(function _callee33$(_context33) {
+  return regeneratorRuntime.async(function _callee34$(_context34) {
     while (1) {
-      switch (_context33.prev = _context33.next) {
+      switch (_context34.prev = _context34.next) {
         case 0:
-          _context33.prev = 0;
-          _context33.next = 3;
+          _context34.prev = 0;
+          _context34.next = 3;
           return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.find().populate('linhkien'));
 
         case 3:
-          loailinhkien = _context33.sent;
-          _context33.next = 6;
-          return regeneratorRuntime.awrap(Promise.all(loailinhkien.map(function _callee32(loai) {
+          loailinhkien = _context34.sent;
+          _context34.next = 6;
+          return regeneratorRuntime.awrap(Promise.all(loailinhkien.map(function _callee33(loai) {
             var linkkienJson;
-            return regeneratorRuntime.async(function _callee32$(_context32) {
+            return regeneratorRuntime.async(function _callee33$(_context33) {
               while (1) {
-                switch (_context32.prev = _context32.next) {
+                switch (_context33.prev = _context33.next) {
                   case 0:
-                    _context32.next = 2;
-                    return regeneratorRuntime.awrap(Promise.all(loai.linhkien.map(function _callee31(lk) {
-                      return regeneratorRuntime.async(function _callee31$(_context31) {
+                    _context33.next = 2;
+                    return regeneratorRuntime.awrap(Promise.all(loai.linhkien.map(function _callee32(lk) {
+                      return regeneratorRuntime.async(function _callee32$(_context32) {
                         while (1) {
-                          switch (_context31.prev = _context31.next) {
+                          switch (_context32.prev = _context32.next) {
                             case 0:
-                              return _context31.abrupt("return", {
+                              return _context32.abrupt("return", {
                                 id: lk._id,
                                 name: lk.name,
                                 price: lk.price,
@@ -1313,15 +1405,15 @@ router.get('/suachua', function _callee33(req, res) {
 
                             case 1:
                             case "end":
-                              return _context31.stop();
+                              return _context32.stop();
                           }
                         }
                       });
                     })));
 
                   case 2:
-                    linkkienJson = _context32.sent;
-                    return _context32.abrupt("return", {
+                    linkkienJson = _context33.sent;
+                    return _context33.abrupt("return", {
                       id: loai._id,
                       name: loai.name,
                       linkkienJson: linkkienJson
@@ -1329,51 +1421,51 @@ router.get('/suachua', function _callee33(req, res) {
 
                   case 4:
                   case "end":
-                    return _context32.stop();
+                    return _context33.stop();
                 }
               }
             });
           })));
 
         case 6:
-          loailinhkienjson = _context33.sent;
+          loailinhkienjson = _context34.sent;
           // res.json(loailinhkienjson)
           res.render('home/linkkien.ejs', {
             loailinhkienjson: loailinhkienjson
           });
-          _context33.next = 14;
+          _context34.next = 14;
           break;
 
         case 10:
-          _context33.prev = 10;
-          _context33.t0 = _context33["catch"](0);
-          console.error(_context33.t0);
+          _context34.prev = 10;
+          _context34.t0 = _context34["catch"](0);
+          console.error(_context34.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context33.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context34.t0)
           });
 
         case 14:
         case "end":
-          return _context33.stop();
+          return _context34.stop();
       }
     }
   }, null, null, [[0, 10]]);
 });
-router.post('/postlinkkien/:idloailinkkien', upload.single('image'), function _callee34(req, res) {
+router.post('/postlinkkien/:idloailinkkien', upload.single('image'), function _callee35(req, res) {
   var _req$body7, name, price, idloailinkkien, loailinhkien, image, linkkien;
 
-  return regeneratorRuntime.async(function _callee34$(_context34) {
+  return regeneratorRuntime.async(function _callee35$(_context35) {
     while (1) {
-      switch (_context34.prev = _context34.next) {
+      switch (_context35.prev = _context35.next) {
         case 0:
-          _context34.prev = 0;
+          _context35.prev = 0;
           _req$body7 = req.body, name = _req$body7.name, price = _req$body7.price;
           idloailinkkien = req.params.idloailinkkien;
-          _context34.next = 5;
+          _context35.next = 5;
           return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(idloailinkkien));
 
         case 5:
-          loailinhkien = _context34.sent;
+          loailinhkien = _context35.sent;
           image = req.file.buffer.toString('base64');
           linkkien = new LinkKien.linkkien({
             name: name,
@@ -1383,38 +1475,38 @@ router.post('/postlinkkien/:idloailinkkien', upload.single('image'), function _c
           linkkien.loailinhkien = loailinhkien._id;
           linkkien.loai = loailinhkien.name;
           loailinhkien.linhkien.push(linkkien._id);
-          _context34.next = 13;
+          _context35.next = 13;
           return regeneratorRuntime.awrap(linkkien.save());
 
         case 13:
-          _context34.next = 15;
+          _context35.next = 15;
           return regeneratorRuntime.awrap(loailinhkien.save());
 
         case 15:
           res.redirect("/linhkien/".concat(idloailinkkien));
-          _context34.next = 22;
+          _context35.next = 22;
           break;
 
         case 18:
-          _context34.prev = 18;
-          _context34.t0 = _context34["catch"](0);
-          console.error(_context34.t0);
+          _context35.prev = 18;
+          _context35.t0 = _context35["catch"](0);
+          console.error(_context35.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context34.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context35.t0)
           });
 
         case 22:
         case "end":
-          return _context34.stop();
+          return _context35.stop();
       }
     }
   }, null, null, [[0, 18]]);
 });
-router.get('/addlinhkien/:id', function _callee35(req, res) {
+router.get('/addlinhkien/:id', function _callee36(req, res) {
   var id;
-  return regeneratorRuntime.async(function _callee35$(_context35) {
+  return regeneratorRuntime.async(function _callee36$(_context36) {
     while (1) {
-      switch (_context35.prev = _context35.next) {
+      switch (_context36.prev = _context36.next) {
         case 0:
           try {
             id = req.params.id;
@@ -1430,265 +1522,265 @@ router.get('/addlinhkien/:id', function _callee35(req, res) {
 
         case 1:
         case "end":
-          return _context35.stop();
+          return _context36.stop();
       }
     }
   });
 });
-router.get('/editlinhkien/:id', function _callee36(req, res) {
+router.get('/editlinhkien/:id', function _callee37(req, res) {
   var id, linhkien;
-  return regeneratorRuntime.async(function _callee36$(_context36) {
-    while (1) {
-      switch (_context36.prev = _context36.next) {
-        case 0:
-          _context36.prev = 0;
-          id = req.params.id;
-          _context36.next = 4;
-          return regeneratorRuntime.awrap(LinkKien.linkkien.findById(id));
-
-        case 4:
-          linhkien = _context36.sent;
-          res.render('home/editlinhkien.ejs', {
-            linhkien: linhkien,
-            id: id
-          });
-          _context36.next = 12;
-          break;
-
-        case 8:
-          _context36.prev = 8;
-          _context36.t0 = _context36["catch"](0);
-          console.error(_context36.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context36.t0)
-          });
-
-        case 12:
-        case "end":
-          return _context36.stop();
-      }
-    }
-  }, null, null, [[0, 8]]);
-});
-router.post('/putlinhkien/:id', function _callee37(req, res) {
-  var id, _req$body8, name, price, linhkien;
-
   return regeneratorRuntime.async(function _callee37$(_context37) {
     while (1) {
       switch (_context37.prev = _context37.next) {
         case 0:
           _context37.prev = 0;
           id = req.params.id;
-          _req$body8 = req.body, name = _req$body8.name, price = _req$body8.price;
-          _context37.next = 5;
+          _context37.next = 4;
           return regeneratorRuntime.awrap(LinkKien.linkkien.findById(id));
 
-        case 5:
+        case 4:
           linhkien = _context37.sent;
-          linhkien.name = name;
-          linhkien.price = price;
-          _context37.next = 10;
-          return regeneratorRuntime.awrap(linhkien.save());
-
-        case 10:
-          res.redirect("/linhkien/".concat(linhkien.loailinhkien));
-          _context37.next = 17;
+          res.render('home/editlinhkien.ejs', {
+            linhkien: linhkien,
+            id: id
+          });
+          _context37.next = 12;
           break;
 
-        case 13:
-          _context37.prev = 13;
+        case 8:
+          _context37.prev = 8;
           _context37.t0 = _context37["catch"](0);
           console.error(_context37.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context37.t0)
           });
 
-        case 17:
+        case 12:
         case "end":
           return _context37.stop();
       }
     }
-  }, null, null, [[0, 13]]);
+  }, null, null, [[0, 8]]);
 });
-router.post('/deletelk/:id', function _callee38(req, res) {
-  var id, linhkien, loailinhkien;
+router.post('/putlinhkien/:id', function _callee38(req, res) {
+  var id, _req$body8, name, price, linhkien;
+
   return regeneratorRuntime.async(function _callee38$(_context38) {
     while (1) {
       switch (_context38.prev = _context38.next) {
         case 0:
           _context38.prev = 0;
           id = req.params.id;
-          _context38.next = 4;
+          _req$body8 = req.body, name = _req$body8.name, price = _req$body8.price;
+          _context38.next = 5;
           return regeneratorRuntime.awrap(LinkKien.linkkien.findById(id));
 
-        case 4:
+        case 5:
           linhkien = _context38.sent;
-          _context38.next = 7;
-          return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(linhkien.loailinhkien));
+          linhkien.name = name;
+          linhkien.price = price;
+          _context38.next = 10;
+          return regeneratorRuntime.awrap(linhkien.save());
 
-        case 7:
-          loailinhkien = _context38.sent;
-          loailinhkien.linhkien = loailinhkien.linhkien.filter(function (chitiet) {
-            return chitiet.toString() !== id;
-          });
-          _context38.next = 11;
-          return regeneratorRuntime.awrap(loailinhkien.save());
-
-        case 11:
-          _context38.next = 13;
-          return regeneratorRuntime.awrap(LinkKien.linkkien.deleteOne({
-            _id: id
-          }));
-
-        case 13:
+        case 10:
           res.redirect("/linhkien/".concat(linhkien.loailinhkien));
-          _context38.next = 20;
+          _context38.next = 17;
           break;
 
-        case 16:
-          _context38.prev = 16;
+        case 13:
+          _context38.prev = 13;
           _context38.t0 = _context38["catch"](0);
           console.error(_context38.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context38.t0)
           });
 
-        case 20:
+        case 17:
         case "end":
           return _context38.stop();
       }
     }
-  }, null, null, [[0, 16]]);
+  }, null, null, [[0, 13]]);
 });
-router.post('/postloailinkien', function _callee39(req, res) {
-  var name, loailinkkien;
+router.post('/deletelk/:id', function _callee39(req, res) {
+  var id, linhkien, loailinhkien;
   return regeneratorRuntime.async(function _callee39$(_context39) {
     while (1) {
       switch (_context39.prev = _context39.next) {
         case 0:
           _context39.prev = 0;
-          name = req.body.name;
-          loailinkkien = new LoaiLinkKien.loailinkkien({
-            name: name
-          });
-          _context39.next = 5;
-          return regeneratorRuntime.awrap(loailinkkien.save());
+          id = req.params.id;
+          _context39.next = 4;
+          return regeneratorRuntime.awrap(LinkKien.linkkien.findById(id));
 
-        case 5:
-          res.redirect('/main');
-          _context39.next = 12;
+        case 4:
+          linhkien = _context39.sent;
+          _context39.next = 7;
+          return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(linhkien.loailinhkien));
+
+        case 7:
+          loailinhkien = _context39.sent;
+          loailinhkien.linhkien = loailinhkien.linhkien.filter(function (chitiet) {
+            return chitiet.toString() !== id;
+          });
+          _context39.next = 11;
+          return regeneratorRuntime.awrap(loailinhkien.save());
+
+        case 11:
+          _context39.next = 13;
+          return regeneratorRuntime.awrap(LinkKien.linkkien.deleteOne({
+            _id: id
+          }));
+
+        case 13:
+          res.redirect("/linhkien/".concat(linhkien.loailinhkien));
+          _context39.next = 20;
           break;
 
-        case 8:
-          _context39.prev = 8;
+        case 16:
+          _context39.prev = 16;
           _context39.t0 = _context39["catch"](0);
           console.error(_context39.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context39.t0)
           });
 
-        case 12:
+        case 20:
         case "end":
           return _context39.stop();
       }
     }
-  }, null, null, [[0, 8]]);
+  }, null, null, [[0, 16]]);
 });
-router.post('/putloailk/:id', function _callee40(req, res) {
-  var id, name, loailinhkien;
+router.post('/postloailinkien', function _callee40(req, res) {
+  var name, loailinkkien;
   return regeneratorRuntime.async(function _callee40$(_context40) {
     while (1) {
       switch (_context40.prev = _context40.next) {
         case 0:
           _context40.prev = 0;
-          id = req.params.id;
           name = req.body.name;
+          loailinkkien = new LoaiLinkKien.loailinkkien({
+            name: name
+          });
           _context40.next = 5;
-          return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(id));
+          return regeneratorRuntime.awrap(loailinkkien.save());
 
         case 5:
-          loailinhkien = _context40.sent;
-          loailinhkien.name = name;
-          _context40.next = 9;
-          return regeneratorRuntime.awrap(loailinhkien.save());
-
-        case 9:
           res.redirect('/main');
-          _context40.next = 16;
+          _context40.next = 12;
           break;
 
-        case 12:
-          _context40.prev = 12;
+        case 8:
+          _context40.prev = 8;
           _context40.t0 = _context40["catch"](0);
           console.error(_context40.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context40.t0)
           });
 
-        case 16:
+        case 12:
         case "end":
           return _context40.stop();
       }
     }
+  }, null, null, [[0, 8]]);
+});
+router.post('/putloailk/:id', function _callee41(req, res) {
+  var id, name, loailinhkien;
+  return regeneratorRuntime.async(function _callee41$(_context41) {
+    while (1) {
+      switch (_context41.prev = _context41.next) {
+        case 0:
+          _context41.prev = 0;
+          id = req.params.id;
+          name = req.body.name;
+          _context41.next = 5;
+          return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(id));
+
+        case 5:
+          loailinhkien = _context41.sent;
+          loailinhkien.name = name;
+          _context41.next = 9;
+          return regeneratorRuntime.awrap(loailinhkien.save());
+
+        case 9:
+          res.redirect('/main');
+          _context41.next = 16;
+          break;
+
+        case 12:
+          _context41.prev = 12;
+          _context41.t0 = _context41["catch"](0);
+          console.error(_context41.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context41.t0)
+          });
+
+        case 16:
+        case "end":
+          return _context41.stop();
+      }
+    }
   }, null, null, [[0, 12]]);
 });
-router.post('/deleteloailk/:id', function _callee42(req, res) {
+router.post('/deleteloailk/:id', function _callee43(req, res) {
   var id, loailinhkien;
-  return regeneratorRuntime.async(function _callee42$(_context42) {
+  return regeneratorRuntime.async(function _callee43$(_context43) {
     while (1) {
-      switch (_context42.prev = _context42.next) {
+      switch (_context43.prev = _context43.next) {
         case 0:
-          _context42.prev = 0;
+          _context43.prev = 0;
           id = req.params.id;
-          _context42.next = 4;
+          _context43.next = 4;
           return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(id));
 
         case 4:
-          loailinhkien = _context42.sent;
-          Promise.all(loailinhkien.linhkien.map(function _callee41(linhkien) {
-            return regeneratorRuntime.async(function _callee41$(_context41) {
+          loailinhkien = _context43.sent;
+          Promise.all(loailinhkien.linhkien.map(function _callee42(linhkien) {
+            return regeneratorRuntime.async(function _callee42$(_context42) {
               while (1) {
-                switch (_context41.prev = _context41.next) {
+                switch (_context42.prev = _context42.next) {
                   case 0:
-                    _context41.next = 2;
+                    _context42.next = 2;
                     return regeneratorRuntime.awrap(LinkKien.linkkien.findByIdAndDelete(linhkien._id));
 
                   case 2:
                   case "end":
-                    return _context41.stop();
+                    return _context42.stop();
                 }
               }
             });
           }));
-          _context42.next = 8;
+          _context43.next = 8;
           return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.deleteOne({
             _id: id
           }));
 
         case 8:
           res.redirect('/main');
-          _context42.next = 15;
+          _context43.next = 15;
           break;
 
         case 11:
-          _context42.prev = 11;
-          _context42.t0 = _context42["catch"](0);
-          console.error(_context42.t0);
+          _context43.prev = 11;
+          _context43.t0 = _context43["catch"](0);
+          console.error(_context43.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context42.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context43.t0)
           });
 
         case 15:
         case "end":
-          return _context42.stop();
+          return _context43.stop();
       }
     }
   }, null, null, [[0, 11]]);
 });
-router.get('/addloailk', function _callee43(req, res) {
-  return regeneratorRuntime.async(function _callee43$(_context43) {
+router.get('/addloailk', function _callee44(req, res) {
+  return regeneratorRuntime.async(function _callee44$(_context44) {
     while (1) {
-      switch (_context43.prev = _context43.next) {
+      switch (_context44.prev = _context44.next) {
         case 0:
           try {
             res.render('home/addloailinhkien.ejs');
@@ -1701,72 +1793,72 @@ router.get('/addloailk', function _callee43(req, res) {
 
         case 1:
         case "end":
-          return _context43.stop();
+          return _context44.stop();
       }
     }
   });
 });
-router.get('/editloailk/:id', function _callee44(req, res) {
+router.get('/editloailk/:id', function _callee45(req, res) {
   var id, loailinhkien;
-  return regeneratorRuntime.async(function _callee44$(_context44) {
+  return regeneratorRuntime.async(function _callee45$(_context45) {
     while (1) {
-      switch (_context44.prev = _context44.next) {
+      switch (_context45.prev = _context45.next) {
         case 0:
-          _context44.prev = 0;
+          _context45.prev = 0;
           id = req.params.id;
-          _context44.next = 4;
+          _context45.next = 4;
           return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(id));
 
         case 4:
-          loailinhkien = _context44.sent;
+          loailinhkien = _context45.sent;
           res.render('home/editloailinhkien.ejs', {
             id: id,
             loailinhkien: loailinhkien
           });
-          _context44.next = 12;
+          _context45.next = 12;
           break;
 
         case 8:
-          _context44.prev = 8;
-          _context44.t0 = _context44["catch"](0);
-          console.error(_context44.t0);
+          _context45.prev = 8;
+          _context45.t0 = _context45["catch"](0);
+          console.error(_context45.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context44.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context45.t0)
           });
 
         case 12:
         case "end":
-          return _context44.stop();
+          return _context45.stop();
       }
     }
   }, null, null, [[0, 8]]);
 });
-router.get('/linhkien/:id', function _callee46(req, res) {
+router.get('/linhkien/:id', function _callee47(req, res) {
   var id, loailinhkien, linhkienjson;
-  return regeneratorRuntime.async(function _callee46$(_context46) {
+  return regeneratorRuntime.async(function _callee47$(_context47) {
     while (1) {
-      switch (_context46.prev = _context46.next) {
+      switch (_context47.prev = _context47.next) {
         case 0:
-          _context46.prev = 0;
+          _context47.prev = 0;
           id = req.params.id;
-          _context46.next = 4;
+          _context47.next = 4;
           return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(id));
 
         case 4:
-          loailinhkien = _context46.sent;
-          _context46.next = 7;
-          return regeneratorRuntime.awrap(Promise.all(loailinhkien.linhkien.map(function _callee45(lk) {
+          loailinhkien = _context47.sent;
+          _context47.next = 7;
+          return regeneratorRuntime.awrap(Promise.all(loailinhkien.linhkien.map(function _callee46(lk) {
             var linhkien;
-            return regeneratorRuntime.async(function _callee45$(_context45) {
+            return regeneratorRuntime.async(function _callee46$(_context46) {
               while (1) {
-                switch (_context45.prev = _context45.next) {
+                switch (_context46.prev = _context46.next) {
                   case 0:
-                    _context45.next = 2;
+                    _context46.next = 2;
                     return regeneratorRuntime.awrap(LinkKien.linkkien.findById(lk._id));
 
                   case 2:
-                    linhkien = _context45.sent;
-                    return _context45.abrupt("return", {
+                    linhkien = _context46.sent;
+                    return _context46.abrupt("return", {
                       _id: linhkien.id,
                       name: linhkien.name,
                       price: linhkien.price,
@@ -1776,148 +1868,156 @@ router.get('/linhkien/:id', function _callee46(req, res) {
 
                   case 4:
                   case "end":
-                    return _context45.stop();
+                    return _context46.stop();
                 }
               }
             });
           })));
 
         case 7:
-          linhkienjson = _context46.sent;
+          linhkienjson = _context47.sent;
           res.render('home/linhkienmain.ejs', {
             linhkienjson: linhkienjson,
             id: id
           });
-          _context46.next = 15;
+          _context47.next = 15;
           break;
 
         case 11:
-          _context46.prev = 11;
-          _context46.t0 = _context46["catch"](0);
-          console.error(_context46.t0);
+          _context47.prev = 11;
+          _context47.t0 = _context47["catch"](0);
+          console.error(_context47.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context46.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context47.t0)
           });
 
         case 15:
         case "end":
-          return _context46.stop();
+          return _context47.stop();
       }
     }
   }, null, null, [[0, 11]]);
 });
-router.get('/xemlinhkien/:id', function _callee48(req, res) {
+router.get('/xemlinhkien/:id', function _callee49(req, res) {
   var id, loailinhkien, linhkienjson;
-  return regeneratorRuntime.async(function _callee48$(_context48) {
-    while (1) {
-      switch (_context48.prev = _context48.next) {
-        case 0:
-          _context48.prev = 0;
-          id = req.params.id;
-          _context48.next = 4;
-          return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(id));
-
-        case 4:
-          loailinhkien = _context48.sent;
-          _context48.next = 7;
-          return regeneratorRuntime.awrap(Promise.all(loailinhkien.linhkien.map(function _callee47(lk) {
-            var linhkien;
-            return regeneratorRuntime.async(function _callee47$(_context47) {
-              while (1) {
-                switch (_context47.prev = _context47.next) {
-                  case 0:
-                    _context47.next = 2;
-                    return regeneratorRuntime.awrap(LinkKien.linkkien.findById(lk._id));
-
-                  case 2:
-                    linhkien = _context47.sent;
-                    return _context47.abrupt("return", {
-                      _id: linhkien.id,
-                      name: linhkien.name,
-                      price: linhkien.price,
-                      image: linhkien.image,
-                      loai: linhkien.loai
-                    });
-
-                  case 4:
-                  case "end":
-                    return _context47.stop();
-                }
-              }
-            });
-          })));
-
-        case 7:
-          linhkienjson = _context48.sent;
-          res.render('home/xemlinhkien.ejs', {
-            linhkienjson: linhkienjson,
-            id: id
-          });
-          _context48.next = 15;
-          break;
-
-        case 11:
-          _context48.prev = 11;
-          _context48.t0 = _context48["catch"](0);
-          console.error(_context48.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context48.t0)
-          });
-
-        case 15:
-        case "end":
-          return _context48.stop();
-      }
-    }
-  }, null, null, [[0, 11]]);
-});
-router.get('/muangay/:idsp', function _callee49(req, res) {
-  var idsp, sp, spjson;
   return regeneratorRuntime.async(function _callee49$(_context49) {
     while (1) {
       switch (_context49.prev = _context49.next) {
         case 0:
           _context49.prev = 0;
-          idsp = req.params.idsp;
+          id = req.params.id;
           _context49.next = 4;
-          return regeneratorRuntime.awrap(Sp.ChitietSp.findById(idsp));
+          return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(id));
 
         case 4:
-          sp = _context49.sent;
-          spjson = {
-            name: sp.name,
-            price: sp.price
-          }; // res.json(spjson)
+          loailinhkien = _context49.sent;
+          _context49.next = 7;
+          return regeneratorRuntime.awrap(Promise.all(loailinhkien.linhkien.map(function _callee48(lk) {
+            var linhkien;
+            return regeneratorRuntime.async(function _callee48$(_context48) {
+              while (1) {
+                switch (_context48.prev = _context48.next) {
+                  case 0:
+                    _context48.next = 2;
+                    return regeneratorRuntime.awrap(LinkKien.linkkien.findById(lk._id));
 
-          res.render('home/formmua.ejs', {
-            spjson: spjson
+                  case 2:
+                    linhkien = _context48.sent;
+                    return _context48.abrupt("return", {
+                      _id: linhkien.id,
+                      name: linhkien.name,
+                      price: linhkien.price,
+                      image: linhkien.image,
+                      loai: linhkien.loai
+                    });
+
+                  case 4:
+                  case "end":
+                    return _context48.stop();
+                }
+              }
+            });
+          })));
+
+        case 7:
+          linhkienjson = _context49.sent;
+          res.render('home/xemlinhkien.ejs', {
+            linhkienjson: linhkienjson,
+            id: id
           });
-          _context49.next = 13;
+          _context49.next = 15;
           break;
 
-        case 9:
-          _context49.prev = 9;
+        case 11:
+          _context49.prev = 11;
           _context49.t0 = _context49["catch"](0);
           console.error(_context49.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context49.t0)
           });
 
-        case 13:
+        case 15:
         case "end":
           return _context49.stop();
       }
     }
-  }, null, null, [[0, 9]]);
+  }, null, null, [[0, 11]]);
 });
-router.post('/postnotify', function _callee50(req, res) {
-  var _req$body9, tenkhach, phone, email, tensp, price, address, vietnamTime, notify, sp;
-
+router.get('/muangay/:idsp', function _callee50(req, res) {
+  var idsp, sp, tenloai, page, spjson;
   return regeneratorRuntime.async(function _callee50$(_context50) {
     while (1) {
       switch (_context50.prev = _context50.next) {
         case 0:
           _context50.prev = 0;
+          idsp = req.params.idsp;
+          _context50.next = 4;
+          return regeneratorRuntime.awrap(Sp.ChitietSp.findById(idsp));
+
+        case 4:
+          sp = _context50.sent;
+          _context50.next = 7;
+          return regeneratorRuntime.awrap(LoaiSP.TenSP.find().lean());
+
+        case 7:
+          tenloai = _context50.sent;
+          page = parseInt(req.query.page, 10) || 1;
+          spjson = {
+            name: sp.name,
+            price: sp.price
+          }; // res.json(spjson)
+
+          res.render('home/formmua.ejs', {
+            spjson: spjson,
+            tenloai: tenloai,
+            currentPage: page
+          });
+          _context50.next = 17;
+          break;
+
+        case 13:
+          _context50.prev = 13;
+          _context50.t0 = _context50["catch"](0);
+          console.error(_context50.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context50.t0)
+          });
+
+        case 17:
+        case "end":
+          return _context50.stop();
+      }
+    }
+  }, null, null, [[0, 13]]);
+});
+router.post('/postnotify', function _callee51(req, res) {
+  var _req$body9, tenkhach, phone, email, tensp, price, address, vietnamTime, notify, sp;
+
+  return regeneratorRuntime.async(function _callee51$(_context51) {
+    while (1) {
+      switch (_context51.prev = _context51.next) {
+        case 0:
+          _context51.prev = 0;
           _req$body9 = req.body, tenkhach = _req$body9.tenkhach, phone = _req$body9.phone, email = _req$body9.email, tensp = _req$body9.tensp, price = _req$body9.price, address = _req$body9.address;
           vietnamTime = momenttimezone().toDate();
           notify = new Notify.notify({
@@ -1928,62 +2028,62 @@ router.post('/postnotify', function _callee50(req, res) {
             price: price,
             address: address
           });
-          _context50.next = 6;
+          _context51.next = 6;
           return regeneratorRuntime.awrap(Sp.ChitietSp.findOne({
             name: tensp
           }));
 
         case 6:
-          sp = _context50.sent;
+          sp = _context51.sent;
           notify.idsp = sp._id;
           notify.date = vietnamTime;
-          _context50.next = 11;
+          _context51.next = 11;
           return regeneratorRuntime.awrap(notify.save());
 
         case 11:
           setTimeout(function () {
             res.redirect('/form');
           }, 2000);
-          _context50.next = 18;
+          _context51.next = 18;
           break;
 
         case 14:
-          _context50.prev = 14;
-          _context50.t0 = _context50["catch"](0);
-          console.error(_context50.t0);
+          _context51.prev = 14;
+          _context51.t0 = _context51["catch"](0);
+          console.error(_context51.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context50.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context51.t0)
           });
 
         case 18:
         case "end":
-          return _context50.stop();
+          return _context51.stop();
       }
     }
   }, null, null, [[0, 14]]);
 });
-router.get('/form', function _callee51(req, res) {
-  return regeneratorRuntime.async(function _callee51$(_context51) {
+router.get('/form', function _callee52(req, res) {
+  return regeneratorRuntime.async(function _callee52$(_context52) {
     while (1) {
-      switch (_context51.prev = _context51.next) {
+      switch (_context52.prev = _context52.next) {
         case 0:
           res.render('home/baominh.ejs');
 
         case 1:
         case "end":
-          return _context51.stop();
+          return _context52.stop();
       }
     }
   });
 });
-router.post('/postnotify1', function _callee52(req, res) {
+router.post('/postnotify1', function _callee53(req, res) {
   var _req$body10, tenkhach, phone, email, tensp, price, address, cccd, vietnamTime, notify;
 
-  return regeneratorRuntime.async(function _callee52$(_context52) {
+  return regeneratorRuntime.async(function _callee53$(_context53) {
     while (1) {
-      switch (_context52.prev = _context52.next) {
+      switch (_context53.prev = _context53.next) {
         case 0:
-          _context52.prev = 0;
+          _context53.prev = 0;
           _req$body10 = req.body, tenkhach = _req$body10.tenkhach, phone = _req$body10.phone, email = _req$body10.email, tensp = _req$body10.tensp, price = _req$body10.price, address = _req$body10.address, cccd = _req$body10.cccd;
           vietnamTime = momenttimezone().toDate();
           notify = new Notify.notify({
@@ -1996,61 +2096,22 @@ router.post('/postnotify1', function _callee52(req, res) {
             cccd: cccd
           });
           notify.date = vietnamTime;
-          _context52.next = 7;
+          _context53.next = 7;
           return regeneratorRuntime.awrap(notify.save());
 
         case 7:
           req.session.idnotify = notify._id;
-          return _context52.abrupt("return", res.json({
+          return _context53.abrupt("return", res.json({
             message: 'thành công',
             tbid: notify._id
           }));
-
-        case 11:
-          _context52.prev = 11;
-          _context52.t0 = _context52["catch"](0);
-          console.error(_context52.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context52.t0)
-          });
-
-        case 15:
-        case "end":
-          return _context52.stop();
-      }
-    }
-  }, null, null, [[0, 11]]);
-});
-router.post('/postIsquay/:idnotify', function _callee53(req, res) {
-  var idnotify, notify;
-  return regeneratorRuntime.async(function _callee53$(_context53) {
-    while (1) {
-      switch (_context53.prev = _context53.next) {
-        case 0:
-          _context53.prev = 0;
-          idnotify = req.params.idnotify;
-          _context53.next = 4;
-          return regeneratorRuntime.awrap(Notify.notify.findById(idnotify));
-
-        case 4:
-          notify = _context53.sent;
-          notify.isQuay = true;
-          _context53.next = 8;
-          return regeneratorRuntime.awrap(notify.save());
-
-        case 8:
-          res.json({
-            message: 'thành công'
-          });
-          _context53.next = 15;
-          break;
 
         case 11:
           _context53.prev = 11;
           _context53.t0 = _context53["catch"](0);
           console.error(_context53.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\uFFFD\uFFFDi: ".concat(_context53.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context53.t0)
           });
 
         case 15:
@@ -2060,7 +2121,7 @@ router.post('/postIsquay/:idnotify', function _callee53(req, res) {
     }
   }, null, null, [[0, 11]]);
 });
-router.post('/duyet/:idnotify', function _callee54(req, res) {
+router.post('/postIsquay/:idnotify', function _callee54(req, res) {
   var idnotify, notify;
   return regeneratorRuntime.async(function _callee54$(_context54) {
     while (1) {
@@ -2073,12 +2134,14 @@ router.post('/duyet/:idnotify', function _callee54(req, res) {
 
         case 4:
           notify = _context54.sent;
-          notify.isRead = true;
+          notify.isQuay = true;
           _context54.next = 8;
           return regeneratorRuntime.awrap(notify.save());
 
         case 8:
-          res.redirect('/donhang');
+          res.json({
+            message: 'thành công'
+          });
           _context54.next = 15;
           break;
 
@@ -2087,7 +2150,7 @@ router.post('/duyet/:idnotify', function _callee54(req, res) {
           _context54.t0 = _context54["catch"](0);
           console.error(_context54.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context54.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\uFFFD\uFFFDi: ".concat(_context54.t0)
           });
 
         case 15:
@@ -2097,8 +2160,8 @@ router.post('/duyet/:idnotify', function _callee54(req, res) {
     }
   }, null, null, [[0, 11]]);
 });
-router.post('/deletenotify/:idnotify', function _callee55(req, res) {
-  var idnotify;
+router.post('/duyet/:idnotify', function _callee55(req, res) {
+  var idnotify, notify;
   return regeneratorRuntime.async(function _callee55$(_context55) {
     while (1) {
       switch (_context55.prev = _context55.next) {
@@ -2106,40 +2169,77 @@ router.post('/deletenotify/:idnotify', function _callee55(req, res) {
           _context55.prev = 0;
           idnotify = req.params.idnotify;
           _context55.next = 4;
-          return regeneratorRuntime.awrap(Notify.notify.findByIdAndDelete(idnotify));
+          return regeneratorRuntime.awrap(Notify.notify.findById(idnotify));
 
         case 4:
+          notify = _context55.sent;
+          notify.isRead = true;
+          _context55.next = 8;
+          return regeneratorRuntime.awrap(notify.save());
+
+        case 8:
           res.redirect('/donhang');
-          _context55.next = 11;
+          _context55.next = 15;
           break;
 
-        case 7:
-          _context55.prev = 7;
+        case 11:
+          _context55.prev = 11;
           _context55.t0 = _context55["catch"](0);
           console.error(_context55.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\uFFFD\uFFFDi: ".concat(_context55.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context55.t0)
           });
 
-        case 11:
+        case 15:
         case "end":
           return _context55.stop();
       }
     }
-  }, null, null, [[0, 7]]);
+  }, null, null, [[0, 11]]);
 });
-router.get('/orders/search', function _callee56(req, res) {
-  var searchQuery, regex, donHangIsReadTrue;
+router.post('/deletenotify/:idnotify', function _callee56(req, res) {
+  var idnotify;
   return regeneratorRuntime.async(function _callee56$(_context56) {
     while (1) {
       switch (_context56.prev = _context56.next) {
         case 0:
           _context56.prev = 0;
+          idnotify = req.params.idnotify;
+          _context56.next = 4;
+          return regeneratorRuntime.awrap(Notify.notify.findByIdAndDelete(idnotify));
+
+        case 4:
+          res.redirect('/donhang');
+          _context56.next = 11;
+          break;
+
+        case 7:
+          _context56.prev = 7;
+          _context56.t0 = _context56["catch"](0);
+          console.error(_context56.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\uFFFD\uFFFDi: ".concat(_context56.t0)
+          });
+
+        case 11:
+        case "end":
+          return _context56.stop();
+      }
+    }
+  }, null, null, [[0, 7]]);
+});
+router.get('/orders/search', function _callee57(req, res) {
+  var searchQuery, regex, donHangIsReadTrue;
+  return regeneratorRuntime.async(function _callee57$(_context57) {
+    while (1) {
+      switch (_context57.prev = _context57.next) {
+        case 0:
+          _context57.prev = 0;
           searchQuery = req.query.query || '';
           regex = new RegExp(searchQuery, 'i'); // Tạo biểu thức chính quy không phân biệt chữ hoa chữ thường
           // Tìm kiếm đơn hàng đã được duyệt
 
-          _context56.next = 5;
+          _context57.next = 5;
           return regeneratorRuntime.awrap(Notify.notify.find({
             isRead: true,
             $or: [{
@@ -2156,43 +2256,43 @@ router.get('/orders/search', function _callee56(req, res) {
           }));
 
         case 5:
-          donHangIsReadTrue = _context56.sent;
+          donHangIsReadTrue = _context57.sent;
           // Render HTML cho bảng kết quả tìm kiếm
           res.json({
             html: donHangIsReadTrue.map(function (row) {
               return "\n                <tr>\n                    <td>".concat(row.tenkhach, "</td>\n                    <td><a href=\"\">").concat(row.phone, "</a></td>\n                    <td>").concat(row.email, "</td>\n                    <td>").concat(row.address, "</td>\n                    <td>").concat(row.tensp, "</td>\n                    <td>").concat(row.price, "</td>\n                    <td>").concat(moment(row.date).format('DD/MM/YYYY HH:mm:ss'), "</td>\n                </tr>\n            ");
             }).join('')
           });
-          _context56.next = 13;
+          _context57.next = 13;
           break;
 
         case 9:
-          _context56.prev = 9;
-          _context56.t0 = _context56["catch"](0);
-          console.error(_context56.t0);
+          _context57.prev = 9;
+          _context57.t0 = _context57["catch"](0);
+          console.error(_context57.t0);
           res.status(500).json({
             message: 'Đã xảy ra lỗi.'
           });
 
         case 13:
         case "end":
-          return _context56.stop();
+          return _context57.stop();
       }
     }
   }, null, null, [[0, 9]]);
 });
-router.get('/donhang', checkAuth2, function _callee57(req, res) {
+router.get('/donhang', checkAuth2, function _callee58(req, res) {
   var donhang, donHangIsReadTrue, donHangIsReadFalse;
-  return regeneratorRuntime.async(function _callee57$(_context57) {
+  return regeneratorRuntime.async(function _callee58$(_context58) {
     while (1) {
-      switch (_context57.prev = _context57.next) {
+      switch (_context58.prev = _context58.next) {
         case 0:
-          _context57.prev = 0;
-          _context57.next = 3;
+          _context58.prev = 0;
+          _context58.next = 3;
           return regeneratorRuntime.awrap(Notify.notify.find());
 
         case 3:
-          donhang = _context57.sent;
+          donhang = _context58.sent;
           donHangIsReadTrue = donhang.filter(function (d) {
             return d.isRead === true;
           }).map(function (d) {
@@ -2225,29 +2325,29 @@ router.get('/donhang', checkAuth2, function _callee57(req, res) {
             donHangIsReadTrue: donHangIsReadTrue,
             donHangIsReadFalse: donHangIsReadFalse
           });
-          _context57.next = 13;
+          _context58.next = 13;
           break;
 
         case 9:
-          _context57.prev = 9;
-          _context57.t0 = _context57["catch"](0);
-          console.error(_context57.t0);
+          _context58.prev = 9;
+          _context58.t0 = _context58["catch"](0);
+          console.error(_context58.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context57.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context58.t0)
           });
 
         case 13:
         case "end":
-          return _context57.stop();
+          return _context58.stop();
       }
     }
   }, null, null, [[0, 9]]);
 });
-router.get('/donhang/longpoll', function _callee58(req, res) {
+router.get('/donhang/longpoll', function _callee59(req, res) {
   var timeout, startTime, checkForUpdates;
-  return regeneratorRuntime.async(function _callee58$(_context58) {
+  return regeneratorRuntime.async(function _callee59$(_context59) {
     while (1) {
-      switch (_context58.prev = _context58.next) {
+      switch (_context59.prev = _context59.next) {
         case 0:
           try {
             // Thay đổi thời gian chờ phù hợp với nhu cầu của bạn
@@ -2319,19 +2419,19 @@ router.get('/donhang/longpoll', function _callee58(req, res) {
 
         case 1:
         case "end":
-          return _context58.stop();
+          return _context59.stop();
       }
     }
   });
 });
-router.post('/danhgia', function _callee59(req, res) {
+router.post('/danhgia', function _callee60(req, res) {
   var _req$body11, tenkhach, content, rating, vietnamTime, danhgia;
 
-  return regeneratorRuntime.async(function _callee59$(_context59) {
+  return regeneratorRuntime.async(function _callee60$(_context60) {
     while (1) {
-      switch (_context59.prev = _context59.next) {
+      switch (_context60.prev = _context60.next) {
         case 0:
-          _context59.prev = 0;
+          _context60.prev = 0;
           _req$body11 = req.body, tenkhach = _req$body11.tenkhach, content = _req$body11.content, rating = _req$body11.rating;
           vietnamTime = momenttimezone().toDate();
           danhgia = new DanhGia.danhgia({
@@ -2340,41 +2440,41 @@ router.post('/danhgia', function _callee59(req, res) {
             rating: rating,
             date: vietnamTime
           });
-          _context59.next = 6;
+          _context60.next = 6;
           return regeneratorRuntime.awrap(danhgia.save());
 
         case 6:
           res.redirect('/');
-          _context59.next = 13;
+          _context60.next = 13;
           break;
 
         case 9:
-          _context59.prev = 9;
-          _context59.t0 = _context59["catch"](0);
-          console.error(_context59.t0);
+          _context60.prev = 9;
+          _context60.t0 = _context60["catch"](0);
+          console.error(_context60.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context59.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context60.t0)
           });
 
         case 13:
         case "end":
-          return _context59.stop();
+          return _context60.stop();
       }
     }
   }, null, null, [[0, 9]]);
 });
-router.get('/getdanhgia', function _callee60(req, res) {
+router.get('/getdanhgia', function _callee61(req, res) {
   var danhgia, danhgiaIsReadTrue, danhgiaIsReadFalse;
-  return regeneratorRuntime.async(function _callee60$(_context60) {
+  return regeneratorRuntime.async(function _callee61$(_context61) {
     while (1) {
-      switch (_context60.prev = _context60.next) {
+      switch (_context61.prev = _context61.next) {
         case 0:
-          _context60.prev = 0;
-          _context60.next = 3;
+          _context61.prev = 0;
+          _context61.next = 3;
           return regeneratorRuntime.awrap(DanhGia.danhgia.find());
 
         case 3:
-          danhgia = _context60.sent;
+          danhgia = _context61.sent;
           danhgiaIsReadTrue = danhgia.filter(function (d) {
             return d.isRead === true;
           }).map(function (d) {
@@ -2401,99 +2501,105 @@ router.get('/getdanhgia', function _callee60(req, res) {
             danhgiaIsReadTrue: danhgiaIsReadTrue,
             danhgiaIsReadFalse: danhgiaIsReadFalse
           });
-          _context60.next = 13;
+          _context61.next = 13;
           break;
 
         case 9:
-          _context60.prev = 9;
-          _context60.t0 = _context60["catch"](0);
-          console.error(_context60.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context60.t0)
-          });
-
-        case 13:
-        case "end":
-          return _context60.stop();
-      }
-    }
-  }, null, null, [[0, 9]]);
-});
-router.post('/duyetdanhgia/:iddanhgia', function _callee61(req, res) {
-  var iddanhgia, danhgia;
-  return regeneratorRuntime.async(function _callee61$(_context61) {
-    while (1) {
-      switch (_context61.prev = _context61.next) {
-        case 0:
-          _context61.prev = 0;
-          iddanhgia = req.params.iddanhgia;
-          _context61.next = 4;
-          return regeneratorRuntime.awrap(DanhGia.danhgia.findById(iddanhgia));
-
-        case 4:
-          danhgia = _context61.sent;
-          danhgia.isRead = true;
-          _context61.next = 8;
-          return regeneratorRuntime.awrap(danhgia.save());
-
-        case 8:
-          res.redirect('/getdanhgia');
-          _context61.next = 15;
-          break;
-
-        case 11:
-          _context61.prev = 11;
+          _context61.prev = 9;
           _context61.t0 = _context61["catch"](0);
           console.error(_context61.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context61.t0)
           });
 
-        case 15:
+        case 13:
         case "end":
           return _context61.stop();
       }
     }
-  }, null, null, [[0, 11]]);
+  }, null, null, [[0, 9]]);
 });
-router.get('/contentBlog/:tieude', function _callee62(req, res) {
-  var tieude_khongdau, blog, allsp, listBl, content;
+router.post('/duyetdanhgia/:iddanhgia', function _callee62(req, res) {
+  var iddanhgia, danhgia;
   return regeneratorRuntime.async(function _callee62$(_context62) {
     while (1) {
       switch (_context62.prev = _context62.next) {
         case 0:
           _context62.prev = 0;
-          tieude_khongdau = decodeURIComponent(req.params.tieude).replace(/-/g, ' ');
+          iddanhgia = req.params.iddanhgia;
           _context62.next = 4;
+          return regeneratorRuntime.awrap(DanhGia.danhgia.findById(iddanhgia));
+
+        case 4:
+          danhgia = _context62.sent;
+          danhgia.isRead = true;
+          _context62.next = 8;
+          return regeneratorRuntime.awrap(danhgia.save());
+
+        case 8:
+          res.redirect('/getdanhgia');
+          _context62.next = 15;
+          break;
+
+        case 11:
+          _context62.prev = 11;
+          _context62.t0 = _context62["catch"](0);
+          console.error(_context62.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context62.t0)
+          });
+
+        case 15:
+        case "end":
+          return _context62.stop();
+      }
+    }
+  }, null, null, [[0, 11]]);
+});
+router.get('/contentBlog/:tieude', function _callee63(req, res) {
+  var tieude_khongdau, blog, allsp, tenloai, page, listBl, content;
+  return regeneratorRuntime.async(function _callee63$(_context63) {
+    while (1) {
+      switch (_context63.prev = _context63.next) {
+        case 0:
+          _context63.prev = 0;
+          tieude_khongdau = decodeURIComponent(req.params.tieude).replace(/-/g, ' ');
+          _context63.next = 4;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findOne({
             tieude_khongdau: tieude_khongdau
           }));
 
         case 4:
-          blog = _context62.sent;
-          _context62.next = 7;
+          blog = _context63.sent;
+          _context63.next = 7;
           return regeneratorRuntime.awrap(LoaiSP.TenSP.find().populate('chitietsp'));
 
         case 7:
-          allsp = _context62.sent;
+          allsp = _context63.sent;
+          _context63.next = 10;
+          return regeneratorRuntime.awrap(LoaiSP.TenSP.find().lean());
+
+        case 10:
+          tenloai = _context63.sent;
+          page = parseInt(req.query.page, 10) || 1;
 
           if (blog) {
-            _context62.next = 10;
+            _context63.next = 14;
             break;
           }
 
-          return _context62.abrupt("return", res.status(404).json({
+          return _context63.abrupt("return", res.status(404).json({
             message: 'Blog không tồn tại'
           }));
 
-        case 10:
-          _context62.next = 12;
+        case 14:
+          _context63.next = 16;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.find().sort({
             _id: -1
           }));
 
-        case 12:
-          listBl = _context62.sent;
+        case 16:
+          listBl = _context63.sent;
           content = blog.noidung.map(function (noidung) {
             return {
               tieude: noidung.tieude,
@@ -2506,25 +2612,27 @@ router.get('/contentBlog/:tieude', function _callee62(req, res) {
             tieude: blog.tieude_blog,
             listBl: listBl,
             image_blog: blog.img_blog,
-            allsp: allsp
+            allsp: allsp,
+            tenloai: tenloai,
+            currentPage: page
           });
-          _context62.next = 21;
+          _context63.next = 25;
           break;
 
-        case 17:
-          _context62.prev = 17;
-          _context62.t0 = _context62["catch"](0);
-          console.error(_context62.t0);
+        case 21:
+          _context63.prev = 21;
+          _context63.t0 = _context63["catch"](0);
+          console.error(_context63.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context62.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context63.t0)
           });
 
-        case 21:
+        case 25:
         case "end":
-          return _context62.stop();
+          return _context63.stop();
       }
     }
-  }, null, null, [[0, 17]]);
+  }, null, null, [[0, 21]]);
 });
 
 function escapeRegExp(string) {
@@ -2567,14 +2675,14 @@ function replaceKeywordsWithLinks(content, keywords, urlBase) {
   return content;
 }
 
-router.post('/postblog', function _callee63(req, res) {
+router.post('/postblog', function _callee64(req, res) {
   var _req$body12, tieude_blog, img, content, tieude, img_blog, keywords, urlBase, tieude_khongdau1, tieude_khongdau, blog, i, updatedContent, _updatedContent;
 
-  return regeneratorRuntime.async(function _callee63$(_context63) {
+  return regeneratorRuntime.async(function _callee64$(_context64) {
     while (1) {
-      switch (_context63.prev = _context63.next) {
+      switch (_context64.prev = _context64.next) {
         case 0:
-          _context63.prev = 0;
+          _context64.prev = 0;
           _req$body12 = req.body, tieude_blog = _req$body12.tieude_blog, img = _req$body12.img, content = _req$body12.content, tieude = _req$body12.tieude, img_blog = _req$body12.img_blog, keywords = _req$body12.keywords, urlBase = _req$body12.urlBase;
           tieude_khongdau1 = unicode(tieude_blog);
           tieude_khongdau = removeSpecialChars(tieude_khongdau1);
@@ -2605,25 +2713,25 @@ router.post('/postblog', function _callee63(req, res) {
             }, "keywords", keywords));
           }
 
-          _context63.next = 8;
+          _context64.next = 8;
           return regeneratorRuntime.awrap(blog.save());
 
         case 8:
           res.redirect('/main');
-          _context63.next = 15;
+          _context64.next = 15;
           break;
 
         case 11:
-          _context63.prev = 11;
-          _context63.t0 = _context63["catch"](0);
-          console.error(_context63.t0);
+          _context64.prev = 11;
+          _context64.t0 = _context64["catch"](0);
+          console.error(_context64.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context63.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context64.t0)
           });
 
         case 15:
         case "end":
-          return _context63.stop();
+          return _context64.stop();
       }
     }
   }, null, null, [[0, 11]]);
@@ -2636,14 +2744,14 @@ router.post('/postblog2', uploads.fields([{
   name: 'img',
   maxCount: 100000
 } // Nhiều ảnh (có thể điều chỉnh số lượng tối đa)
-]), function _callee64(req, res) {
+]), function _callee65(req, res) {
   var _req$body13, tieude_blog, content, tieude, keywords, urlBase, _domain, imgblog, img, tieude_khongdau1, tieude_khongdau, blog, i, updatedContent, _updatedContent2;
 
-  return regeneratorRuntime.async(function _callee64$(_context64) {
+  return regeneratorRuntime.async(function _callee65$(_context65) {
     while (1) {
-      switch (_context64.prev = _context64.next) {
+      switch (_context65.prev = _context65.next) {
         case 0:
-          _context64.prev = 0;
+          _context65.prev = 0;
           _req$body13 = req.body, tieude_blog = _req$body13.tieude_blog, content = _req$body13.content, tieude = _req$body13.tieude, keywords = _req$body13.keywords, urlBase = _req$body13.urlBase; // Xác định domain
 
           _domain = 'https://www.baominhmobile.com'; // Thay đổi thành domain của bạn
@@ -2686,49 +2794,35 @@ router.post('/postblog2', uploads.fields([{
             });
           }
 
-          _context64.next = 11;
+          _context65.next = 11;
           return regeneratorRuntime.awrap(blog.save());
 
         case 11:
           res.redirect('/main');
-          _context64.next = 18;
+          _context65.next = 18;
           break;
 
         case 14:
-          _context64.prev = 14;
-          _context64.t0 = _context64["catch"](0);
-          console.error(_context64.t0);
+          _context65.prev = 14;
+          _context65.t0 = _context65["catch"](0);
+          console.error(_context65.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context64.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context65.t0)
           });
 
         case 18:
         case "end":
-          return _context64.stop();
+          return _context65.stop();
       }
     }
   }, null, null, [[0, 14]]);
 });
-router.get('/getaddblog', function _callee65(req, res) {
-  return regeneratorRuntime.async(function _callee65$(_context65) {
-    while (1) {
-      switch (_context65.prev = _context65.next) {
-        case 0:
-          res.render('home/addblog.ejs');
-
-        case 1:
-        case "end":
-          return _context65.stop();
-      }
-    }
-  });
-});
-router.get('/getaddblogtest', function _callee66(req, res) {
+router.get('/getaddblog', function _callee66(req, res) {
   return regeneratorRuntime.async(function _callee66$(_context66) {
     while (1) {
       switch (_context66.prev = _context66.next) {
         case 0:
-          res.render('home/test.ejs');
+          res.render('home/addblog.ejs');
 
         case 1:
         case "end":
@@ -2737,56 +2831,78 @@ router.get('/getaddblogtest', function _callee66(req, res) {
     }
   });
 });
-router.get('/getblog', function _callee67(req, res) {
-  var listBl;
+router.get('/getaddblogtest', function _callee67(req, res) {
   return regeneratorRuntime.async(function _callee67$(_context67) {
     while (1) {
       switch (_context67.prev = _context67.next) {
         case 0:
-          _context67.prev = 0;
-          _context67.next = 3;
-          return regeneratorRuntime.awrap(myMDBlog.blogModel.find().sort({
-            _id: -1
-          }));
+          res.render('home/test.ejs');
 
-        case 3:
-          listBl = _context67.sent;
-          res.render('home/blog.ejs', {
-            listBl: listBl
-          });
-          _context67.next = 11;
-          break;
-
-        case 7:
-          _context67.prev = 7;
-          _context67.t0 = _context67["catch"](0);
-          console.error(_context67.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context67.t0)
-          });
-
-        case 11:
+        case 1:
         case "end":
           return _context67.stop();
       }
     }
-  }, null, null, [[0, 7]]);
+  });
 });
-router.post('/editblog/:idblog', function _callee68(req, res) {
-  var _req$body14, tieude_blog, img_blog, tieude, content, img, keywords, urlBase, idblog, blog, i, updatedContent, _updatedContent3;
-
+router.get('/getblog', function _callee68(req, res) {
+  var listBl, tenloai, page;
   return regeneratorRuntime.async(function _callee68$(_context68) {
     while (1) {
       switch (_context68.prev = _context68.next) {
         case 0:
           _context68.prev = 0;
+          _context68.next = 3;
+          return regeneratorRuntime.awrap(myMDBlog.blogModel.find().sort({
+            _id: -1
+          }));
+
+        case 3:
+          listBl = _context68.sent;
+          _context68.next = 6;
+          return regeneratorRuntime.awrap(LoaiSP.TenSP.find().lean());
+
+        case 6:
+          tenloai = _context68.sent;
+          page = parseInt(req.query.page, 10) || 1;
+          res.render('home/blog.ejs', {
+            listBl: listBl,
+            tenloai: tenloai,
+            currentPage: page
+          });
+          _context68.next = 15;
+          break;
+
+        case 11:
+          _context68.prev = 11;
+          _context68.t0 = _context68["catch"](0);
+          console.error(_context68.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context68.t0)
+          });
+
+        case 15:
+        case "end":
+          return _context68.stop();
+      }
+    }
+  }, null, null, [[0, 11]]);
+});
+router.post('/editblog/:idblog', function _callee69(req, res) {
+  var _req$body14, tieude_blog, img_blog, tieude, content, img, keywords, urlBase, idblog, blog, i, updatedContent, _updatedContent3;
+
+  return regeneratorRuntime.async(function _callee69$(_context69) {
+    while (1) {
+      switch (_context69.prev = _context69.next) {
+        case 0:
+          _context69.prev = 0;
           _req$body14 = req.body, tieude_blog = _req$body14.tieude_blog, img_blog = _req$body14.img_blog, tieude = _req$body14.tieude, content = _req$body14.content, img = _req$body14.img, keywords = _req$body14.keywords, urlBase = _req$body14.urlBase;
           idblog = req.params.idblog;
-          _context68.next = 5;
+          _context69.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blog = _context68.sent;
+          blog = _context69.sent;
           blog.tieude_blog = tieude_blog;
           blog.img_blog = img_blog;
           blog.tieude_khongdau = unicode(tieude_blog);
@@ -2827,36 +2943,36 @@ router.post('/editblog/:idblog', function _callee68(req, res) {
             });
           }
 
-          _context68.next = 12;
+          _context69.next = 12;
           return regeneratorRuntime.awrap(blog.save());
 
         case 12:
           res.redirect('/main');
-          _context68.next = 19;
+          _context69.next = 19;
           break;
 
         case 15:
-          _context68.prev = 15;
-          _context68.t0 = _context68["catch"](0);
-          console.error(_context68.t0);
+          _context69.prev = 15;
+          _context69.t0 = _context69["catch"](0);
+          console.error(_context69.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context68.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context69.t0)
           });
 
         case 19:
         case "end":
-          return _context68.stop();
+          return _context69.stop();
       }
     }
   }, null, null, [[0, 15]]);
 });
-router.get('/editblog/:idblog', function _callee69(req, res) {
+router.get('/editblog/:idblog', function _callee70(req, res) {
   var removeAllLinks, idblog, blogg, blog;
-  return regeneratorRuntime.async(function _callee69$(_context69) {
+  return regeneratorRuntime.async(function _callee70$(_context70) {
     while (1) {
-      switch (_context69.prev = _context69.next) {
+      switch (_context70.prev = _context70.next) {
         case 0:
-          _context69.prev = 0;
+          _context70.prev = 0;
 
           // Hàm để loại bỏ tất cả các thẻ <a> khỏi nội dung
           removeAllLinks = function removeAllLinks(content) {
@@ -2865,11 +2981,11 @@ router.get('/editblog/:idblog', function _callee69(req, res) {
           };
 
           idblog = req.params.idblog;
-          _context69.next = 5;
+          _context70.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blogg = _context69.sent;
+          blogg = _context70.sent;
           blog = blogg.noidung.map(function (bl) {
             return {
               content: removeAllLinks(bl.content),
@@ -2886,20 +3002,20 @@ router.get('/editblog/:idblog', function _callee69(req, res) {
             tieude_khongdau: blogg.tieude_khongdau,
             img_blog: blogg.img_blog
           });
-          _context69.next = 14;
+          _context70.next = 14;
           break;
 
         case 10:
-          _context69.prev = 10;
-          _context69.t0 = _context69["catch"](0);
-          console.error(_context69.t0);
+          _context70.prev = 10;
+          _context70.t0 = _context70["catch"](0);
+          console.error(_context70.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context69.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context70.t0)
           });
 
         case 14:
         case "end":
-          return _context69.stop();
+          return _context70.stop();
       }
     }
   }, null, null, [[0, 10]]);
@@ -2912,21 +3028,21 @@ router.post('/editblog/:idblog', uploads.fields([{
   name: 'img',
   maxCount: 100000
 } // Nhiều ảnh (có thể điều chỉnh số lượng tối đa)
-]), function _callee70(req, res) {
+]), function _callee71(req, res) {
   var _req$body15, tieude_blog, tieude, content, keywords, urlBase, tieude_khongdau, idblog, blog, imgblog, img, i, updatedContent, _updatedContent4;
 
-  return regeneratorRuntime.async(function _callee70$(_context70) {
+  return regeneratorRuntime.async(function _callee71$(_context71) {
     while (1) {
-      switch (_context70.prev = _context70.next) {
+      switch (_context71.prev = _context71.next) {
         case 0:
-          _context70.prev = 0;
+          _context71.prev = 0;
           _req$body15 = req.body, tieude_blog = _req$body15.tieude_blog, tieude = _req$body15.tieude, content = _req$body15.content, keywords = _req$body15.keywords, urlBase = _req$body15.urlBase, tieude_khongdau = _req$body15.tieude_khongdau;
           idblog = req.params.idblog;
-          _context70.next = 5;
+          _context71.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blog = _context70.sent;
+          blog = _context71.sent;
           imgblog = req.files && req.files['imgblog'] ? "".concat(domain, "/").concat(req.files['imgblog'][0].filename) : blog.img_blog;
           img = req.files && req.files['img'] ? req.files['img'].map(function (file) {
             return "".concat(domain, "/").concat(file.filename);
@@ -2976,25 +3092,25 @@ router.post('/editblog/:idblog', uploads.fields([{
             });
           }
 
-          _context70.next = 14;
+          _context71.next = 14;
           return regeneratorRuntime.awrap(blog.save());
 
         case 14:
           res.redirect('/main');
-          _context70.next = 21;
+          _context71.next = 21;
           break;
 
         case 17:
-          _context70.prev = 17;
-          _context70.t0 = _context70["catch"](0);
-          console.error(_context70.t0);
+          _context71.prev = 17;
+          _context71.t0 = _context71["catch"](0);
+          console.error(_context71.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context70.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context71.t0)
           });
 
         case 21:
         case "end":
-          return _context70.stop();
+          return _context71.stop();
       }
     }
   }, null, null, [[0, 17]]);
@@ -3011,34 +3127,34 @@ router.post('/upload', uploads.single('image'), function (req, res) {
     url: fileUrl
   });
 });
-router.post('/deleteblog/:idblog', function _callee71(req, res) {
+router.post('/deleteblog/:idblog', function _callee72(req, res) {
   var idblog, blog;
-  return regeneratorRuntime.async(function _callee71$(_context71) {
+  return regeneratorRuntime.async(function _callee72$(_context72) {
     while (1) {
-      switch (_context71.prev = _context71.next) {
+      switch (_context72.prev = _context72.next) {
         case 0:
-          _context71.prev = 0;
+          _context72.prev = 0;
           idblog = req.params.idblog;
-          _context71.next = 4;
+          _context72.next = 4;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findByIdAndDelete(idblog));
 
         case 4:
-          blog = _context71.sent;
+          blog = _context72.sent;
           res.redirect('/main');
-          _context71.next = 12;
+          _context72.next = 12;
           break;
 
         case 8:
-          _context71.prev = 8;
-          _context71.t0 = _context71["catch"](0);
-          console.error(_context71.t0);
+          _context72.prev = 8;
+          _context72.t0 = _context72["catch"](0);
+          console.error(_context72.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context71.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context72.t0)
           });
 
         case 12:
         case "end":
-          return _context71.stop();
+          return _context72.stop();
       }
     }
   }, null, null, [[0, 8]]);

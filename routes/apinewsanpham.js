@@ -179,6 +179,8 @@ router.get('/', async (req, res) => {
     const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 }).lean()
     // Tải đánh giá
     const danhgia = await DanhGia.danhgia.find().lean()
+    const tenloai = await LoaiSP.TenSP.find().lean()
+    const page = parseInt(req.query.page, 10) || 1 
 
     // Chuyển đổi dữ liệu sản phẩm
     const tenspjson = allsp.map(tensp => ({
@@ -208,7 +210,14 @@ router.get('/', async (req, res) => {
       }))
 
     // Render trang
-    res.render('home/index.ejs', { tenspjson, listBl, danhgiaIsReadTrue })
+    res.render('home/index.ejs', {
+      tenspjson,
+      listBl,
+      danhgiaIsReadTrue,
+      tenloai,
+      currentPage: page
+
+    })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error.message}` })
@@ -301,16 +310,18 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
 
     // Lấy danh sách sản phẩm và tổng số sản phẩm
     const allChitiet = await Promise.all(
-      loaisp.chitietsp.sort(() => Math.random() - 0.5).map(async ct => {
-        const chitietsp = await Sp.ChitietSp.findById(ct._id)
-        return {
-          _id: chitietsp._id,
-          image: chitietsp.image,
-          name: chitietsp.name,
-          content: chitietsp.content,
-          price: chitietsp.price
-        }
-      })
+      loaisp.chitietsp
+        .sort(() => Math.random() - 0.5)
+        .map(async ct => {
+          const chitietsp = await Sp.ChitietSp.findById(ct._id)
+          return {
+            _id: chitietsp._id,
+            image: chitietsp.image,
+            name: chitietsp.name,
+            content: chitietsp.content,
+            price: chitietsp.price
+          }
+        })
     )
 
     // Phân trang sản phẩm
@@ -331,11 +342,59 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
   }
 })
 
+router.get('/search-products', async (req, res) => {
+  try {
+    const query = req.query.query || '' // Từ khóa tìm kiếm
+    const page = parseInt(req.query.page, 10) || 1 // Trang hiện tại, mặc định là 1
+    const limit = 9 // Số sản phẩm mỗi trang
+    const skip = (page - 1) * limit // Số lượng sản phẩm cần bỏ qua
+    const tenloai = await LoaiSP.TenSP.find().lean()
+
+    // Phân tách từ khóa thành các phần
+    const searchTerms = query
+      .split(/\s+/)
+      .map(term => term.trim())
+      .filter(term => term.length > 0)
+    const regex = new RegExp(searchTerms.join('.*'), 'i') // Biểu thức chính quy tìm kiếm các từ khóa
+
+    // Tìm kiếm sản phẩm dựa trên từ khóa
+    const searchResults = await Sp.ChitietSp.find({
+      name: { $regex: regex }
+    })
+      .skip(skip)
+      .limit(limit)
+      .lean()
+
+    // Đếm tổng số sản phẩm khớp với tìm kiếm
+    const totalProducts = await Sp.ChitietSp.countDocuments({
+      name: { $regex: regex }
+    })
+
+    const totalPages = Math.ceil(totalProducts / limit)
+
+    // Render kết quả tìm kiếm
+    res.render('home/shop2.ejs', {
+      chitiet: searchResults,
+      tenloai, // Có thể để trống hoặc lấy dữ liệu liên quan nếu cần
+      nameloaisp: query, // Truyền từ khóa tìm kiếm cho giao diện
+      totalPages,
+      currentPage: page
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+
 router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
   try {
     const namesp = req.params.namesp.replace(/-/g, ' ').replace(/pt/g, '%')
     const nameloai = req.params.nameloai.replace(/-/g, ' ').replace(/pt/g, '%')
     const sp = await Sp.ChitietSp.findOne({ name: namesp })
+    const tenloai = await LoaiSP.TenSP.find().lean()
+    const page = parseInt(req.query.page, 10) || 1
+
+
     if (!sp) {
       return res.status(404).json({ message: 'Không tìm thấy sản phẩm' })
     }
@@ -373,7 +432,13 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
     }
     // res.json(namesp)
     // // res.json(mangjson)
-    res.render('home/single-product.ejs', { mangjson, nameloai, namesp })
+    res.render('home/single-product.ejs', {
+      mangjson,
+      nameloai,
+      namesp,
+      tenloai,
+      currentPage: page
+    })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -779,12 +844,15 @@ router.get('/muangay/:idsp', async (req, res) => {
   try {
     const idsp = req.params.idsp
     const sp = await Sp.ChitietSp.findById(idsp)
+    const tenloai = await LoaiSP.TenSP.find().lean()
+    const page = parseInt(req.query.page, 10) || 1
+
     const spjson = {
       name: sp.name,
       price: sp.price
     }
     // res.json(spjson)
-    res.render('home/formmua.ejs', { spjson })
+    res.render('home/formmua.ejs', { spjson, tenloai,currentPage: page })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -1088,6 +1156,9 @@ router.get('/contentBlog/:tieude', async (req, res) => {
     )
     const blog = await myMDBlog.blogModel.findOne({ tieude_khongdau })
     const allsp = await LoaiSP.TenSP.find().populate('chitietsp')
+    const tenloai = await LoaiSP.TenSP.find().lean()
+    const page = parseInt(req.query.page, 10) || 1
+
 
     if (!blog) {
       return res.status(404).json({ message: 'Blog không tồn tại' })
@@ -1111,7 +1182,10 @@ router.get('/contentBlog/:tieude', async (req, res) => {
       tieude: blog.tieude_blog,
       listBl,
       image_blog: blog.img_blog,
-      allsp
+      allsp,
+      tenloai,
+      currentPage: page
+
     })
   } catch (error) {
     console.error(error)
@@ -1300,7 +1374,11 @@ router.get('/getaddblogtest', async (req, res) => {
 router.get('/getblog', async (req, res) => {
   try {
     const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 })
-    res.render('home/blog.ejs', { listBl })
+    const tenloai = await LoaiSP.TenSP.find().lean()
+    const page = parseInt(req.query.page, 10) || 1
+
+
+    res.render('home/blog.ejs', { listBl, tenloai,currentPage: page })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
