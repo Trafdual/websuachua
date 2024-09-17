@@ -94,17 +94,6 @@
 
 
         <h3 class="cat-list-title">Tìm kiếm sản phẩm</h3>
-
-        <ul class="cat-list">
-            <% tenloai.forEach((tl) => { %>
-                <li class="cat-list-item">
-                    <a href="/search-products?query=<%= encodeURIComponent(tl.name) %>&page=<%= currentPage %>" title="Accessories">
-                        <%= tl.name %>
-                    </a>
-                </li>
-                <% }) %>
-        </ul>
-
     </div>
 </div>
 

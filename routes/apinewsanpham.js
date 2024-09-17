@@ -173,57 +173,45 @@ router.get('/main', checkAuth, async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const page = parseInt(req.query.page, 10) || 1
+    const allsp = await LoaiSP.TenSP.find().populate('chitietsp')
+    const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 })
+    const danhgia = await DanhGia.danhgia.find()
 
-    // Tải dữ liệu đồng thời
-    const [allsp, listBl, danhgia, tenloai] = await Promise.all([
-      LoaiSP.TenSP.find().populate('chitietsp').lean(),
-      myMDBlog.blogModel.find().sort({ _id: -1 }).lean(),
-      DanhGia.danhgia.find().lean(),
-      LoaiSP.TenSP.find().lean()
-    ])
-
-    // Chuyển đổi dữ liệu sản phẩm
-    const tenspjson = allsp.map(tensp => ({
-      id: tensp._id,
-      name: tensp.name,
-      chitietsp: Array.isArray(tensp.chitietsp)
-        ? tensp.chitietsp
-            .sort(() => Math.random() - 0.5)
-            .map(chitietsp => ({
+    const tenspjson = await Promise.all(
+      allsp.map(async tensp => {
+        const chitietspJson = await Promise.all(
+          tensp.chitietsp.map(async chitietsp => {
+            return {
               id: chitietsp._id,
               name: chitietsp.name,
               noidung: chitietsp.content,
               price: chitietsp.price,
               image: chitietsp.image
-            }))
-        : []
-    }))
+            }
+          })
+        )
+        return {
+          id: tensp._id,
+          name: tensp.name,
+          chitietsp: chitietspJson
+        }
+      })
+    )
 
-    // Lọc và chuyển đổi đánh giá
     const danhgiaIsReadTrue = danhgia
-      .filter(d => d.isRead)
+      .filter(d => d.isRead === true)
       .map(d => ({
         _id: d._id,
         tenkhach: d.tenkhach,
         content: d.content,
         rating: d.rating
       }))
-
-    // Render trang
-    res.render('home/index.ejs', {
-      tenspjson,
-      listBl,
-      danhgiaIsReadTrue,
-      tenloai,
-      currentPage: page
-    })
+    res.render('home/index.ejs', { tenspjson, listBl, danhgiaIsReadTrue })
   } catch (error) {
     console.error(error)
-    res.status(500).json({ message: `Đã xảy ra lỗi: ${error.message}` })
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-
 
 router.post('/deleteloaisp/:id', async (req, res) => {
   try {
