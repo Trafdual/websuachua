@@ -7,8 +7,7 @@
 
             <div class="row col-12 col-sm-4 col-md-12" style="height: 30px; text-align: center; margin-top: 10px;">
                 <form class="search d-flex" role="search" action="/search" method="GET">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                        name="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                     <button class="btn btn-light" type="submit">Search</button>
                 </form>
                 <div class="col-sm-4 col-md-2">
@@ -45,7 +44,7 @@
                             <%= row._id%>
                         </td>
                         <td style="text-align: center;">
-                            <img src="data:image/jpeg;base64, <%= row.image %>" alt="" style="width: 80px; height: 80px;">
+                            <img src="<%= row.image %>" alt="" style="width: 80px; height: 80px;">
                         </td>
 
                         <td>
@@ -60,7 +59,8 @@
                             <%= row.content %>
                         </td>
 
-                        <td> <a href="/editsp/<%= row._id %>">
+                        <td>
+                            <a href="/editsp/<%= row._id %>">
                                 <button type="button" class="btn btn-light">Sửa</button>
                             </a>
                             <a href="/getloaichitiet/<%= row._id %>">
@@ -68,24 +68,20 @@
                             </a>
 
                             <form action="/deletechitietsp/<%= row._id %>" method="post" id="deleteForm">
-                                <button type="button" class="btn btn-light" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal<%= row._id %>">
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#deleteModal<%= row._id %>">
                                     Xóa
                                 </button>
 
-                                <div class="modal fade" id="deleteModal<%= row._id %>" data-bs-keyboard="false"
-                                    aria-labelledby="staticBackdropLabel">
+                                <div class="modal fade" id="deleteModal<%= row._id %>" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Chắc chắn muốn
-                                                    xóa?</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Chắc chắn muốn xóa?
+                                                </h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Không</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
                                                 <button type="submit" class="btn btn-primary">Có</button>
                                             </div>
                                         </div>
