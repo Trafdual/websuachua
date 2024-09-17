@@ -10,7 +10,7 @@ const app = express()
 const MongoStore = require('connect-mongo')
 var db = require('./models/db')
 const uri =
-  'mongodb+srv://trafdual:trafdual@cluster0.jsm1k.mongodb.net/baominhstore?retryWrites=true&w=majority&appName=Cluster0&appName=Cluster0'
+  'mongodb+srv://trafdual:trafdual@cluster0.jsm1k.mongodb.net/baominhstore?retryWrites=true&w=majority'
 
 const mongoStoreOptions = {
   mongooseConnection: db.mongoose.connection,
