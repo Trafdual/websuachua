@@ -22,7 +22,7 @@ var MongoStore = require('connect-mongo');
 
 var db = require('./models/db');
 
-var uri = 'mongodb+srv://trafdual:trafdual@cluster0.jsm1k.mongodb.net/baominhstore?retryWrites=true&w=majority&appName=Cluster0&appName=Cluster0';
+var uri = 'mongodb+srv://trafdual:trafdual@cluster0.jsm1k.mongodb.net/baominhstore?retryWrites=true&w=majority';
 var mongoStoreOptions = {
   mongooseConnection: db.mongoose.connection,
   mongoUrl: uri,

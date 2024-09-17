@@ -173,8 +173,12 @@ router.get('/main', checkAuth, async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const allsp = await LoaiSP.TenSP.find().populate('chitietsp')
-    const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 })
+    const allsp = await LoaiSP.TenSP.find().populate({
+      path: 'chitietsp',
+      select: 'name content price image' // Chọn các trường cần thiết
+    })
+
+    const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 }).limit(3)
     const danhgia = await DanhGia.danhgia.find()
 
     const tenspjson = await Promise.all(
@@ -383,7 +387,6 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
     const tenloai = await LoaiSP.TenSP.find().lean()
     const page = parseInt(req.query.page, 10) || 1
 
-
     if (!sp) {
       return res.status(404).json({ message: 'Không tìm thấy sản phẩm' })
     }
@@ -571,30 +574,34 @@ router.post('/deletechitietsp/:id', async (req, res) => {
   }
 })
 
-router.post('/updatechitietsp/:id', async (req, res) => {
-  try {
-    const id = req.params.id
-    const { name, content, price } = req.body
+router.post(
+  '/updatechitietsp/:id',
+  async (req, res) => {
+    try {
+      const id = req.params.id
+      const { name, content, price,image } = req.body
+    
+      const chitietsp = await Sp.ChitietSp.findById(id)
+      if (!chitietsp) {
+        return res
+          .status(404)
+          .json({ message: 'Không tìm thấy chi tiết sản phẩm' })
+      }
 
-    const chitietsp = await Sp.ChitietSp.findById(id)
-    if (!chitietsp) {
-      return res
-        .status(404)
-        .json({ message: 'Không tìm thấy chi tiết sản phẩm' })
+      chitietsp.content = content
+      chitietsp.price = price
+      chitietsp.name = name
+      chitietsp.image=image
+
+      await chitietsp.save()
+
+      res.redirect('/main')
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
     }
-
-    chitietsp.content = content
-    chitietsp.price = price
-    chitietsp.name = name
-
-    await chitietsp.save()
-
-    res.redirect('/main')
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
-})
+)
 
 router.get('/editsp/:id', async (req, res) => {
   try {
@@ -841,7 +848,7 @@ router.get('/muangay/:idsp', async (req, res) => {
       price: sp.price
     }
     // res.json(spjson)
-    res.render('home/formmua.ejs', { spjson, tenloai,currentPage: page })
+    res.render('home/formmua.ejs', { spjson, tenloai, currentPage: page })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -1144,10 +1151,6 @@ router.get('/contentBlog/:tieude', async (req, res) => {
       ' '
     )
     const blog = await myMDBlog.blogModel.findOne({ tieude_khongdau })
-    const allsp = await LoaiSP.TenSP.find().populate('chitietsp')
-    const tenloai = await LoaiSP.TenSP.find().lean()
-    const page = parseInt(req.query.page, 10) || 1
-
 
     if (!blog) {
       return res.status(404).json({ message: 'Blog không tồn tại' })
@@ -1170,11 +1173,7 @@ router.get('/contentBlog/:tieude', async (req, res) => {
       content,
       tieude: blog.tieude_blog,
       listBl,
-      image_blog: blog.img_blog,
-      allsp,
-      tenloai,
-      currentPage: page
-
+      image_blog: blog.img_blog
     })
   } catch (error) {
     console.error(error)
@@ -1366,8 +1365,7 @@ router.get('/getblog', async (req, res) => {
     const tenloai = await LoaiSP.TenSP.find().lean()
     const page = parseInt(req.query.page, 10) || 1
 
-
-    res.render('home/blog.ejs', { listBl, tenloai,currentPage: page })
+    res.render('home/blog.ejs', { listBl, tenloai, currentPage: page })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
