@@ -83,31 +83,17 @@
 <div class="search-popup">
     <div class="search-popup-container">
 
-        <form role="search" method="get" class="search-form" action="">
-            <input type="search" id="search-form" class="search-field" placeholder="Nhập từ khóa tìm kiếm" value="" name="s" />
-            <button type="submit" class="search-submit"><svg class="search">
+        <form role="search" method="get" class="search-form" action="/search-products">
+            <input type="search" id="search-form" class="search-field" placeholder="Nhập từ khóa tìm kiếm" name="query" />
+            <button type="submit" class="search-submit">
+        <svg class="search">
             <use xlink:href="#search"></use>
-          </svg></button>
+        </svg>
+    </button>
         </form>
 
-        <h5 class="cat-list-title">Tìm kiếm sản phẩm</h5>
 
-        <ul class="cat-list">
-            <li class="cat-list-item">
-                <a href="#" title="Mobile Phones">iPhone bán chạy nhất</a>
-            </li>
-            <li class="cat-list-item ">
-                <a href="#" title="Smart Watches">iPhone mới nhất</a>
-            </li>
-            <li class="cat-list-item">
-                <a href="#" title="Headphones">Sạc cáp</a>
-            </li>
-            <li class="cat-list-item">
-                <a href="#" title="Accessories">Tai nghe</a>
-            </li>
-
-        </ul>
-
+        <h3 class="cat-list-title">Tìm kiếm sản phẩm</h3>
     </div>
 </div>
 
@@ -117,6 +103,8 @@
             <a class="navbar-brand" href="/">
                 <img src="/images/main-logo.png" class="logo" alt="chua">
             </a>
+
+
             <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
           <svg class="navbar-icon">
             <use xlink:href="#navbar-icon"></use>
@@ -152,7 +140,6 @@
                         <li class="nav-item">
                             <a class="nav-link me-4" href="/contact">Liên hệ</a>
                         </li>
-
                         <li class="nav-item">
                             <div class="user-items ps-5">
                                 <ul class="d-flex justify-content-end list-unstyled">

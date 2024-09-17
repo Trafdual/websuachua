@@ -44,6 +44,9 @@
     ================================================== -->
     <style>
         @media only screen and (max-width: 700px) {
+            .nav-search {
+                display: block;
+            }
             body.no-scroll {
                 overflow: hidden;
                 /* Ẩn cuộn cho trang */
@@ -407,6 +410,9 @@
         }
         
         @media only screen and (min-width: 701px) {
+            .nav-search {
+                display: none;
+            }
             .message-button {
                 background-color: #3498db;
                 color: white;
@@ -793,7 +799,7 @@
 
     <!-- Google tag (gtag.js) -->
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W4P4TDHPNZ"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16700715907"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -802,7 +808,7 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'G-W4P4TDHPNZ');
+        gtag('config', 'AW-16700715907');
     </script>
 </head>
 
@@ -944,19 +950,16 @@
                                     </div>
                                 </div>
                                 <div class="d-flex loai ">
-                                    <% mangjson.mangloai.forEach((item,index)=> { %>
+                                    <% mangjson.mangloai.forEach((item, index) => { %>
                                         <div class="d-flex divloai">
-                                            <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>">
+                                            <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>" <%=index===0 ? 'checked' : '' %>>
                                             <div class="divconloai">
-                                                <strong class="strongloai">
-                          <%= item.name %>
-                        </strong>
-                                                <strong class="strongloai2 price<%= index %>">
-                          <%= item.price %>
-                        </strong>
+                                                <strong class="strongloai"><%= item.name %></strong>
+                                                <strong class="strongloai2 price<%= index %>"><%= item.price %></strong>
                                             </div>
                                         </div>
                                         <% }); %>
+
                                 </div>
                                 <p>
                                     <%= mangjson.spjson.content %>
@@ -979,7 +982,7 @@
                                                 <div class="dbodykhuyenmai ">
                                                     <p style="color: aliceblue; text-align: center;">1</p>
                                                 </div>
-                                                <p class="pbodykhuyenmai"> Tặng thêm quà tặng trị giá 1.750.000đ áp dụng từ ngày 9/3 đến 15/3/2024</p>
+                                                <p class="pbodykhuyenmai"> Tặng thêm quà tặng trị giá 1.750.000đ</p>
                                             </div>
                                             <div class="d-flex">
                                                 <div class="dbodykhuyenmai">
@@ -1199,8 +1202,23 @@
                 var productInfoElement = document.getElementById("ttin");
                 truncateText(productInfoElement, 330); // Giới hạn 100 ký tự
 
-                const pricestrongInitialValue = document.querySelector('.pricestrong').textContent.trim();
-                const pricestrongInitialValue2 = document.querySelector('.pricemobile2').textContent.trim();
+                // Thiết lập giá trị ban đầu cho checkbox đầu tiên
+                const firstCheckbox = document.querySelector('.inputloai');
+                if (firstCheckbox) {
+                    const price = parseFloat(firstCheckbox.getAttribute('data-price'));
+                    const index = firstCheckbox.getAttribute('data-index');
+                    const priceElement = document.querySelector(`.price${index}`);
+                    const priceValue = priceElement.textContent.trim();
+
+                    const pricestrong = document.querySelector('.pricestrong');
+                    const pricestrong2 = document.querySelector('.pricemobile2');
+
+                    // Đặt giá trị ban đầu cho pricestrong và pricestrong2
+                    pricestrong.textContent = priceValue;
+                    pricestrong2.textContent = priceValue;
+                }
+
+                // Xử lý sự kiện khi checkbox được click
                 document.querySelectorAll('.inputloai').forEach(item => {
                     item.addEventListener('click', function() {
                         // Loại bỏ chọn các checkbox khác

@@ -70,3 +70,35 @@ exports.login = async (req, res, next) => {
     
     res.render('settings/login', {msg: msg});
 }
+
+exports.login1 = async (req, res, next) => {
+  let msg = ' '
+  if (req.method == 'POST') {
+    //  lấy thông  tin dựa vào username
+    try {
+      let objU = await md.UserModel.findOne({ ten: req.body.ten }) // findOne la tim 1 doi tuong
+      console.log(objU)
+
+      if (req.body.ten == '') {
+        msg = 'mời nhập tên đăng nhập'
+      } else {
+        if (objU != null) {
+          // có tồn tại user == kiểm tra password
+          if (objU.passwrd == req.body.passwrd) {
+            const token = jwt.sign({ userId: objU._id }, 'mysecretkey', {
+              expiresIn: '1d'
+            })
+            req.session.userLogin = objU
+            req.session.token = token
+            return res.redirect('/donhang')
+          } else {
+            msg = 'sai password'
+          }
+        } else {
+          msg = 'User không tồn tại: ' + req.body.ten
+        }
+      }
+    } catch (error) {}
+  }
+  res.render('settings/login1', { msg: msg })
+}

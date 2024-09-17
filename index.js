@@ -29,8 +29,7 @@ app.use(
     // ,cookie: { secure: true }
   })
 )
-
-app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
@@ -48,9 +47,9 @@ app.use('/', apinewsanpham)
 app.use(express.static(path.join(__dirname, '/public')))
 app.use(express.static(path.join(__dirname, '/uploads')))
 
-
 app.listen(3000, () => {
   console.log('Server is running on port 3000')
   console.log(__dirname)
 })
 module.exports = app
+

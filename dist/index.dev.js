@@ -38,8 +38,7 @@ app.use(session({
 
 }));
 app.use(bodyParser.urlencoded({
-  extended: true,
-  limit: '10mb'
+  extended: false
 }));
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));

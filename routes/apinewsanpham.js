@@ -6,6 +6,8 @@ const LoaiSP = require('../models/tenSpModel')
 const multer = require('multer')
 var myMDBlog = require('../models/blog.model')
 const checkAuth = require('../controllers/checkAuth')
+const checkAuth2 = require('../controllers/checkAuth2')
+
 const LinkKien = require('../models/LinkKienModel')
 const LoaiLinkKien = require('../models/LoaiLinhKien')
 const Notify = require('../models/NotifyModel')
@@ -19,7 +21,7 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
 router.get('/mess', async (req, res) => {
-  res.render('home/test.ejs')
+  res.render('home/mess.ejs')
 })
 router.post('/postloaisp', async (req, res) => {
   try {
@@ -54,9 +56,46 @@ router.post('/postloaisp', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-router.get('/gift', async (req, res) => {
-  res.render('home/gift.ejs')
+router.get('/gift1/:idnotify', async (req, res) => {
+  try {
+    const idnotify = req.params.idnotify
+    const notify = await Notify.notify.findById(idnotify)
+    let message
+    let message2
+    if (notify.isRead === false) {
+      message = 'chưa được duyệt'
+    } else {
+      message = 'thành công'
+      if (notify.isQuay === true) {
+        message2 = 'hết lượt'
+      }
+    }
+
+    res.render('home/gift.ejs', { message, message2, idnotify })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
 })
+router.get('/gift', async (req, res) => {
+  res.render('home/gift1.ejs')
+})
+router.get('/notify-status/:idnotify', async (req, res) => {
+  try {
+    const idnotify = req.params.idnotify
+    const notify = await Notify.notify.findById(idnotify)
+
+    if (notify) {
+      res.json({ isRead: notify.isRead })
+    } else {
+      res.status(404).json({ message: 'Notification not found' })
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+
 router.post('/putloaisp/:id', async (req, res) => {
   try {
     const id = req.params.id
@@ -134,27 +173,31 @@ router.get('/main', checkAuth, async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    // Tải tất cả các sản phẩm và thông tin chi tiết
-    const allsp = await LoaiSP.TenSP.find().populate('chitietsp').lean()
-    // Tải các blog và sắp xếp theo thứ tự giảm dần của _id
-    const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 }).lean()
-    // Tải đánh giá
-    const danhgia = await DanhGia.danhgia.find().lean()
+    const allsp = await LoaiSP.TenSP.find().populate('chitietsp')
+    const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 })
+    const danhgia = await DanhGia.danhgia.find()
 
-    // Chuyển đổi dữ liệu sản phẩm
-    const tenspjson = allsp.map(tensp => ({
-      id: tensp._id,
-      name: tensp.name,
-      chitietsp: tensp.chitietsp.map(chitietsp => ({
-        id: chitietsp._id,
-        name: chitietsp.name,
-        noidung: chitietsp.content,
-        price: chitietsp.price,
-        image: chitietsp.image
-      }))
-    }))
+    const tenspjson = await Promise.all(
+      allsp.map(async tensp => {
+        const chitietspJson = await Promise.all(
+          tensp.chitietsp.map(async chitietsp => {
+            return {
+              id: chitietsp._id,
+              name: chitietsp.name,
+              noidung: chitietsp.content,
+              price: chitietsp.price,
+              image: chitietsp.image
+            }
+          })
+        )
+        return {
+          id: tensp._id,
+          name: tensp.name,
+          chitietsp: chitietspJson
+        }
+      })
+    )
 
-    // Lọc và chuyển đổi đánh giá
     const danhgiaIsReadTrue = danhgia
       .filter(d => d.isRead === true)
       .map(d => ({
@@ -163,12 +206,10 @@ router.get('/', async (req, res) => {
         content: d.content,
         rating: d.rating
       }))
-
-    // Render trang
     res.render('home/index.ejs', { tenspjson, listBl, danhgiaIsReadTrue })
   } catch (error) {
     console.error(error)
-    res.status(500).json({ message: `Đã xảy ra lỗi: ${error.message}` })
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
 
@@ -245,7 +286,7 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
   try {
     const nameloaisp = req.params.nameloaisp.replace(/-/g, ' ')
     const loaisp = await LoaiSP.TenSP.findOne({ name: nameloaisp })
-    const tenloai= await LoaiSP.TenSP.find().lean();
+    const tenloai = await LoaiSP.TenSP.find().lean()
 
     if (!loaisp) {
       return res.status(404).json({ message: 'Không tìm thấy loại sản phẩm' })
@@ -258,16 +299,18 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
 
     // Lấy danh sách sản phẩm và tổng số sản phẩm
     const allChitiet = await Promise.all(
-      loaisp.chitietsp.map(async ct => {
-        const chitietsp = await Sp.ChitietSp.findById(ct._id)
-        return {
-          _id: chitietsp._id,
-          image: chitietsp.image,
-          name: chitietsp.name,
-          content: chitietsp.content,
-          price: chitietsp.price
-        }
-      })
+      loaisp.chitietsp
+        .sort(() => Math.random() - 0.5)
+        .map(async ct => {
+          const chitietsp = await Sp.ChitietSp.findById(ct._id)
+          return {
+            _id: chitietsp._id,
+            image: chitietsp.image,
+            name: chitietsp.name,
+            content: chitietsp.content,
+            price: chitietsp.price
+          }
+        })
     )
 
     // Phân trang sản phẩm
@@ -288,12 +331,59 @@ router.get('/getspchitiet/:nameloaisp', async (req, res) => {
   }
 })
 
+router.get('/search-products', async (req, res) => {
+  try {
+    const query = req.query.query || '' // Từ khóa tìm kiếm
+    const page = parseInt(req.query.page, 10) || 1 // Trang hiện tại, mặc định là 1
+    const limit = 9 // Số sản phẩm mỗi trang
+    const skip = (page - 1) * limit // Số lượng sản phẩm cần bỏ qua
+    const tenloai = await LoaiSP.TenSP.find().lean()
+
+    // Phân tách từ khóa thành các phần
+    const searchTerms = query
+      .split(/\s+/)
+      .map(term => term.trim())
+      .filter(term => term.length > 0)
+    const regex = new RegExp(searchTerms.join('.*'), 'i') // Biểu thức chính quy tìm kiếm các từ khóa
+
+    // Tìm kiếm sản phẩm dựa trên từ khóa
+    const searchResults = await Sp.ChitietSp.find({
+      name: { $regex: regex }
+    })
+      .skip(skip)
+      .limit(limit)
+      .lean()
+
+    // Đếm tổng số sản phẩm khớp với tìm kiếm
+    const totalProducts = await Sp.ChitietSp.countDocuments({
+      name: { $regex: regex }
+    })
+
+    const totalPages = Math.ceil(totalProducts / limit)
+
+    // Render kết quả tìm kiếm
+    res.render('home/shop2.ejs', {
+      chitiet: searchResults,
+      tenloai, // Có thể để trống hoặc lấy dữ liệu liên quan nếu cần
+      nameloaisp: query, // Truyền từ khóa tìm kiếm cho giao diện
+      totalPages,
+      currentPage: page
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
 
 router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
   try {
     const namesp = req.params.namesp.replace(/-/g, ' ').replace(/pt/g, '%')
     const nameloai = req.params.nameloai.replace(/-/g, ' ').replace(/pt/g, '%')
     const sp = await Sp.ChitietSp.findOne({ name: namesp })
+    const tenloai = await LoaiSP.TenSP.find().lean()
+    const page = parseInt(req.query.page, 10) || 1
+
+
     if (!sp) {
       return res.status(404).json({ message: 'Không tìm thấy sản phẩm' })
     }
@@ -331,7 +421,13 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
     }
     // res.json(namesp)
     // // res.json(mangjson)
-    res.render('home/single-product.ejs', { mangjson, nameloai, namesp })
+    res.render('home/single-product.ejs', {
+      mangjson,
+      nameloai,
+      namesp,
+      tenloai,
+      currentPage: page
+    })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -737,12 +833,15 @@ router.get('/muangay/:idsp', async (req, res) => {
   try {
     const idsp = req.params.idsp
     const sp = await Sp.ChitietSp.findById(idsp)
+    const tenloai = await LoaiSP.TenSP.find().lean()
+    const page = parseInt(req.query.page, 10) || 1
+
     const spjson = {
       name: sp.name,
       price: sp.price
     }
     // res.json(spjson)
-    res.render('home/formmua.ejs', { spjson })
+    res.render('home/formmua.ejs', { spjson, tenloai,currentPage: page })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -766,11 +865,48 @@ router.post('/postnotify', async (req, res) => {
     notify.date = vietnamTime
     await notify.save()
     setTimeout(() => {
-      res.redirect('/')
-    }, 3000)
+      res.redirect('/form')
+    }, 2000)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+router.get('/form', async (req, res) => {
+  res.render('home/baominh.ejs')
+})
+router.post('/postnotify1', async (req, res) => {
+  try {
+    const { tenkhach, phone, email, tensp, price, address, cccd } = req.body
+    const vietnamTime = momenttimezone().toDate()
+    const notify = new Notify.notify({
+      tenkhach,
+      phone,
+      email,
+      tensp,
+      price,
+      address,
+      cccd
+    })
+    notify.date = vietnamTime
+    await notify.save()
+    req.session.idnotify = notify._id
+    return res.json({ message: 'thành công', tbid: notify._id })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+router.post('/postIsquay/:idnotify', async (req, res) => {
+  try {
+    const idnotify = req.params.idnotify
+    const notify = await Notify.notify.findById(idnotify)
+    notify.isQuay = true
+    await notify.save()
+    res.json({ message: 'thành công' })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra l��i: ${error}` })
   }
 })
 
@@ -786,8 +922,58 @@ router.post('/duyet/:idnotify', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
+router.post('/deletenotify/:idnotify', async (req, res) => {
+  try {
+    const idnotify = req.params.idnotify
+    await Notify.notify.findByIdAndDelete(idnotify)
+    res.redirect('/donhang')
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra l��i: ${error}` })
+  }
+})
+router.get('/orders/search', async (req, res) => {
+  try {
+    const searchQuery = req.query.query || ''
+    const regex = new RegExp(searchQuery, 'i') // Tạo biểu thức chính quy không phân biệt chữ hoa chữ thường
 
-router.get('/donhang', async (req, res) => {
+    // Tìm kiếm đơn hàng đã được duyệt
+    const donHangIsReadTrue = await Notify.notify.find({
+      isRead: true,
+      $or: [
+        { tenkhach: regex },
+        { phone: regex },
+        { email: regex },
+        { address: regex },
+        { tensp: regex }
+      ]
+    })
+
+    // Render HTML cho bảng kết quả tìm kiếm
+    res.json({
+      html: donHangIsReadTrue
+        .map(
+          row => `
+                <tr>
+                    <td>${row.tenkhach}</td>
+                    <td><a href="">${row.phone}</a></td>
+                    <td>${row.email}</td>
+                    <td>${row.address}</td>
+                    <td>${row.tensp}</td>
+                    <td>${row.price}</td>
+                    <td>${moment(row.date).format('DD/MM/YYYY HH:mm:ss')}</td>
+                </tr>
+            `
+        )
+        .join('')
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Đã xảy ra lỗi.' })
+  }
+})
+
+router.get('/donhang', checkAuth2, async (req, res) => {
   try {
     const donhang = await Notify.notify.find()
 
@@ -821,6 +1007,65 @@ router.get('/donhang', async (req, res) => {
       donHangIsReadTrue,
       donHangIsReadFalse
     })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+
+router.get('/donhang/longpoll', async (req, res) => {
+  try {
+    // Thay đổi thời gian chờ phù hợp với nhu cầu của bạn
+    const timeout = 30000 // 30 giây
+    const startTime = Date.now()
+
+    const checkForUpdates = () => {
+      // Kiểm tra dữ liệu cập nhật mới
+      Notify.notify
+        .find()
+        .then(donhang => {
+          const donHangIsReadTrue = donhang
+            .filter(d => d.isRead === true)
+            .map(d => ({
+              _id: d._id,
+              tenkhach: d.tenkhach,
+              phone: d.phone,
+              email: d.email,
+              address: d.address,
+              tensp: d.tensp,
+              price: d.price,
+              date: moment(d.date).format('DD/MM/YYYY HH:mm:ss')
+            }))
+
+          const donHangIsReadFalse = donhang
+            .filter(d => d.isRead === false)
+            .map(d => ({
+              _id: d._id,
+              tenkhach: d.tenkhach,
+              phone: d.phone,
+              email: d.email,
+              address: d.address,
+              tensp: d.tensp,
+              price: d.price,
+              date: moment(d.date).format('DD/MM/YYYY HH:mm:ss')
+            }))
+
+          if (donHangIsReadTrue.length > 0 || donHangIsReadFalse.length > 0) {
+            res.json({ donHangIsReadTrue, donHangIsReadFalse })
+          } else if (Date.now() - startTime > timeout) {
+            res.json({ donHangIsReadTrue: [], donHangIsReadFalse: [] })
+          } else {
+            // Nếu không có cập nhật mới, tiếp tục chờ
+            setTimeout(checkForUpdates, 1000) // 1 giây
+          }
+        })
+        .catch(err => {
+          console.error(err)
+          res.status(500).json({ message: `Đã xảy ra lỗi: ${err}` })
+        })
+    }
+
+    checkForUpdates()
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -900,6 +1145,9 @@ router.get('/contentBlog/:tieude', async (req, res) => {
     )
     const blog = await myMDBlog.blogModel.findOne({ tieude_khongdau })
     const allsp = await LoaiSP.TenSP.find().populate('chitietsp')
+    const tenloai = await LoaiSP.TenSP.find().lean()
+    const page = parseInt(req.query.page, 10) || 1
+
 
     if (!blog) {
       return res.status(404).json({ message: 'Blog không tồn tại' })
@@ -923,7 +1171,10 @@ router.get('/contentBlog/:tieude', async (req, res) => {
       tieude: blog.tieude_blog,
       listBl,
       image_blog: blog.img_blog,
-      allsp
+      allsp,
+      tenloai,
+      currentPage: page
+
     })
   } catch (error) {
     console.error(error)
@@ -1112,7 +1363,11 @@ router.get('/getaddblogtest', async (req, res) => {
 router.get('/getblog', async (req, res) => {
   try {
     const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 })
-    res.render('home/blog.ejs', { listBl })
+    const tenloai = await LoaiSP.TenSP.find().lean()
+    const page = parseInt(req.query.page, 10) || 1
+
+
+    res.render('home/blog.ejs', { listBl, tenloai,currentPage: page })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -1141,7 +1396,7 @@ router.post('/editblog/:idblog', async (req, res) => {
         }
         nd.keywords = keywords[index]
         nd.urlBase = urlBase[index]
-          nd.img = img[index]
+        nd.img = img[index]
         nd.tieude = tieude[index]
       })
 
@@ -1219,7 +1474,6 @@ router.get('/editblog/:idblog', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-
 
 router.post(
   '/editblog/:idblog',
@@ -1323,7 +1577,6 @@ router.post('/upload', uploads.single('image'), (req, res) => {
   const fileUrl = `http://localhost:3000/${req.file.filename}`
   res.json({ url: fileUrl })
 })
-
 
 router.post('/deleteblog/:idblog', async (req, res) => {
   try {

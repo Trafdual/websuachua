@@ -42,6 +42,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         @media only screen and (max-width: 700px) {
+            .nav-search {
+                display: block;
+            }
+            .subscribe-content {
+                display: block;
+            }
+            .sidebar input.search-field {
+                width: 85%;
+            }
             .message-button {
                 background-color: #3498db;
                 color: white;
@@ -219,6 +228,9 @@
         }
         
         @media only screen and (min-width: 701px) {
+            .nav-search {
+                display: none;
+            }
             .message-button {
                 background-color: #3498db;
                 color: white;
@@ -397,7 +409,7 @@
     <!-- script
     ================================================== -->
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W4P4TDHPNZ"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16700715907"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -406,7 +418,7 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'G-W4P4TDHPNZ');
+        gtag('config', 'AW-16700715907');
     </script>
 </head>
 
@@ -470,7 +482,7 @@
               </select>
                             </div>
                         </div>
-                        <div class="product-content product-store d-flex justify-content-between flex-wrap overflow-hidden">
+                        <div class="product-content product-store d-flex flex-wrap overflow-hidden">
                             <% chitiet.forEach((product) => { %>
                                 <div style="width: 30%;" class="col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="product-card position-relative ">
@@ -541,7 +553,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="widget-product-categories pt-5">
+                            <div class="widget-product-categories pt-3">
                                 <h5 class="widget-title text-decoration-underline text-uppercase">Thể loại</h5>
                                 <ul class="product-categories sidebar-list list-unstyled">
                                     <li class="cat-item"></li>
@@ -549,7 +561,7 @@
                                     </li>
                                     <% tenloai.forEach((tl) => { %>
                                         <li class="cat-item">
-                                            <a href="/getspchitiet/<%= encodeURIComponent(tl.name).replace(/%20/g, '-') %>" style="">
+                                            <a href="/getspchitiet/<%= encodeURIComponent(tl.name).replace(/%20/g, '-') %>">
                                                 <%= tl.name %>
                                             </a>
                                         </li>
@@ -582,8 +594,11 @@
                         </div>
                         <div class="col-md-5 col-sm-12">
                             <form class="subscription-form validate">
-                                <div class="input-group flex-wrap">
-                                    <input class="form-control btn-rounded-none" type="email" name="EMAIL" placeholder="Địa chỉ email của bạn ở đây" required="">
+                                <div class="input-group flex-column">
+                                    <input class="form-control btn-rounded-none" type="text" name="tenkhach" placeholder="Họ và tên" required>
+                                    <input class="form-control btn-rounded-none" type="text" name="address" placeholder="Địa chỉ" required>
+                                    <input class="form-control btn-rounded-none" type="text" name="phone" placeholder="Số điện thoại " required>
+                                    <input class="form-control btn-rounded-none" type="text" name="tensp" placeholder="Tên máy" required>
                                     <button class="btn btn-medium btn-primary text-uppercase btn-rounded-none" type="submit" name="subscribe">Đăng ký</button>
                                 </div>
                             </form>
@@ -592,67 +607,27 @@
                 </div>
             </div>
         </section>
-        <section id="instagram" class="padding-large overflow-hidden no-padding-top">
-            <div class="container">
-                <div class="row">
-                    <div class="display-header text-uppercase text-dark text-center pb-3">
-                        <h2 class="display-7">Mua trên trang Facebook của chúng tôi</h2>
+        <!-- Modal -->
+        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="successModalLabel">Đăng ký thành công</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="d-flex flex-wrap">
-                        <figure class="instagram-item pe-2">
-                            <a href="https://templatesjungle.com/" class="image-link position-relative">
-                                <img src="/images/insta-item1.jpg" alt="instagram" class="insta-image">
-                                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                                    <svg class="instagram">
-                  <use xlink:href="#instagram"></use>
-                </svg>
-                                </div>
-                            </a>
-                        </figure>
-                        <figure class="instagram-item pe-2">
-                            <a href="https://templatesjungle.com/" class="image-link position-relative">
-                                <img src="/images/insta-item2.jpg" alt="instagram" class="insta-image">
-                                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                                    <svg class="instagram">
-                  <use xlink:href="#instagram"></use>
-                </svg>
-                                </div>
-                            </a>
-                        </figure>
-                        <figure class="instagram-item pe-2">
-                            <a href="https://templatesjungle.com/" class="image-link position-relative">
-                                <img src="/images/insta-item3.jpg" alt="instagram" class="insta-image">
-                                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                                    <svg class="instagram">
-                  <use xlink:href="#instagram"></use>
-                </svg>
-                                </div>
-                            </a>
-                        </figure>
-                        <figure class="instagram-item pe-2">
-                            <a href="https://templatesjungle.com/" class="image-link position-relative">
-                                <img src="/images/insta-item4.jpg" alt="instagram" class="insta-image">
-                                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                                    <svg class="instagram">
-                  <use xlink:href="#instagram"></use>
-                </svg>
-                                </div>
-                            </a>
-                        </figure>
-                        <figure class="instagram-item pe-2">
-                            <a href="https://templatesjungle.com/" class="image-link position-relative">
-                                <img src="/images/insta-item5.jpg" alt="instagram" class="insta-image">
-                                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                                    <svg class="instagram">
-                  <use xlink:href="#instagram"></use>
-                </svg>
-                                </div>
-                            </a>
-                        </figure>
+                    <div class="modal-body">
+                        Cảm ơn bạn đã đăng ký! Chúng tôi đã nhận được thông tin của bạn.
+                    </div>
+                    <div class="modal-body">
+                        Chúng tôi sẽ liên hệ với bạn sớm nhất.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+
         <%- include('../include/footer2.ejs') %>
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
@@ -696,6 +671,42 @@
                     }
                 });
             </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const form = document.querySelector('.subscription-form');
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+
+                    form.addEventListener('submit', function(event) {
+                        event.preventDefault(); // Ngăn gửi form theo cách thông thường
+
+                        const formData = new FormData(form);
+                        const data = Object.fromEntries(formData.entries());
+
+                        fetch('/postnotify1', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data)
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.message === 'thành công') {
+                                    successModal.show(); // Hiển thị modal nếu đăng ký thành công
+                                    form.reset();
+                                } else {
+                                    // Xử lý lỗi nếu cần
+                                    alert('Đã xảy ra lỗi khi đăng ký.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Lỗi:', error);
+                                alert('Đã xảy ra lỗi khi gửi form.');
+                            });
+                    });
+                });
+            </script>
+
             <script src="/js/jquery-1.11.0.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
             <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>

@@ -442,6 +442,7 @@ h3.cart-title {
     background: var(--primary-color);
     color: var(--light-color);
     border: none;
+    margin-top: 2%;
 }
 
 .btn.btn-primary:hover {
@@ -667,7 +668,7 @@ icon messenger
 .search-popup .cat-list-title {
     margin-top: 40px;
     margin-bottom: 10px;
-    font-size: 0.6em;
+    font-size: 2em;
     font-weight: normal;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -753,6 +754,7 @@ icon messenger
     font-size: 24px;
     height: 60px;
     padding: 26px;
+    pointer-events: auto;
 }
 
 .search-popup .search-form button {
@@ -1207,7 +1209,6 @@ figure.instagram-item img.insta-image {
 
 .paging-navigation .pagination .page-numbers {
     font-size: 1.4em;
-    color: var(--gray-color-500);
 }
 
 .paging-navigation .pagination .page-numbers:hover {
@@ -1359,4 +1360,21 @@ figure.instagram-item img.insta-image {
 .post-navigation:hover svg,
 .post-navigation:focus svg {
     fill: var(--primary-color);
+}
+
+.page-numbers {
+    color: #000;
+    /* Màu mặc định cho các trang */
+    text-decoration: none;
+    /* Xóa gạch chân */
+    padding: 5px 10px;
+}
+
+.page-numbers.current {
+    font-weight: bold;
+    /* Làm đậm chữ cho trang hiện tại */
+    color: #ff0000;
+    /* Màu chữ khác cho trang hiện tại */
+    border-bottom: 2px solid #ff0000;
+    /* Đường gạch chân để phân biệt */
 }

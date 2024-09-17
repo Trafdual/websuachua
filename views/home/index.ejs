@@ -23,6 +23,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         @media only screen and (max-width: 700px) {
+            .nav-search {
+                display: block;
+            }
+            .searchSection {
+                display: block;
+            }
             .message-button {
                 background-color: #3498db;
                 color: white;
@@ -340,9 +346,37 @@
             #img-fluid {
                 height: 200px;
             }
+            .inputSearch {
+                font-size: 15px;
+                height: 50px;
+                border: 2px solid rgb(221, 221, 221);
+                border-top-left-radius: 15px;
+                border-bottom-left-radius: 15px;
+                padding-left: 10px;
+                transition: box-shadow 0.3s, border-color 0.3s;
+                flex: 1;
+            }
+            .inputSearch:focus {
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+                border-color: rgb(200, 0, 0);
+            }
+            .btnSearch {
+                border: none;
+                font-size: 15px;
+                border-top-right-radius: 15px;
+                border-bottom-right-radius: 15px;
+                background-color: red;
+                color: white;
+                font-weight: bold;
+                height: 50px;
+                cursor: pointer;
+            }
         }
         
         @media only screen and (min-width: 701px) {
+            .nav-search {
+                display: block;
+            }
             .message-button {
                 background-color: #3498db;
                 color: white;
@@ -735,6 +769,9 @@
             #img-fluid {
                 height: 200px;
             }
+            .searchSection {
+                display: none;
+            }
         }
     </style>
     <!-- script
@@ -756,7 +793,7 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-KB5DNX5V');
     </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W4P4TDHPNZ"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16700715907"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -765,7 +802,7 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'G-W4P4TDHPNZ');
+        gtag('config', 'AW-16700715907');
     </script>
 </head>
 
@@ -814,6 +851,23 @@
         </form>
 
         <div class="container" style="height: 100px;"></div>
+        <section id="mobile-products" class="product-store position-relative no-padding-top section searchSection">
+            <div class="container sp">
+                <div class="row">
+                    <div class="display-header justify-content-between">
+                        <div>
+                            <h4>Tìm kiếm sản phẩm</h4>
+                            <form action="/search-products" style="display: flex;" role="search" method="get">
+                                <input class="inputSearch" type="text" placeholder="Nhập từ khóa tìm kiếm" name="query">
+                                <button class="btnSearch" type="submit">Tìm kiếm</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="overlay" class="overlay"></div>
+        </section>
+       
         <section id="yearly-sale" class="bg-light-blue mt-2 mb-2 overflow-hidden sale46">
             <div class="container ">
                 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
@@ -866,7 +920,7 @@
                                 </div>
                                 <div class="swiper product-swiper swiper-container">
                                     <div class="swiper-wrapper">
-                                        <% row.chitietsp.slice(0, 7).forEach((item, index)=> { %>
+                                        <% row.chitietsp.slice(0, 4).forEach((item, index)=> { %>
                                             <% var rowname=row.name; %>
                                                 <div class="swiper-slide">
                                                     <div class="product-card position-relative">
@@ -900,6 +954,10 @@
                             </div>
                         </div>
                     </section>
+                    <section id="yearly-sale" class="bg-light-blue mt-2 mb-2 overflow-hidden sale45" style="background-image: url('/images/banner5.png');background-position: right; background-repeat: no-repeat; background-size: cover;">
+                        
+                    </section>
+                    
                     <% }) %>
                         <section id="yearly-sale" class="bg-light-blue mt-2 mb-2 overflow-hidden sale45" style="background-image: url('/images/single-image1.png');background-position: right; background-repeat: no-repeat; background-size: cover;">
                             <div class="row d-flex flex-wrap ">
