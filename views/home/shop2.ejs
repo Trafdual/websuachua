@@ -491,7 +491,8 @@
                                         </div>
                                         <div class="divbtn cart-concern position-absolute btnsp">
                                             <div class="cart-button d-flex btnsp2">
-                                                <a href="/getchitiet/<%= encodeURIComponent(product.name).replace(/%20/g, '-').replace(/%25/g, 'pt') %>/<%= encodeURIComponent(nameloaisp).replace(/%20/g, '-').replace(/%25/g, 'pt') %>" class="btn btn-medium btn-danger btmua">Chi tiết</a>
+                                                <a href="/getchitiet/<%= encodeURIComponent(product.name).replace(/%20/g, '-').replace(/%25/g, 'pt' ) %>/<%=
+                                  encodeURIComponent(product.idloaisp.name).replace(/%20/g, '-' ).replace(/%25/g, 'pt' ) %>" class="btn btn-medium btn-danger btmua">Chi tiết</a>
                                                 <p onclick="makeCall()" class="btn btn-medium btn-danger btmua">Mua ngay</p>
                                             </div>
                                         </div>

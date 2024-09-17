@@ -353,11 +353,11 @@ router.get('/search-products', async (req, res) => {
     // Tìm kiếm sản phẩm dựa trên từ khóa
     const searchResults = await Sp.ChitietSp.find({
       name: { $regex: regex }
-    })
+    }).populate('idloaisp', 'name')
       .skip(skip)
       .limit(limit)
       .lean()
-
+      
     // Đếm tổng số sản phẩm khớp với tìm kiếm
     const totalProducts = await Sp.ChitietSp.countDocuments({
       name: { $regex: regex }
@@ -574,34 +574,31 @@ router.post('/deletechitietsp/:id', async (req, res) => {
   }
 })
 
-router.post(
-  '/updatechitietsp/:id',
-  async (req, res) => {
-    try {
-      const id = req.params.id
-      const { name, content, price,image } = req.body
-    
-      const chitietsp = await Sp.ChitietSp.findById(id)
-      if (!chitietsp) {
-        return res
-          .status(404)
-          .json({ message: 'Không tìm thấy chi tiết sản phẩm' })
-      }
+router.post('/updatechitietsp/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    const { name, content, price, image } = req.body
 
-      chitietsp.content = content
-      chitietsp.price = price
-      chitietsp.name = name
-      chitietsp.image=image
-
-      await chitietsp.save()
-
-      res.redirect('/main')
-    } catch (error) {
-      console.error(error)
-      res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+    const chitietsp = await Sp.ChitietSp.findById(id)
+    if (!chitietsp) {
+      return res
+        .status(404)
+        .json({ message: 'Không tìm thấy chi tiết sản phẩm' })
     }
+
+    chitietsp.content = content
+    chitietsp.price = price
+    chitietsp.name = name
+    chitietsp.image = image
+
+    await chitietsp.save()
+
+    res.redirect('/main')
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
-)
+})
 
 router.get('/editsp/:id', async (req, res) => {
   try {

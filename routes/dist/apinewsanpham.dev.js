@@ -804,7 +804,7 @@ router.get('/search-products', function _callee21(req, res) {
             name: {
               $regex: regex
             }
-          }).skip(skip).limit(limit).lean());
+          }).populate('idloaisp', 'name').skip(skip).limit(limit).lean());
 
         case 12:
           searchResults = _context21.sent;
