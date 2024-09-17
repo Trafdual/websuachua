@@ -576,20 +576,11 @@ router.post('/deletechitietsp/:id', async (req, res) => {
 
 router.post(
   '/updatechitietsp/:id',
-  uploads.fields([
-    { name: 'image', maxCount: 1 } // Một ảnh duy nhất
-  ]),
   async (req, res) => {
     try {
       const id = req.params.id
-      const { name, content, price } = req.body
-      const domain = 'https://www.baominhmobile.com' // Thay đổi thành domain của bạn
-
-      // Lấy tên file ảnh từ req.files và thêm domain vào trước tên file
-      const image = req.files['image']
-        ? `${domain}/${req.files['image'][0].filename}`
-        : null
-
+      const { name, content, price,image } = req.body
+    
       const chitietsp = await Sp.ChitietSp.findById(id)
       if (!chitietsp) {
         return res
