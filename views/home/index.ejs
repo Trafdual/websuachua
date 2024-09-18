@@ -185,6 +185,8 @@
             .sale47 {
                 margin: 0 auto;
                 height: 35px;
+                margin-right: 2%;
+                margin-left: 2%;
             }
             .sale46 {
                 overflow: hidden;
@@ -359,6 +361,8 @@
                 padding-left: 10px;
                 transition: box-shadow 0.3s, border-color 0.3s;
                 flex: 1;
+                position: relative;
+                padding-right: 30px;
             }
             .inputSearch:focus {
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -374,6 +378,27 @@
                 font-weight: bold;
                 height: 50px;
                 cursor: pointer;
+            }
+            .inputSearch::after {
+                content: '\00d7';
+                /* Ký tự dấu x (×) */
+                position: absolute;
+                right: 10px;
+                /* Khoảng cách từ cạnh phải */
+                top: 50%;
+                /* Căn giữa theo chiều dọc */
+                transform: translateY(-50%);
+                /* Căn giữa chính xác theo chiều dọc */
+                cursor: pointer;
+                font-size: 16px;
+                color: #888;
+                /* Màu sắc của dấu x */
+                display: none;
+                /* Ẩn dấu x mặc định */
+            }
+            .inputSearch:not(:placeholder-shown)::after {
+                display: block;
+                /* Hiển thị dấu x khi có nội dung */
             }
         }
         
@@ -868,8 +893,8 @@
                 <div class="row">
                     <div class="display-header justify-content-between">
                         <div>
-                            <form action="/search-products" style="display: flex;" role="search" method="get">
-                                <input class="inputSearch" type="text" placeholder="Tìm kiếm sản phẩm" name="query">
+                            <form action="/search-products" style="display: flex; position: relative;" role="search" method="get">
+                                <input id="search-input" class="inputSearch" type="text" placeholder="Tìm kiếm sản phẩm" name="query">
                                 <button class="btnSearch" type="submit">Tìm kiếm</button>
                             </form>
                         </div>
@@ -878,6 +903,7 @@
             </div>
             <div id="overlay" class="overlay"></div>
         </section>
+
 
         <section id="yearly-sale" class="bg-light-blue mt-2 mb-2 overflow-hidden sale46">
             <div class="container ">
@@ -1197,7 +1223,7 @@
 
                     fanpageButton.addEventListener("click", function() {
                         // Thay thế "URL_FANPAGE_FACEBOOK_CUA_BAN" bằng đường dẫn fanpage của bạn
-                        window.location.href = "https://www.facebook.com/messages/t/102425705973353/";
+                        window.location.href = "https://baominhmobile.com/mess";
                     });
 
                     leftImage.style.transition = "bottom 0.3s ease-in-out";
@@ -1216,6 +1242,28 @@
                             // Nếu không, đặt lại vị trí của hình ảnh
                             leftImage.style.bottom = "35%";
                             rightImage.style.bottom = "35%";
+                        }
+                    });
+                });
+                document.addEventListener('DOMContentLoaded', function() {
+                    const searchInput = document.getElementById('search-input');
+
+                    searchInput.addEventListener('input', function() {
+                        if (searchInput.value.length > 0) {
+                            searchInput.classList.add('has-content');
+                        } else {
+                            searchInput.classList.remove('has-content');
+                        }
+                    });
+
+                    searchInput.addEventListener('click', function(event) {
+                        if (event.target === searchInput) {
+                            const clearIcon = getComputedStyle(searchInput, '::after').content;
+                            if (clearIcon === '"×"') {
+                                searchInput.value = '';
+                                searchInput.dispatchEvent(new Event('input')); // Để cập nhật hiển thị dấu x
+                                searchInput.focus(); // Đặt lại tiêu điểm cho ô nhập liệu
+                            }
                         }
                     });
                 });

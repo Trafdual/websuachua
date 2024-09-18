@@ -1155,6 +1155,14 @@
                 function goToFanpage() {
                     window.location.href = "/mess";
                 }
+                document.addEventListener("DOMContentLoaded", function() {
+                    const fanpageButton = document.getElementById("fanpageButton");
+
+                    fanpageButton.addEventListener("click", function() {
+                        // Thay thế "URL_FANPAGE_FACEBOOK_CUA_BAN" bằng đường dẫn fanpage của bạn
+                        window.location.href = "https://baominhmobile.com/mess";
+                    });
+                });
             </script>
             <script>
                 document.title = '<%= nameloai %>'
