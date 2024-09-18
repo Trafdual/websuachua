@@ -866,7 +866,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div class="d-flex loai">
                                 <% mangjson.mangloai.forEach((item,index)=> { %>
                                     <div class="d-flex divloai">
-                                        <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai1" data-price="<%= item.price %>" data-index="<%= index %>">
+                                        <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>">
                                         <div class="divconloai">
                                             <strong class="strongloai">
                           <%= item.name %>
@@ -1215,55 +1215,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 if (firstCheckbox) {
                     const price = parseFloat(firstCheckbox.getAttribute('data-price'));
                     const index = firstCheckbox.getAttribute('data-index');
-                    const priceElement = document.querySelectorAll(`.price${index}`);
+                    const priceElement = document.querySelector(`.price${index}`);
                     const priceValue = priceElement.textContent.trim();
+
+                    const pricestrong = document.querySelector('.pricestrong');
                     const pricestrong2 = document.querySelector('.pricemobile2');
 
                     // Đặt giá trị ban đầu cho pricestrong và pricestrong2
+                    pricestrong.textContent = priceValue;
                     pricestrong2.textContent = priceValue;
                 }
 
                 // Xử lý sự kiện khi checkbox được click
                 document.querySelectorAll('.inputloai').forEach(item => {
-                    item.addEventListener('touchstart', function() {
-                        // Loại bỏ chọn các checkbox khác
-                        document.querySelectorAll('.inputloai').forEach(otherCheckbox => {
-                            if (otherCheckbox !== this) {
-                                otherCheckbox.checked = false;
-                            }
-                        });
-
-                        const price = parseFloat(this.getAttribute('data-price'));
-                        const index = this.getAttribute('data-index');
-                        const pricestrong2 = document.querySelector('.pricemobile2');
-                        const priceElement = document.querySelectorAll(`.price${index}`);
-                        const priceValue = priceElement.textContent.trim();
-
-                        if (this.checked) {
-                            pricestrong2.textContent = priceValue;
-                        } else {
-                            // Khôi phục giá trị ban đầu của pricestrong
-                            pricestrong2.textContent = pricestrongInitialValue2;
-                        }
-                    });
-                });
-
-                const firstCheckbox1 = document.querySelector('.inputloai1');
-                if (firstCheckbox1) {
-                    const price = parseFloat(firstCheckbox1.getAttribute('data-price'));
-                    const index = firstCheckbox1.getAttribute('data-index');
-                    const priceElement = document.querySelector(`.price${index}`);
-                    const priceValue = priceElement.textContent.trim();
-
-                    const pricestrong = document.querySelector('.pricestrong');
-
-                    // Đặt giá trị ban đầu cho pricestrong và pricestrong2
-                    pricestrong.textContent = priceValue;
-                }
-
-                // Xử lý sự kiện khi checkbox được click
-                document.querySelectorAll('.inputloai1').forEach(item => {
-                    item.addEventListener('touchstart', function() {
+                    item.addEventListener('click', function() {
                         // Loại bỏ chọn các checkbox khác
                         document.querySelectorAll('.inputloai').forEach(otherCheckbox => {
                             if (otherCheckbox !== this) {
@@ -1274,14 +1239,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         const price = parseFloat(this.getAttribute('data-price'));
                         const index = this.getAttribute('data-index');
                         const pricestrong = document.querySelector('.pricestrong');
+                        const pricestrong2 = document.querySelector('.pricemobile2');
                         const priceElement = document.querySelector(`.price${index}`);
                         const priceValue = priceElement.textContent.trim();
 
                         if (this.checked) {
                             pricestrong.textContent = priceValue;
+                            pricestrong2.textContent = priceValue;
                         } else {
                             // Khôi phục giá trị ban đầu của pricestrong
                             pricestrong.textContent = pricestrongInitialValue;
+                            pricestrong2.textContent = pricestrongInitialValue2;
                         }
                     });
                 });
