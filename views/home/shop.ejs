@@ -435,7 +435,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="anhdt">
-            <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="" onclick="makeCall()">
+            <a href="tel: 0833354354">
+                <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="" onclick="makeCall()">
+            </a>
         </div>
     </div>
 
@@ -486,14 +488,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </div>
                         <div class="product-content product-store d-flex flex-wrap overflow-hidden">
                             <% chitiet.forEach((product) => { %>
-                                <div style="width: 30%;" class="col-lg-4 col-md-6 col-sm-6 col-12">
+                                <div style="width: 33%;" class="col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="product-card position-relative ">
                                         <div class="image-holder">
+                                            <a href="/getchitiet/<%= encodeURIComponent(product.name).replace(/%20/g, '-').replace(/%25/g, 'pt') %>/<%= encodeURIComponent(nameloaisp).replace(/%20/g, '-').replace(/%25/g, 'pt') %>">
                                             <img src="<%= product.image %>" alt="product-item" class="img-fluid anh">
+                                            </a>
                                         </div>
                                         <div class="divbtn cart-concern position-absolute btnsp">
                                             <div class="cart-button d-flex btnsp2">
-                                                <a href="/getchitiet/<%= encodeURIComponent(product.name).replace(/%20/g, '-').replace(/%25/g, 'pt') %>/<%= encodeURIComponent(nameloaisp).replace(/%20/g, '-').replace(/%25/g, 'pt') %>" class="btn btn-medium btn-danger btmua">Chi tiết</a>
+                                                <a href="tel: 0833354354" class="btn btn-medium btn-danger btmua">Gọi điện</a>
                                                 <a href="https://baominhmobile.com/mess">
                                                     <p class="btn btn-medium btn-danger btmua">Nhắn tin</p>
                                                 </a>
@@ -501,7 +505,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                         </div>
                                         <div class="card-detail text-center justify-content-between align-items-baseline pt-3 thanhphan">
                                             <h6 class="name">
-                                                <a href="#">
+                                                <a href="/getchitiet/<%= encodeURIComponent(product.name).replace(/%20/g, '-').replace(/%25/g, 'pt') %>/<%= encodeURIComponent(nameloaisp).replace(/%20/g, '-').replace(/%25/g, 'pt') %>">
                                                     <%= product.name %>
                                                 </a>
                                             </h6>
