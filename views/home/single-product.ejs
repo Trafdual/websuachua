@@ -952,7 +952,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <div class="d-flex loai ">
                                     <% mangjson.mangloai.forEach((item, index) => { %>
                                         <div class="d-flex divloai">
-                                            <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>" <%=index===0 ? 'checked' : '' %>>
+                                            <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>" <%=index===0 ? 'checked' : '' %> />
                                             <div class="divconloai">
                                                 <strong class="strongloai"><%= item.name %></strong>
                                                 <strong class="strongloai2 price<%= index %>"><%= item.price %></strong>
