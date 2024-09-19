@@ -438,6 +438,7 @@
                 animation: shake 1s infinite alternate;
                 /* Sử dụng animation với tên 'shake', thời gian 0.5s, lặp lại vô hạn và chuyển động xen kẽ */
                 transform-origin: center;
+                cursor: pointer;
                 /* Đặt điểm xoay tại trung tâm của ảnh */
             }
             @keyframes shake {
@@ -866,7 +867,9 @@
         </div>
 
         <div class="anhdt">
-            <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="" onclick="makeCall()">
+            <a href="tel: 0833354354">
+                <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="" onclick="makeCall()">
+            </a>
         </div>
     </div>
 
@@ -956,7 +959,10 @@
                             <div class="row">
                                 <div class="display-header d-flex justify-content-between pb-3 ">
                                     <h2 class="display-7 text-dark text-uppercase">
-                                        <%= row.name %>
+                                        <a href="/getspchitiet/<%= encodeURIComponent(row.name).replace(/%20/g, '-') %>" class="btn
+                    btn-medium btn-normal text-uppercase">
+                                            <%= row.name %>
+                                        </a>
                                     </h2>
                                     <div class="btn-right">
                                         <a href="/getspchitiet/<%= encodeURIComponent(row.name).replace(/%20/g, '-') %>" class="btn
@@ -974,7 +980,10 @@
                                                 <div class="swiper-slide">
                                                     <div class="product-card position-relative">
                                                         <div class="image-holder">
+                                                            <a href="/getchitiet/<%= encodeURIComponent(item.name).replace(/%20/g, '-').replace(/%25/g, 'pt' ) %>/<%=
+                                  encodeURIComponent(rowname).replace(/%20/g, '-' ).replace(/%25/g, 'pt' ) %>">
                                                             <img src="<%= item.image %>" alt="product-item" class="img-fluid anh" loading="lazy">
+                                                            </a>
                                                         </div>
                                                         <div style="padding: 5%;" class="cart-concern position-absolute ">
                                                             <div class="cart-button d-flex">
