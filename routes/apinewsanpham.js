@@ -353,11 +353,12 @@ router.get('/search-products', async (req, res) => {
     // Tìm kiếm sản phẩm dựa trên từ khóa
     const searchResults = await Sp.ChitietSp.find({
       name: { $regex: regex }
-    }).populate('idloaisp', 'name')
+    })
+      .populate('idloaisp', 'name')
       .skip(skip)
       .limit(limit)
       .lean()
-      
+
     // Đếm tổng số sản phẩm khớp với tìm kiếm
     const totalProducts = await Sp.ChitietSp.countDocuments({
       name: { $regex: regex }
@@ -418,12 +419,36 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
       })
     )
 
+    const allProducts1 = await Sp.ChitietSp.find({
+      name: { $regex: /^IPHONE 12 PRO MAX WHITE/, $options: 'i' }
+    })
+
+    // Lọc ra phần đuôi của tên sản phẩm
+    const seenNames = new Set()
+    const mangloai1 = []
+
+    allProducts1.forEach(product => {
+      const parts = product.name.split(' ') // Tách chuỗi thành mảng
+      const capacity = parts.pop() // Lấy phần cuối (ví dụ: "128GB")
+
+      if (!seenNames.has(capacity)) {
+        seenNames.add(capacity) // Thêm dung lượng vào Set
+        mangloai.push({
+          name: capacity,
+          price: product.price
+        })
+      }
+    })
+
     const mangjson = {
       spjson: spjson,
-      mangloai: mangloai
+      mangloai: mangloai,
+      mangloai1: mangloai1
     }
+
     // res.json(namesp)
     // // res.json(mangjson)
+    console.log(mangloai1)
     res.render('home/single-product.ejs', {
       mangjson,
       nameloai,

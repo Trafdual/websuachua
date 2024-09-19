@@ -847,7 +847,7 @@ router.get('/search-products', function _callee21(req, res) {
   }, null, null, [[0, 20]]);
 });
 router.get('/getchitiet/:namesp/:nameloai', function _callee23(req, res) {
-  var namesp, nameloai, sp, tenloai, page, loai, spjson, mangloai, mangjson;
+  var namesp, nameloai, sp, tenloai, page, loai, spjson, mangloai, allProducts1, seenNames, mangloai1, mangjson;
   return regeneratorRuntime.async(function _callee23$(_context23) {
     while (1) {
       switch (_context23.prev = _context23.next) {
@@ -933,12 +933,41 @@ router.get('/getchitiet/:namesp/:nameloai', function _callee23(req, res) {
 
         case 20:
           mangloai = _context23.sent;
+          _context23.next = 23;
+          return regeneratorRuntime.awrap(Sp.ChitietSp.find({
+            name: {
+              $regex: /^IPHONE 12 PRO MAX WHITE/,
+              $options: 'i'
+            }
+          }));
+
+        case 23:
+          allProducts1 = _context23.sent;
+          // Lọc ra phần đuôi của tên sản phẩm
+          seenNames = new Set();
+          mangloai1 = [];
+          allProducts1.forEach(function (product) {
+            var parts = product.name.split(' '); // Tách chuỗi thành mảng
+
+            var capacity = parts.pop(); // Lấy phần cuối (ví dụ: "128GB")
+
+            if (!seenNames.has(capacity)) {
+              seenNames.add(capacity); // Thêm dung lượng vào Set
+
+              mangloai.push({
+                name: capacity,
+                price: product.price
+              });
+            }
+          });
           mangjson = {
             spjson: spjson,
-            mangloai: mangloai
+            mangloai: mangloai,
+            mangloai1: mangloai1
           }; // res.json(namesp)
           // // res.json(mangjson)
 
+          console.log(mangloai1);
           res.render('home/single-product.ejs', {
             mangjson: mangjson,
             nameloai: nameloai,
@@ -946,23 +975,23 @@ router.get('/getchitiet/:namesp/:nameloai', function _callee23(req, res) {
             tenloai: tenloai,
             currentPage: page
           });
-          _context23.next = 29;
+          _context23.next = 36;
           break;
 
-        case 25:
-          _context23.prev = 25;
+        case 32:
+          _context23.prev = 32;
           _context23.t0 = _context23["catch"](0);
           console.error(_context23.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context23.t0)
           });
 
-        case 29:
+        case 36:
         case "end":
           return _context23.stop();
       }
     }
-  }, null, null, [[0, 25]]);
+  }, null, null, [[0, 32]]);
 });
 router.post('/postloaichitiet/:chitietspid', function _callee24(req, res) {
   var chitietspid, _req$body4, name, price, chitietsp;
