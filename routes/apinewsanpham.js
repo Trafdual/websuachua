@@ -7,6 +7,8 @@ const multer = require('multer')
 var myMDBlog = require('../models/blog.model')
 const checkAuth = require('../controllers/checkAuth')
 const checkAuth2 = require('../controllers/checkAuth2')
+const DungLuong = require('../models/dungluongModel')
+const MauSac = require('../models/MauSacModel')
 
 const LinkKien = require('../models/LinkKienModel')
 const LoaiLinkKien = require('../models/LoaiLinhKien')
@@ -384,17 +386,56 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
   try {
     const namesp = req.params.namesp.replace(/-/g, ' ').replace(/pt/g, '%')
     const nameloai = req.params.nameloai.replace(/-/g, ' ').replace(/pt/g, '%')
+
     const sp = await Sp.ChitietSp.findOne({ name: namesp })
     const tenloai = await LoaiSP.TenSP.find().lean()
     const page = parseInt(req.query.page, 10) || 1
+    const theloai = await LoaiSP.TenSP.findOne({ name: nameloai })
 
     if (!sp) {
       return res.status(404).json({ message: 'Không tìm thấy sản phẩm' })
     }
+
     const loai = await LoaiSP.TenSP.findOne({ name: nameloai })
     if (!loai) {
       return res.status(404).json({ message: 'Không tìm thấy loại sản phẩm' })
     }
+    const dungluong = await Promise.all(
+      theloai.dungluongmay.map(async dl => {
+        const dungluongmay = await DungLuong.dungluong.findById(dl._id)
+        if (!dungluongmay) return null // Kiểm tra nếu dungluongmay tồn tại
+
+        const mausac = await Promise.all(
+          dungluongmay.mausac.map(async ms => {
+            const mausacmay = await MauSac.mausac.findById(ms._id)
+            if (!mausacmay) return null // Kiểm tra nếu mausacmay tồn tại
+            return {
+              mausacmay: mausacmay.name,
+              chitiet: mausacmay.chitiet.map(ct => {
+                return {
+                  name: ct.name,
+                  price: ct.price
+                }
+              })
+            }
+          })
+        )
+
+        // Lọc các giá trị null từ mausac
+        const filteredMausac = mausac.filter(ms => ms !== null)
+
+        return {
+          name: dungluongmay.name,
+          mausac: filteredMausac // Chỉ trả về mausac đã được lọc
+        }
+      })
+    )
+
+    // Lọc các giá trị null và loại bỏ các mảng rỗng
+    const filteredDungluong = dungluong.filter(
+      dl => dl !== null && dl.mausac.length > 0
+    )
+
     const spjson = {
       image: sp.image,
       name: sp.name,
@@ -410,6 +451,7 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
       hang: loai.hang,
       thongtin: loai.thongtin
     }
+
     const mangloai = await Promise.all(
       sp.chitiet.map(async mang => {
         return {
@@ -419,36 +461,13 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
       })
     )
 
-    const allProducts1 = await Sp.ChitietSp.find({
-      name: { $regex: /^IPHONE 12 PRO MAX WHITE/, $options: 'i' }
-    })
-
-    // Lọc ra phần đuôi của tên sản phẩm
-    const seenNames = new Set()
-    const mangloai1 = []
-
-    allProducts1.forEach(product => {
-      const parts = product.name.split(' ') // Tách chuỗi thành mảng
-      const capacity = parts.pop() // Lấy phần cuối (ví dụ: "128GB")
-
-      if (!seenNames.has(capacity)) {
-        seenNames.add(capacity) // Thêm dung lượng vào Set
-        mangloai1.push({
-          name: capacity,
-          price: product.price
-        })
-      }
-    })
-
     const mangjson = {
       spjson: spjson,
       mangloai: mangloai,
-      mangloai1: mangloai1
+      dungluong:filteredDungluong
     }
+    console.log(filteredDungluong)
 
-    // res.json(namesp)
-    // // res.json(mangjson)
-    console.log(mangloai1)
     res.render('home/single-product.ejs', {
       mangjson,
       nameloai,

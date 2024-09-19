@@ -25,7 +25,8 @@ const spChema = new db.mongoose.Schema(
         congsac: { type: String, require: false },
         kieumanhinh: { type: String, require: false },
         tinhnagdacbiet: { type: String, require: false },
-        loai: { type: Number, require: false }
+        loai: { type: Number, require: false },
+        dungluong:[{type: db.mongoose.Schema.Types.ObjectId, ref: 'dungluong'}]
     },
     {
         collection: 'Sanpham'

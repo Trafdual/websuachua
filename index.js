@@ -4,6 +4,7 @@ var session = require('express-session')
 var settingsRouter = require('./routes/settings.route')
 var homeRouter = require('./routes/home.route')
 var apinewsanpham = require('./routes/apinewsanpham')
+var sanphammoi=require('./routes/sanpham')
 var methodOverride = require('method-override')
 var bodyParser = require('body-parser')
 const app = express()
@@ -43,6 +44,8 @@ app.use('/', settingsRouter)
 
 // app.use('/test', testRouter);
 app.use('/', apinewsanpham)
+app.use('/', sanphammoi)
+
 
 app.use(express.static(path.join(__dirname, '/public')))
 app.use(express.static(path.join(__dirname, '/uploads')))

@@ -203,6 +203,7 @@
                 margin-right: 5%;
                 flex-wrap: wrap;
                 margin-top: 2%;
+                justify-content: center;
             }
             .divconloai {
                 margin-left: 5%;
@@ -407,6 +408,12 @@
                 width: 100%;
                 height: 100%;
             }
+            .selected {
+                border: 2px solid #0064fa;
+                /* Màu viền khi được chọn */
+                color: #007ef5;
+                /* Màu chữ khi được chọn */
+            }
         }
         
         @media only screen and (min-width: 701px) {
@@ -560,11 +567,13 @@
             .divloai {
                 border: 1px solid #f86e6e;
                 border-radius: 10px;
-                width: 40%;
-                padding: 3%;
+                width: 10%;
+                padding: 2%;
                 margin-right: 5%;
                 flex-wrap: wrap;
                 margin-top: 2%;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                justify-content: center;
             }
             .divconloai {
                 margin-left: 5%;
@@ -794,6 +803,12 @@
             #ttin {
                 color: black;
             }
+            .selected {
+                border: 2px solid #0064fa;
+                /* Màu viền khi được chọn */
+                color: #007ef5;
+                /* Màu chữ khi được chọn */
+            }
         }
     </style>
 
@@ -866,20 +881,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <%= mangjson.spjson.content %>
                             </p>
                             <div class="d-flex loai">
-                                <% mangjson.mangloai.forEach((item,index)=> { %>
-                                    <div class="d-flex divloai">
-                                        <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>" <%=index===0 ? 'checked' : '' %> />
-                                        <div class="divconloai">
-                                            <strong class="strongloai">
-                          <%= item.name %>
-                        </strong>
-                                            <strong class="strongloai2 price<%= index %>">
-                          <%= item.price %>
-                        </strong>
-                                        </div>
+                                <% mangjson.dungluong.forEach((item, index) => { %>
+                                    <div id="dungluong<%= index %>itemmobile" class="d-flex divloai" onclick="showColors1('<%= index %>')">
+                                        <strong class="strongdungluong" id="strongdungluong<%= index %>">
+                <%= item.name %>
+            </strong>
                                     </div>
                                     <% }); %>
                             </div>
+
+                            <div class="d-flex loai" id="colorContainer1" style="display: none; flex-wrap: wrap;">
+                                <% mangjson.dungluong.forEach((item, index) => { %>
+                                    <% item.mausac.forEach((row, rowIndex) => { %>
+                                        <div id="mausac<%= rowIndex %><%= item.name %>itemmobile" class="d-flex divloai colorOption1" data-index="<%= index %>itemmobile" style="display: none;" onclick="showDetails1('<%= item.name %>', '<%= row.mausacmay %>','<%= rowIndex %>')">
+                                            <strong class="strongmausac">
+                    <%= row.mausacmay %>
+                </strong>
+                                        </div>
+                                        <% }); %>
+                                            <% }); %>
+                            </div>
+
+
+                            <div class="d-flex loai" id="detailContainer1" style="display: none;">
+                                <% mangjson.dungluong.forEach(item => { %>
+                                    <% item.mausac.forEach(row => { %>
+                                        <% row.chitiet.forEach((ct,index) => { %>
+                                            <div id="chitiet<%= item.name %><%= row.mausacmay %><%= index %>itemmobile" class="d-flex divloai detailOption1" data-color="<%= item.name %><%= row.mausacmay %>itemmobile" data-price="<%= ct.price %>" style="display: none;" onclick="chitietselect1('<%= index %>','<%= row.mausacmay %>','<%= item.name %>','<%= ct.price %>')">
+                                                <strong class="strongchitiet">
+                        <%= ct.name %>
+                    </strong>
+                                            </div>
+                                            <% }); %>
+                                                <% }); %>
+                                                    <% }); %>
+                            </div>
+
                         </div>
                         <div class="tab-pane fade show active border-top border-bottom padding-small thongsoo" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                             <h4 style="font-weight: bold; font-family: 'Times New Roman', Times, serif; margin-bottom: 2%;">THÔNG SỐ
@@ -951,18 +988,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                         <p class="ptragop">Trả góp 0%</p>
                                     </div>
                                 </div>
-                                <div class="d-flex loai ">
-                                    <% mangjson.mangloai.forEach((item, index) => { %>
-                                        <div class="d-flex divloai">
-                                            <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>" <%=index===0 ? 'checked' : '' %> />
-                                            <div class="divconloai">
-                                                <strong class="strongloai"><%= item.name %></strong>
-                                                <strong class="strongloai2 price<%= index %>"><%= item.price %></strong>
-                                            </div>
+                                <div class="d-flex loai">
+                                    <% mangjson.dungluong.forEach((item, index) => { %>
+                                        <div id="dungluong<%= index %>" class="d-flex divloai" onclick="showColors('<%= index %>')">
+                                            <strong class="strongdungluong" id="strongdungluong<%= index %>">
+                <%= item.name %>
+            </strong>
                                         </div>
                                         <% }); %>
-
                                 </div>
+
+                                <div class="d-flex loai" id="colorContainer" style="display: none; flex-wrap: wrap;">
+                                    <% mangjson.dungluong.forEach((item, index) => { %>
+                                        <% item.mausac.forEach((row, rowIndex) => { %>
+                                            <div id="mausac<%= rowIndex %><%= item.name %>" class="d-flex divloai colorOption" data-index="<%= index %>" style="display: none;" onclick="showDetails('<%= item.name %>', '<%= row.mausacmay %>','<%= rowIndex %>')">
+                                                <strong class="strongmausac">
+                    <%= row.mausacmay %>
+                </strong>
+                                            </div>
+                                            <% }); %>
+                                                <% }); %>
+                                </div>
+
+
+                                <div class="d-flex loai" id="detailContainer" style="display: none;">
+                                    <% mangjson.dungluong.forEach(item => { %>
+                                        <% item.mausac.forEach(row => { %>
+                                            <% row.chitiet.forEach((ct,index) => { %>
+                                                <div id="chitiet<%= item.name %><%= row.mausacmay %><%= index %>" class="d-flex divloai detailOption" data-color="<%= item.name %><%= row.mausacmay %>" data-price="<%= ct.price %>" style="display: none;" onclick="chitietselect('<%= index %>','<%= row.mausacmay %>','<%= item.name %>','<%= ct.price %>')">
+                                                    <strong class="strongchitiet">
+                        <%= ct.name %>
+                    </strong>
+                                                </div>
+                                                <% }); %>
+                                                    <% }); %>
+                                                        <% }); %>
+                                </div>
+
+
                                 <p>
                                     <%= mangjson.spjson.content %>
                                 </p>
@@ -1255,6 +1318,280 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         }
                     });
                 });
+            </script>
+
+            <script>
+                let currentDungluong = null;
+                let currentMausac = null;
+                let currentChitiet = 0;
+                let currentColor = '';
+
+                function showColors(index) {
+                    const colorOptions = document.querySelectorAll('.colorOption');
+                    colorOptions.forEach(option => {
+                        option.style.display = 'none';
+                        option.classList.remove('selected');
+                    });
+
+                    const selectedColorOptions = document.querySelectorAll(`.colorOption[data-index="${index}"]`);
+                    selectedColorOptions.forEach(option => {
+                        option.style.display = 'flex';
+                    });
+
+                    document.getElementById('colorContainer').style.display = 'flex';
+                    document.getElementById('detailContainer').style.display = 'none';
+
+                    // Xóa lớp selected từ dung lượng trước đó
+                    if (currentDungluong !== null) {
+                        const previousDungluong = document.getElementById(`dungluong${currentDungluong}`);
+                        if (previousDungluong) {
+                            previousDungluong.classList.remove('selected');
+                        }
+                    }
+
+                    const dungluongOption = document.getElementById(`dungluong${index}`);
+                    if (dungluongOption) {
+                        dungluongOption.classList.add('selected');
+                        currentDungluong = index;
+                    }
+
+                    // Chọn màu sắc tương ứng nếu đã chọn trước đó
+                    if (currentColor) {
+                        const matchingColorOption = [...selectedColorOptions].find(option => {
+                            return option.querySelector('.strongmausac').textContent.trim() === currentColor;
+                        });
+
+                        if (matchingColorOption) {
+                            const color = matchingColorOption.querySelector('.strongmausac').textContent.trim();
+                            showDetails(dungluongOption.textContent.trim(), color, currentMausac !== null ? currentMausac : 0); // Giữ lại chi tiết đã chọn
+                        } else {
+                            // Nếu không tìm thấy màu sắc đã chọn, chọn màu sắc đầu tiên
+                            const firstColor = selectedColorOptions[0];
+                            if (firstColor) {
+                                const color = firstColor.querySelector('.strongmausac').textContent.trim();
+                                showDetails(dungluongOption.textContent.trim(), color, 0); // Chọn chi tiết đầu tiên
+                            }
+                        }
+                    } else {
+                        // Nếu chưa có màu sắc nào được chọn, chọn màu sắc đầu tiên
+                        const firstColor = selectedColorOptions[0];
+                        if (firstColor) {
+                            const color = firstColor.querySelector('.strongmausac').textContent.trim();
+                            showDetails(dungluongOption.textContent.trim(), color, 0); // Chọn chi tiết đầu tiên
+                        }
+                    }
+                }
+
+                function showDetails(index, color, rowIndex) {
+                    const detailOptions = document.querySelectorAll('.detailOption');
+                    detailOptions.forEach(option => {
+                        option.style.display = 'none';
+                        option.classList.remove('selected');
+                    });
+
+                    const selectedDetailOptions = document.querySelectorAll(`.detailOption[data-color="${index}${color}"]`);
+                    selectedDetailOptions.forEach(option => {
+                        option.style.display = 'flex';
+                    });
+
+                    document.getElementById('detailContainer').style.display = 'flex';
+
+                    // Xóa lớp selected cho màu sắc trước đó
+                    if (currentMausac !== null) {
+                        const previousMausac = document.getElementById(`mausac${currentMausac}${index}`);
+                        if (previousMausac) {
+                            previousMausac.classList.remove('selected');
+                        }
+                    }
+
+                    const mausacOption = document.getElementById(`mausac${rowIndex}${index}`);
+                    if (mausacOption) {
+                        mausacOption.classList.add('selected');
+                        currentMausac = rowIndex;
+                        currentColor = mausacOption.querySelector('.strongmausac').textContent.trim();
+                    }
+
+                    const detailOption = selectedDetailOptions[currentChitiet];
+                    if (detailOption) {
+                        const price = detailOption.getAttribute('data-price');
+                        chitietselect(currentChitiet, color, index, price);
+                    }
+                }
+
+                function chitietselect(index, rowname, itemname, price) {
+                    const detailOptions = document.querySelectorAll('.detailOption');
+                    detailOptions.forEach(option => {
+                        option.classList.remove('selected');
+                    });
+
+                    const priceElement = document.querySelector('.pricemobile2');
+                    if (priceElement) {
+                        priceElement.textContent = price;
+                    }
+
+                    const chitietOption = document.getElementById(`chitiet${itemname}${rowname}${index}`);
+                    if (chitietOption) {
+                        chitietOption.classList.add('selected');
+                        currentChitiet = index;
+                    }
+                }
+
+                function init() {
+                    showColors(0);
+                    const dungluongOption = document.getElementById('dungluong0');
+                    if (dungluongOption) {
+                        const name = dungluongOption.textContent.trim();
+                        const firstMausac = document.querySelector(`.colorOption[data-index="0"]`);
+                        if (firstMausac) {
+                            const color = firstMausac.querySelector('.strongmausac').textContent.trim();
+                            currentColor = color;
+                            showDetails(name, color, 0);
+                            const firstChitiet = document.querySelector(`.detailOption[data-color="${name}${color}"]`);
+                            if (firstChitiet) {
+                                const price = firstChitiet.getAttribute('data-price');
+                                chitietselect(0, color, name, price);
+                            }
+                        }
+                    }
+                }
+            </script>
+
+
+            <script>
+                let currentDungluong1 = null;
+                let currentMausac1 = null;
+                let currentChitiet1 = 0;
+                let currentColor1 = '';
+
+                function showColors1(index) {
+                    const colorOptions = document.querySelectorAll('.colorOption1');
+                    colorOptions.forEach(option => {
+                        option.style.display = 'none';
+                        option.classList.remove('selected');
+                    });
+
+                    const selectedColorOptions = document.querySelectorAll(`.colorOption1[data-index="${index}itemmobile"]`);
+                    selectedColorOptions.forEach(option => {
+                        option.style.display = 'flex';
+                    });
+
+                    document.getElementById('colorContainer1').style.display = 'flex';
+                    document.getElementById('detailContainer1').style.display = 'none';
+
+                    if (currentDungluong1 !== null) {
+                        const previousDungluong = document.getElementById(`dungluong${currentDungluong1}itemmobile`);
+                        if (previousDungluong) {
+                            previousDungluong.classList.remove('selected');
+                        }
+                    }
+
+                    const dungluongOption = document.getElementById(`dungluong${index}itemmobile`);
+                    if (dungluongOption) {
+                        dungluongOption.classList.add('selected');
+                        currentDungluong1 = index;
+                    }
+
+                    // Giữ lại màu sắc đã chọn
+                    if (currentColor1) {
+                        const matchingColorOption = [...selectedColorOptions].find(option => {
+                            return option.querySelector('.strongmausac').textContent.trim() === currentColor1;
+                        });
+
+                        if (matchingColorOption) {
+                            const color = matchingColorOption.querySelector('.strongmausac').textContent.trim();
+                            showDetails1(dungluongOption.textContent.trim(), color, currentMausac1 !== null ? currentMausac1 : 0);
+                        } else {
+                            const firstColor = selectedColorOptions[0];
+                            if (firstColor) {
+                                const color = firstColor.querySelector('.strongmausac').textContent.trim();
+                                showDetails1(dungluongOption.textContent.trim(), color, 0);
+                            }
+                        }
+                    } else {
+                        const firstColor = selectedColorOptions[0];
+                        if (firstColor) {
+                            const color = firstColor.querySelector('.strongmausac').textContent.trim();
+                            showDetails1(dungluongOption.textContent.trim(), color, 0);
+                        }
+                    }
+                }
+
+                function showDetails1(index, color, rowIndex) {
+                    const detailOptions = document.querySelectorAll('.detailOption1');
+                    detailOptions.forEach(option => {
+                        option.style.display = 'none';
+                        option.classList.remove('selected');
+                    });
+
+                    const selectedDetailOptions = document.querySelectorAll(`.detailOption1[data-color="${index}${color}itemmobile"]`);
+                    selectedDetailOptions.forEach(option => {
+                        option.style.display = 'flex';
+                    });
+
+                    document.getElementById('detailContainer1').style.display = 'flex';
+
+                    if (currentMausac1 !== null) {
+                        const previousMausac = document.getElementById(`mausac${currentMausac1}${index}itemmobile`);
+                        if (previousMausac) {
+                            previousMausac.classList.remove('selected');
+                        }
+                    }
+
+                    const mausacOption = document.getElementById(`mausac${rowIndex}${index}itemmobile`);
+                    if (mausacOption) {
+                        mausacOption.classList.add('selected');
+                        currentMausac1 = rowIndex;
+                        currentColor1 = mausacOption.querySelector('.strongmausac').textContent.trim();
+                    }
+
+                    const detailOption = selectedDetailOptions[currentChitiet1];
+                    if (detailOption) {
+                        const price = detailOption.getAttribute('data-price');
+                        chitietselect(currentChitiet1, color, index, price);
+                    }
+                }
+
+                function chitietselect1(index, rowname, itemname, price) {
+                    const detailOptions = document.querySelectorAll('.detailOption1');
+                    detailOptions.forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    const priceElement = document.querySelector('.pricestrong');
+                    if (priceElement) {
+                        priceElement.textContent = price;
+                    }
+
+                    const chitietOption = document.getElementById(`chitiet${itemname}${rowname}${index}itemmobile`);
+                    if (chitietOption) {
+                        chitietOption.classList.add('selected');
+                        currentChitiet1 = index;
+                    }
+                }
+
+                function init1() {
+                    showColors1(0);
+                    const dungluongOption = document.getElementById('dungluong0itemmobile');
+                    if (dungluongOption) {
+                        const name = dungluongOption.textContent.trim();
+                        const firstMausac = document.querySelector(`.colorOption1[data-index="0itemmobile"]`);
+                        if (firstMausac) {
+                            const color = firstMausac.querySelector('.strongmausac').textContent.trim();
+                            currentColor1 = color; // Sửa thành currentColor1
+                            showDetails1(name, color, 0);
+                            const firstChitiet = document.querySelector(`.detailOption1[data-color="${name}${color}itemmobile"]`);
+                            if (firstChitiet) {
+                                const price = firstChitiet.getAttribute('data-price');
+                                chitietselect1(0, color, name, price);
+                            }
+                        }
+                    }
+                }
+
+
+                window.onload = function() {
+                    init();
+                    init1();
+                };
             </script>
             <script>
                 function makeCall() {
