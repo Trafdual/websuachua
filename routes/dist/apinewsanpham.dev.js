@@ -1035,7 +1035,6 @@ router.get('/getchitiet/:namesp/:nameloai', function _callee25(req, res) {
             mangloai: mangloai,
             dungluong: filteredDungluong
           };
-          console.log(filteredDungluong);
           res.render('home/single-product.ejs', {
             mangjson: mangjson,
             nameloai: nameloai,
@@ -1043,23 +1042,23 @@ router.get('/getchitiet/:namesp/:nameloai', function _callee25(req, res) {
             tenloai: tenloai,
             currentPage: page
           });
-          _context25.next = 37;
+          _context25.next = 36;
           break;
 
-        case 33:
-          _context25.prev = 33;
+        case 32:
+          _context25.prev = 32;
           _context25.t0 = _context25["catch"](0);
           console.error(_context25.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context25.t0)
           });
 
-        case 37:
+        case 36:
         case "end":
           return _context25.stop();
       }
     }
-  }, null, null, [[0, 33]]);
+  }, null, null, [[0, 32]]);
 });
 router.post('/postloaichitiet/:chitietspid', function _callee26(req, res) {
   var chitietspid, _req$body4, name, price, chitietsp;

@@ -466,7 +466,6 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
       mangloai: mangloai,
       dungluong:filteredDungluong
     }
-    console.log(filteredDungluong)
 
     res.render('home/single-product.ejs', {
       mangjson,
