@@ -954,7 +954,7 @@ router.get('/getchitiet/:namesp/:nameloai', function _callee23(req, res) {
             if (!seenNames.has(capacity)) {
               seenNames.add(capacity); // Thêm dung lượng vào Set
 
-              mangloai.push({
+              mangloai1.push({
                 name: capacity,
                 price: product.price
               });
