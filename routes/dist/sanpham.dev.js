@@ -338,41 +338,81 @@ router.get('/getaddmausac/:iddungluong', function _callee9(req, res) {
     }
   });
 });
-router.get('/getputmausac/:idmausac', function _callee10(req, res) {
-  var idmausac;
+router.get('/getputmausac/:idmausac/:idungluong', function _callee10(req, res) {
+  var idmausac, idungluong, mausac;
   return regeneratorRuntime.async(function _callee10$(_context10) {
     while (1) {
       switch (_context10.prev = _context10.next) {
         case 0:
-          try {
-            idmausac = req.params.idmausac;
-            res.render('sanphammoi/putmausac.ejs', {
-              idmausac: idmausac
-            });
-          } catch (error) {
-            console.error(error);
-            res.status(500).json({
-              message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(error)
-            });
-          }
+          _context10.prev = 0;
+          idmausac = req.params.idmausac;
+          idungluong = req.params.idungluong;
+          _context10.next = 5;
+          return regeneratorRuntime.awrap(MauSac.mausac.findById(idmausac));
 
-        case 1:
+        case 5:
+          mausac = _context10.sent;
+          res.render('sanphammoi/putmausac.ejs', {
+            idmausac: idmausac,
+            mausac: mausac,
+            idungluong: idungluong
+          });
+          _context10.next = 13;
+          break;
+
+        case 9:
+          _context10.prev = 9;
+          _context10.t0 = _context10["catch"](0);
+          console.error(_context10.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context10.t0)
+          });
+
+        case 13:
         case "end":
           return _context10.stop();
       }
     }
-  });
+  }, null, null, [[0, 9]]);
 });
-router.post('/putmausac/:idmausac', function _callee11(req, res) {
+router.post('/putmausac/:idmausac/:idungluong', function _callee11(req, res) {
+  var name, iddungluong, idmausac, mausac;
   return regeneratorRuntime.async(function _callee11$(_context11) {
     while (1) {
       switch (_context11.prev = _context11.next) {
         case 0:
+          _context11.prev = 0;
+          name = req.body.name;
+          iddungluong = req.params.idungluong;
+          idmausac = req.params.idmausac;
+          _context11.next = 6;
+          return regeneratorRuntime.awrap(MauSac.mausac.findById(idmausac));
+
+        case 6:
+          mausac = _context11.sent;
+          mausac.name = name;
+          _context11.next = 10;
+          return regeneratorRuntime.awrap(mausac.save());
+
+        case 10:
+          res.redirect("/mausac/".concat(iddungluong));
+          _context11.next = 17;
+          break;
+
+        case 13:
+          _context11.prev = 13;
+          _context11.t0 = _context11["catch"](0);
+          console.error(_context11.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context11.t0)
+          });
+
+        case 17:
         case "end":
           return _context11.stop();
       }
     }
-  });
+  }, null, null, [[0, 13]]);
 });
 router.get('/phantram/:idmausac', function _callee12(req, res) {
   var idmausac, mausac, phantram;

@@ -2,14 +2,13 @@
     <div class="container">
         <h2>
             <a href="/main"><img style="width: 35px;" src="https://cdn-icons-png.flaticon.com/512/25/25694.png"></a>
-            Thêm màu sắc</h2>
+            sửa màu sắc</h2>
 
-        <form action="/postmausac/<%= iddungluong %>" method="post">
+        <form action="/putmausac/<%= idmausac %>/<%= idungluong %>" method="post">
 
             <br>
             <label class="form-label">Tên màu sắc</label>
-            <input type="text" name="name" class="form-control"><br>
+            <input type="text" name="name" class="form-control" value="<%= mausac.name %>"><br>
             <button class="btn btn-danger" type="submit">Lưu</button>
         </form>
-
     </div>

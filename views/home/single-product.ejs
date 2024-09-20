@@ -598,7 +598,7 @@
             .divloai {
                 border: 1px solid #f86e6e;
                 border-radius: 10px;
-                width: 30%;
+                width: 15%;
                 padding-left: 1%;
                 padding-right: 1%;
                 padding-top: 1%;
@@ -942,7 +942,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <p>
                                 <%= mangjson.spjson.content %>
                             </p>
-                            <p>Dung lượng:</p>
+                            <h5>Dung lượng:</h5>
                             <div class="d-flex loai">
                                 <% mangjson.dungluong.forEach((item, index) => { %>
                                     <div id="dungluong<%= index %>itemmobile" class="d-flex divloai" onclick="showColors1('<%= index %>')">
@@ -952,21 +952,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     </div>
                                     <% }); %>
                             </div>
-                            <p>Màu sắc:</p>
+                            <h5>Màu sắc:</h5>
                             <div class="d-flex loai" id="colorContainer1" style="display: none; flex-wrap: wrap;">
                                 <% mangjson.dungluong.forEach((item, index) => { %>
                                     <% item.mausac.forEach((row, rowIndex) => { %>
                                         <div class="d-flex colorOption1" data-index="<%= index %>itemmobile" style="display: none;" onclick="showDetails1('<%= item.name %>', '<%= row.mausacmay %>', '<%= rowIndex %>')">
                                             <div id="mausac<%= rowIndex %><%= item.name %>itemmobile" class="color-circle">
                                                 <div class="color-circle-inner strongmausac1" style="background-color: <%= row.mausacmay %>">
-                                                    <%= row.mausacmay %>
                                                 </div>
                                             </div>
                                         </div>
                                         <% }); %>
                                             <% }); %>
                             </div>
-                            <p>Chi tiết:</p>
+                            <h5>Chi tiết:</h5>
                             <div class="d-flex loai" id="detailContainer1" style="display: none;">
                                 <% mangjson.dungluong.forEach(item => { %>
                                     <% item.mausac.forEach(row => { %>
@@ -1051,7 +1050,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                         <p class="ptragop">Trả góp 0%</p>
                                     </div>
                                 </div>
-                                <p>Dung lượng:</p>
+                                <h5>Dung lượng:</h5>
                                 <div class="d-flex loai">
                                     <% mangjson.dungluong.forEach((item, index) => { %>
                                         <div id="dungluong<%= index %>" class="d-flex divloai" onclick="showColors('<%= index %>')">
@@ -1061,7 +1060,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                         </div>
                                         <% }); %>
                                 </div>
-                                <p>Màu sắc:</p>
+                                <h5>Màu sắc:</h5>
                                 <div class="d-flex loai" id="colorContainer" style="display: none; flex-wrap: wrap;">
                                     <% mangjson.dungluong.forEach((item, index) => { %>
                                         <% item.mausac.forEach((row, rowIndex) => { %>
@@ -1075,7 +1074,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                                 <% }); %>
                                 </div>
 
-                                <p>Chi tiết:</p>
+                                <h5>Chi tiết:</h5>
                                 <div class="d-flex loai" id="detailContainer" style="display: none;">
                                     <% mangjson.dungluong.forEach(item => { %>
                                         <% item.mausac.forEach(row => { %>
@@ -1391,39 +1390,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 let currentChitiet = 0;
                 let currentColor = '';
 
+                // Biến lưu vị trí màu sắc đã chọn
+                let selectedMausacIndex = 0;
+
                 function showColors(index) {
                     const colorOptions = document.querySelectorAll('.colorOption');
                     colorOptions.forEach(option => {
-                        option.style.display = 'none';
-                        option.classList.remove('selected');
+                        option.style.display = 'none'; // Ẩn tất cả các tùy chọn màu
                     });
 
                     const selectedColorOptions = document.querySelectorAll(`.colorOption[data-index="${index}"]`);
                     selectedColorOptions.forEach(option => {
-                        option.style.display = 'flex';
+                        option.style.display = 'flex'; // Hiển thị tùy chọn màu cho dung lượng đã chọn
                     });
 
                     document.getElementById('colorContainer').style.display = 'flex';
                     document.getElementById('detailContainer').style.display = 'none';
 
+                    // Xử lý việc chọn dung lượng
                     if (currentDungluong !== null) {
                         const previousDungluong = document.getElementById(`dungluong${currentDungluong}`);
                         if (previousDungluong) {
-                            previousDungluong.classList.remove('selected');
+                            previousDungluong.classList.remove('selected'); // Bỏ chọn dung lượng trước đó
                         }
                     }
 
                     const dungluongOption = document.getElementById(`dungluong${index}`);
                     if (dungluongOption) {
-                        dungluongOption.classList.add('selected');
-                        currentDungluong = index;
+                        dungluongOption.classList.add('selected'); // Đánh dấu dung lượng đã chọn
+                        currentDungluong = index; // Cập nhật dung lượng hiện tại
                     }
 
-                    const firstColorOption = selectedColorOptions[0];
+                    // Khôi phục màu sắc theo vị trí đã chọn
+                    const firstColorOption = selectedColorOptions[selectedMausacIndex]; // Lấy màu sắc ở vị trí đã chọn
                     if (firstColorOption) {
                         const colorElement = firstColorOption.querySelector('.color-circle-inner1');
-                        const color = getComputedColor(colorElement);
-                        showDetails(dungluongOption.textContent.trim(), color, 0);
+                        const color = getComputedColor(colorElement); // Lấy màu sắc từ phần tử
+                        showDetails(dungluongOption.textContent.trim(), color, selectedMausacIndex); // Gọi showDetails với màu sắc ở vị trí đã chọn
                     }
                 }
 
@@ -1441,10 +1444,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                     document.getElementById('detailContainer').style.display = 'flex';
 
+                    // Cập nhật trạng thái cho màu sắc
                     if (currentMausac !== null) {
-                        const previousMausac = document.getElementById(`mausac${currentMausac}${index}`);
+                        const previousMausac = document.querySelector(`.color-circle1.selected2`);
                         if (previousMausac) {
-                            previousMausac.classList.remove('selected2');
+                            previousMausac.classList.remove('selected2'); // Bỏ lớp selected2 khỏi màu sắc trước đó
                         }
                     }
 
@@ -1453,6 +1457,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         mausacOption.classList.add('selected2');
                         currentMausac = rowIndex;
                         currentColor = getComputedColor(mausacOption.querySelector('.strongmausac1'));
+
+                        // Cập nhật vị trí màu sắc đã chọn
+                        selectedMausacIndex = rowIndex;
                     }
 
                     const detailOption = selectedDetailOptions[currentChitiet];
@@ -1508,22 +1515,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 let currentChitiet1 = 0;
                 let currentColor1 = '';
 
+                // Biến lưu vị trí màu sắc đã chọn
+                let selectedMausacIndex1 = 0;
+
+                function getComputedColor(element) {
+                    const color = window.getComputedStyle(element).backgroundColor;
+                    return rgbToHex(color);
+                }
+
+                function rgbToHex(rgb) {
+                    const result = rgb.match(/\d+/g);
+                    return `#${result.map(x => {
+            const hex = parseInt(x).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        }).join('')}`;
+                }
+
                 function showColors1(index) {
+                    // Ẩn tất cả màu sắc
                     const colorOptions = document.querySelectorAll('.colorOption1');
                     colorOptions.forEach(option => {
                         option.style.display = 'none';
                         option.classList.remove('selected');
                     });
 
+                    // Hiển thị màu sắc tương ứng với dung lượng đã chọn
                     const selectedColorOptions = document.querySelectorAll(`.colorOption1[data-index="${index}itemmobile"]`);
                     selectedColorOptions.forEach(option => {
                         option.style.display = 'flex';
                     });
 
+                    // Cập nhật hiển thị
                     document.getElementById('colorContainer1').style.display = 'flex';
                     document.getElementById('detailContainer1').style.display = 'none';
 
-                    // Xóa lớp selected từ dung lượng trước đó
+                    // Xóa lớp "selected" từ dung lượng trước đó
                     if (currentDungluong1 !== null) {
                         const previousDungluong = document.getElementById(`dungluong${currentDungluong1}itemmobile`);
                         if (previousDungluong) {
@@ -1531,68 +1557,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         }
                     }
 
+                    // Thêm lớp "selected" cho dung lượng hiện tại
                     const dungluongOption = document.getElementById(`dungluong${index}itemmobile`);
                     if (dungluongOption) {
                         dungluongOption.classList.add('selected');
                         currentDungluong1 = index;
                     }
 
-                    // Chọn màu sắc tương ứng nếu đã chọn trước đó
-                    if (currentColor1) {
-                        const matchingColorOption = [...selectedColorOptions].find(option => {
-                            return option.querySelector('.strongmausac1').textContent.trim() === currentColor1;
-                        });
-
-                        if (matchingColorOption) {
-                            const color = matchingColorOption.querySelector('.strongmausac1').textContent.trim();
-                            showDetails1(dungluongOption.textContent.trim(), color, currentMausac1 !== null ? currentMausac1 : 0); // Giữ lại chi tiết đã chọn
-                        } else {
-                            // Nếu không tìm thấy màu sắc đã chọn, chọn màu sắc đầu tiên
-                            const firstColor = selectedColorOptions[0];
-                            if (firstColor) {
-                                const color = firstColor.querySelector('.strongmausac1').textContent.trim();
-                                showDetails1(dungluongOption.textContent.trim(), color, 0); // Chọn chi tiết đầu tiên
-                            }
-                        }
-                    } else {
-                        // Nếu chưa có màu sắc nào được chọn, chọn màu sắc đầu tiên
-                        const firstColor = selectedColorOptions[0];
-                        if (firstColor) {
-                            const color = firstColor.querySelector('.strongmausac1').textContent.trim();
-                            showDetails1(dungluongOption.textContent.trim(), color, 0); // Chọn chi tiết đầu tiên
-                        }
+                    const firstColorOption = selectedColorOptions[selectedMausacIndex1]; // Lấy màu sắc ở vị trí đã chọn
+                    if (firstColorOption) {
+                        const colorElement = firstColorOption.querySelector('.color-circle-inner');
+                        const color = getComputedColor(colorElement); // Lấy màu sắc từ phần tử
+                        showDetails1(dungluongOption.textContent.trim(), color, selectedMausacIndex1); // Gọi showDetails với màu sắc ở vị trí đã chọn
                     }
                 }
 
                 function showDetails1(index, color, rowIndex) {
+                    // Ẩn tất cả chi tiết
                     const detailOptions = document.querySelectorAll('.detailOption1');
                     detailOptions.forEach(option => {
                         option.style.display = 'none';
                         option.classList.remove('selected');
                     });
 
+                    // Hiển thị chi tiết tương ứng
                     const selectedDetailOptions = document.querySelectorAll(`.detailOption1[data-color="${index}${color}itemmobile"]`);
                     selectedDetailOptions.forEach(option => {
                         option.style.display = 'flex';
                     });
 
                     document.getElementById('detailContainer1').style.display = 'flex';
-                    // Xóa lớp selected cho màu sắc trước đó
-                    if (currentMausac1 !== rowIndex) {
-                        const previousMausac = document.getElementById(`mausac${currentMausac1}${index}itemmobile`);
+
+                    // Xóa lớp "selected" từ màu sắc trước đó
+                    if (currentMausac1 !== null) {
+                        const previousMausac = document.querySelector(`.color-circle.selected1`);
                         if (previousMausac) {
                             previousMausac.classList.remove('selected1');
                         }
                     }
-                    console.error(currentMausac1)
 
+                    // Thêm lớp "selected" cho màu sắc hiện tại
                     const mausacOption = document.getElementById(`mausac${rowIndex}${index}itemmobile`);
                     if (mausacOption) {
                         mausacOption.classList.add('selected1');
                         currentMausac1 = rowIndex;
-                        currentColor1 = mausacOption.querySelector('.strongmausac1').textContent.trim();
+                        currentColor1 = getComputedColor(mausacOption.querySelector('.color-circle-inner'));
+
+                        // Cập nhật vị trí màu sắc đã chọn
+                        selectedMausacIndex1 = rowIndex;
                     }
 
+                    // Hiển thị chi tiết đã chọn
                     const detailOption = selectedDetailOptions[currentChitiet1];
                     if (detailOption) {
                         const price = detailOption.getAttribute('data-price');
@@ -1606,11 +1621,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         option.classList.remove('selected');
                     });
 
+                    // Cập nhật giá tiền
                     const priceElement = document.querySelector('.pricestrong1');
                     if (priceElement) {
                         priceElement.textContent = price;
                     }
 
+                    // Đánh dấu chi tiết đã chọn
                     const chitietOption = document.getElementById(`chitiet${itemname}${rowname}${index}itemmobile`);
                     if (chitietOption) {
                         chitietOption.classList.add('selected');
@@ -1619,30 +1636,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
 
                 function init1() {
-                    showColors1(0);
+                    showColors1(0); // Chọn dung lượng đầu tiên
                     const dungluongOption = document.getElementById('dungluong0itemmobile');
                     if (dungluongOption) {
                         const name = dungluongOption.textContent.trim();
                         const firstMausac = document.querySelector(`.colorOption1[data-index="0itemmobile"]`);
                         if (firstMausac) {
-                            const color = firstMausac.querySelector('.strongmausac1').textContent.trim();
-                            currentColor1 = color;
-                            showDetails1(name, color, 0);
+                            const colorElement = firstMausac.querySelector('.color-circle-inner');
+                            const color = getComputedColor(colorElement);
+                            showDetails1(name, color, 0); // Chọn màu sắc và chi tiết đầu tiên
                             const firstChitiet = document.querySelector(`.detailOption1[data-color="${name}${color}itemmobile"]`);
                             if (firstChitiet) {
                                 const price = firstChitiet.getAttribute('data-price');
-                                chitietselect1(0, color, name, price);
+                                chitietselect1(0, color, name, price); // Chọn chi tiết đầu tiên
                             }
                         }
                     }
                 }
 
                 window.onload = function() {
-                    init1();
+                    init()
+                    init1(); // Chỉ gọi init1 để khởi tạo
                 };
             </script>
-
-
 
 
             <script>
