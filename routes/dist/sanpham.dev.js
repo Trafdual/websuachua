@@ -123,152 +123,201 @@ router.get('/dungluong/:idloaisp', function _callee3(req, res) {
     }
   }, null, null, [[0, 11]]);
 });
-router.get('/getadddungluong/:idloaisp', function _callee4(req, res) {
-  var idloaisp, loaisp;
+router.post('/deletedungluong/:iddungluong/:idloaisp', function _callee4(req, res) {
+  var iddungluong, idloaisp, loaisp, dungluong;
   return regeneratorRuntime.async(function _callee4$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.prev = 0;
+          iddungluong = req.params.iddungluong;
           idloaisp = req.params.idloaisp;
-          _context4.next = 4;
+          _context4.next = 5;
           return regeneratorRuntime.awrap(LoaiSP.TenSP.findById(idloaisp));
 
-        case 4:
+        case 5:
           loaisp = _context4.sent;
-          res.render('sanphammoi/addduluong.ejs', {
-            idloaisp: loaisp._id
-          });
-          _context4.next = 12;
-          break;
+          _context4.next = 8;
+          return regeneratorRuntime.awrap(DungLuong.dungluong.findById(iddungluong));
 
         case 8:
-          _context4.prev = 8;
+          dungluong = _context4.sent;
+          loaisp.dungluongmay = loaisp.dungluongmay.filter(function (dungluong1) {
+            return dungluong1.toString() !== dungluong._id;
+          });
+          _context4.next = 12;
+          return regeneratorRuntime.awrap(loaisp.save());
+
+        case 12:
+          _context4.next = 14;
+          return regeneratorRuntime.awrap(DungLuong.dungluong.findByIdAndDelete(iddungluong));
+
+        case 14:
+          res.redirect("/dungluong/".concat(idloaisp));
+          _context4.next = 21;
+          break;
+
+        case 17:
+          _context4.prev = 17;
           _context4.t0 = _context4["catch"](0);
           console.error(_context4.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context4.t0)
           });
 
-        case 12:
+        case 21:
         case "end":
           return _context4.stop();
       }
     }
-  }, null, null, [[0, 8]]);
+  }, null, null, [[0, 17]]);
 });
-router.post('/postmausac/:iddungluong', function _callee5(req, res) {
-  var iddungluong, dungluong, name, mausac;
+router.get('/getadddungluong/:idloaisp', function _callee5(req, res) {
+  var idloaisp, loaisp;
   return regeneratorRuntime.async(function _callee5$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.prev = 0;
-          iddungluong = req.params.iddungluong;
+          idloaisp = req.params.idloaisp;
           _context5.next = 4;
-          return regeneratorRuntime.awrap(DungLuong.dungluong.findById(iddungluong));
+          return regeneratorRuntime.awrap(LoaiSP.TenSP.findById(idloaisp));
 
         case 4:
-          dungluong = _context5.sent;
-          name = req.body.name;
-          mausac = new MauSac.mausac({
-            name: name
+          loaisp = _context5.sent;
+          res.render('sanphammoi/addduluong.ejs', {
+            idloaisp: loaisp._id
           });
-          dungluong.mausac.push(mausac._id);
-          _context5.next = 10;
-          return regeneratorRuntime.awrap(mausac.save());
-
-        case 10:
           _context5.next = 12;
-          return regeneratorRuntime.awrap(dungluong.save());
-
-        case 12:
-          res.redirect("/mausac/".concat(iddungluong));
-          _context5.next = 19;
           break;
 
-        case 15:
-          _context5.prev = 15;
+        case 8:
+          _context5.prev = 8;
           _context5.t0 = _context5["catch"](0);
           console.error(_context5.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context5.t0)
           });
 
-        case 19:
+        case 12:
         case "end":
           return _context5.stop();
       }
     }
-  }, null, null, [[0, 15]]);
+  }, null, null, [[0, 8]]);
 });
-router.get('/mausac/:iddungluong', function _callee7(req, res) {
-  var iddungluong, dungluong, mausac;
-  return regeneratorRuntime.async(function _callee7$(_context7) {
+router.post('/postmausac/:iddungluong', function _callee6(req, res) {
+  var iddungluong, dungluong, name, mausac;
+  return regeneratorRuntime.async(function _callee6$(_context6) {
     while (1) {
-      switch (_context7.prev = _context7.next) {
+      switch (_context6.prev = _context6.next) {
         case 0:
-          _context7.prev = 0;
+          _context6.prev = 0;
           iddungluong = req.params.iddungluong;
-          _context7.next = 4;
+          _context6.next = 4;
           return regeneratorRuntime.awrap(DungLuong.dungluong.findById(iddungluong));
 
         case 4:
-          dungluong = _context7.sent;
-          _context7.next = 7;
-          return regeneratorRuntime.awrap(Promise.all(dungluong.mausac.map(function _callee6(ms) {
+          dungluong = _context6.sent;
+          name = req.body.name;
+          mausac = new MauSac.mausac({
+            name: name
+          });
+          dungluong.mausac.push(mausac._id);
+          _context6.next = 10;
+          return regeneratorRuntime.awrap(mausac.save());
+
+        case 10:
+          _context6.next = 12;
+          return regeneratorRuntime.awrap(dungluong.save());
+
+        case 12:
+          res.redirect("/mausac/".concat(iddungluong));
+          _context6.next = 19;
+          break;
+
+        case 15:
+          _context6.prev = 15;
+          _context6.t0 = _context6["catch"](0);
+          console.error(_context6.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context6.t0)
+          });
+
+        case 19:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, null, null, [[0, 15]]);
+});
+router.get('/mausac/:iddungluong', function _callee8(req, res) {
+  var iddungluong, dungluong, mausac;
+  return regeneratorRuntime.async(function _callee8$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
+        case 0:
+          _context8.prev = 0;
+          iddungluong = req.params.iddungluong;
+          _context8.next = 4;
+          return regeneratorRuntime.awrap(DungLuong.dungluong.findById(iddungluong));
+
+        case 4:
+          dungluong = _context8.sent;
+          _context8.next = 7;
+          return regeneratorRuntime.awrap(Promise.all(dungluong.mausac.map(function _callee7(ms) {
             var maus;
-            return regeneratorRuntime.async(function _callee6$(_context6) {
+            return regeneratorRuntime.async(function _callee7$(_context7) {
               while (1) {
-                switch (_context6.prev = _context6.next) {
+                switch (_context7.prev = _context7.next) {
                   case 0:
-                    _context6.next = 2;
+                    _context7.next = 2;
                     return regeneratorRuntime.awrap(MauSac.mausac.findById(ms._id));
 
                   case 2:
-                    maus = _context6.sent;
-                    return _context6.abrupt("return", {
+                    maus = _context7.sent;
+                    return _context7.abrupt("return", {
                       _id: maus._id,
                       name: maus.name
                     });
 
                   case 4:
                   case "end":
-                    return _context6.stop();
+                    return _context7.stop();
                 }
               }
             });
           })));
 
         case 7:
-          mausac = _context7.sent;
+          mausac = _context8.sent;
           res.render('sanphammoi/mausac.ejs', {
             mausac: mausac,
             iddungluong: iddungluong
           });
-          _context7.next = 15;
+          _context8.next = 15;
           break;
 
         case 11:
-          _context7.prev = 11;
-          _context7.t0 = _context7["catch"](0);
-          console.error(_context7.t0);
+          _context8.prev = 11;
+          _context8.t0 = _context8["catch"](0);
+          console.error(_context8.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context7.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context8.t0)
           });
 
         case 15:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
     }
   }, null, null, [[0, 11]]);
 });
-router.get('/getaddmausac/:iddungluong', function _callee8(req, res) {
+router.get('/getaddmausac/:iddungluong', function _callee9(req, res) {
   var iddungluong;
-  return regeneratorRuntime.async(function _callee8$(_context8) {
+  return regeneratorRuntime.async(function _callee9$(_context9) {
     while (1) {
-      switch (_context8.prev = _context8.next) {
+      switch (_context9.prev = _context9.next) {
         case 0:
           try {
             iddungluong = req.params.iddungluong;
@@ -284,57 +333,12 @@ router.get('/getaddmausac/:iddungluong', function _callee8(req, res) {
 
         case 1:
         case "end":
-          return _context8.stop();
+          return _context9.stop();
       }
     }
   });
 });
-router.get('/phantram/:idmausac', function _callee9(req, res) {
-  var idmausac, mausac, phantram;
-  return regeneratorRuntime.async(function _callee9$(_context9) {
-    while (1) {
-      switch (_context9.prev = _context9.next) {
-        case 0:
-          _context9.prev = 0;
-          idmausac = req.params.idmausac;
-          _context9.next = 4;
-          return regeneratorRuntime.awrap(MauSac.mausac.findById(idmausac));
-
-        case 4:
-          mausac = _context9.sent;
-          _context9.next = 7;
-          return regeneratorRuntime.awrap(Promise.all(mausac.chitiet.map(function (ct) {
-            return {
-              name: ct.name,
-              price: ct.price
-            };
-          })));
-
-        case 7:
-          phantram = _context9.sent;
-          res.render('sanphammoi/phantram.ejs', {
-            phantram: phantram,
-            idmausac: idmausac
-          });
-          _context9.next = 15;
-          break;
-
-        case 11:
-          _context9.prev = 11;
-          _context9.t0 = _context9["catch"](0);
-          console.error(_context9.t0);
-          res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context9.t0)
-          });
-
-        case 15:
-        case "end":
-          return _context9.stop();
-      }
-    }
-  }, null, null, [[0, 11]]);
-});
-router.get('/getaddphantram/:idmausac', function _callee10(req, res) {
+router.get('/getputmausac/:idmausac', function _callee10(req, res) {
   var idmausac;
   return regeneratorRuntime.async(function _callee10$(_context10) {
     while (1) {
@@ -342,7 +346,7 @@ router.get('/getaddphantram/:idmausac', function _callee10(req, res) {
         case 0:
           try {
             idmausac = req.params.idmausac;
-            res.render('sanphammoi/addphamtram.ejs', {
+            res.render('sanphammoi/putmausac.ejs', {
               idmausac: idmausac
             });
           } catch (error) {
@@ -359,44 +363,125 @@ router.get('/getaddphantram/:idmausac', function _callee10(req, res) {
     }
   });
 });
-router.post('/postphantram/:idmausac', function _callee11(req, res) {
-  var idmausac, mausac, _req$body, name, price;
-
+router.post('/putmausac/:idmausac', function _callee11(req, res) {
   return regeneratorRuntime.async(function _callee11$(_context11) {
     while (1) {
       switch (_context11.prev = _context11.next) {
         case 0:
-          _context11.prev = 0;
+        case "end":
+          return _context11.stop();
+      }
+    }
+  });
+});
+router.get('/phantram/:idmausac', function _callee12(req, res) {
+  var idmausac, mausac, phantram;
+  return regeneratorRuntime.async(function _callee12$(_context12) {
+    while (1) {
+      switch (_context12.prev = _context12.next) {
+        case 0:
+          _context12.prev = 0;
           idmausac = req.params.idmausac;
-          _context11.next = 4;
+          _context12.next = 4;
           return regeneratorRuntime.awrap(MauSac.mausac.findById(idmausac));
 
         case 4:
-          mausac = _context11.sent;
+          mausac = _context12.sent;
+          _context12.next = 7;
+          return regeneratorRuntime.awrap(Promise.all(mausac.chitiet.map(function (ct) {
+            return {
+              name: ct.name,
+              price: ct.price
+            };
+          })));
+
+        case 7:
+          phantram = _context12.sent;
+          res.render('sanphammoi/phantram.ejs', {
+            phantram: phantram,
+            idmausac: idmausac
+          });
+          _context12.next = 15;
+          break;
+
+        case 11:
+          _context12.prev = 11;
+          _context12.t0 = _context12["catch"](0);
+          console.error(_context12.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context12.t0)
+          });
+
+        case 15:
+        case "end":
+          return _context12.stop();
+      }
+    }
+  }, null, null, [[0, 11]]);
+});
+router.get('/getaddphantram/:idmausac', function _callee13(req, res) {
+  var idmausac;
+  return regeneratorRuntime.async(function _callee13$(_context13) {
+    while (1) {
+      switch (_context13.prev = _context13.next) {
+        case 0:
+          try {
+            idmausac = req.params.idmausac;
+            res.render('sanphammoi/addphamtram.ejs', {
+              idmausac: idmausac
+            });
+          } catch (error) {
+            console.error(error);
+            res.status(500).json({
+              message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(error)
+            });
+          }
+
+        case 1:
+        case "end":
+          return _context13.stop();
+      }
+    }
+  });
+});
+router.post('/postphantram/:idmausac', function _callee14(req, res) {
+  var idmausac, mausac, _req$body, name, price;
+
+  return regeneratorRuntime.async(function _callee14$(_context14) {
+    while (1) {
+      switch (_context14.prev = _context14.next) {
+        case 0:
+          _context14.prev = 0;
+          idmausac = req.params.idmausac;
+          _context14.next = 4;
+          return regeneratorRuntime.awrap(MauSac.mausac.findById(idmausac));
+
+        case 4:
+          mausac = _context14.sent;
           _req$body = req.body, name = _req$body.name, price = _req$body.price;
           mausac.chitiet.push({
             name: name,
             price: price
           });
-          _context11.next = 9;
+          _context14.next = 9;
           return regeneratorRuntime.awrap(mausac.save());
 
         case 9:
           res.redirect("/phantram/".concat(idmausac));
-          _context11.next = 16;
+          _context14.next = 16;
           break;
 
         case 12:
-          _context11.prev = 12;
-          _context11.t0 = _context11["catch"](0);
-          console.error(_context11.t0);
+          _context14.prev = 12;
+          _context14.t0 = _context14["catch"](0);
+          console.error(_context14.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context11.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context14.t0)
           });
 
         case 16:
         case "end":
-          return _context11.stop();
+          return _context14.stop();
       }
     }
   }, null, null, [[0, 12]]);

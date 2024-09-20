@@ -239,27 +239,39 @@ router.post('/deleteloaisp/:id', async (req, res) => {
   }
 })
 
-router.post('/postchitietsp/:id', upload.single('image'), async (req, res) => {
-  try {
-    const id = req.params.id
-    const { name, content, price } = req.body
-    const image = req.file.buffer.toString('base64')
-    const chitietsp = new Sp.ChitietSp({ image, name, content, price })
-    const tensp = await LoaiSP.TenSP.findById(id)
-    if (!tensp) {
-      res.status(403).json({ message: 'khong tim thay tensp' })
+router.post(
+  '/postchitietsp/:id',
+  uploads.fields([
+    { name: 'image', maxCount: 1 } // Một ảnh duy nhất
+  ]),
+  async (req, res) => {
+    try {
+      const id = req.params.id
+      const { name, content, price } = req.body
+      const domain = 'https://www.baominhmobile.com' // Thay đổi thành domain của bạn
+
+      // Lấy tên file ảnh từ req.files và thêm domain vào trước tên file
+      const image = req.files['image']
+        ? `${domain}/${req.files['image'][0].filename}`
+        : null
+
+      const chitietsp = new Sp.ChitietSp({ image, name, content, price })
+      const tensp = await LoaiSP.TenSP.findById(id)
+      if (!tensp) {
+        res.status(403).json({ message: 'khong tim thay tensp' })
+      }
+      chitietsp.idloaisp = id
+      chitietsp.loaisp = tensp.name
+      tensp.chitietsp.push(chitietsp._id)
+      await chitietsp.save()
+      await tensp.save()
+      res.redirect('/main')
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
     }
-    chitietsp.idloaisp = id
-    chitietsp.loaisp = tensp.name
-    tensp.chitietsp.push(chitietsp._id)
-    await chitietsp.save()
-    await tensp.save()
-    res.redirect('/main')
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
-})
+)
 
 router.get('/getchitietsp/:idloaisp', async (req, res) => {
   try {
@@ -464,7 +476,7 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
     const mangjson = {
       spjson: spjson,
       mangloai: mangloai,
-      dungluong:filteredDungluong
+      dungluong: filteredDungluong
     }
 
     res.render('home/single-product.ejs', {

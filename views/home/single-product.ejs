@@ -415,6 +415,36 @@
                 color: #007ef5;
                 /* Màu chữ khi được chọn */
             }
+            .color-circle {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 2px solid #ccc;
+                margin: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: border 0.3s ease;
+            }
+            .color-circle-inner {
+                width: 80%;
+                height: 80%;
+                border-radius: 50%;
+            }
+            .color-circle:hover {
+                border-color: #000;
+            }
+            .color-circle.selected {
+                border-color: #000;
+            }
+            .color-circle-inner {
+                background-color: #ddd;
+                /* Default color */
+            }
+            .selected1 {
+                border-color: #000;
+            }
         }
         
         @media only screen and (min-width: 701px) {
@@ -814,6 +844,33 @@
                 color: #007ef5;
                 /* Màu chữ khi được chọn */
             }
+            .color-circle1 {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 2px solid #ccc;
+                margin: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: border 0.3s ease;
+            }
+            .color-circle-inner1 {
+                width: 80%;
+                height: 80%;
+                border-radius: 50%;
+                background-color: #ddd;
+            }
+            .color-circle1:hover {
+                border-color: #000;
+            }
+            .color-circle1.selected {
+                border-color: #000;
+            }
+            .selected2 {
+                border-color: #000;
+            }
         }
     </style>
 
@@ -899,10 +956,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div class="d-flex loai" id="colorContainer1" style="display: none; flex-wrap: wrap;">
                                 <% mangjson.dungluong.forEach((item, index) => { %>
                                     <% item.mausac.forEach((row, rowIndex) => { %>
-                                        <div id="mausac<%= rowIndex %><%= item.name %>itemmobile" class="d-flex divloai colorOption1" data-index="<%= index %>itemmobile" style="display: none;" onclick="showDetails1('<%= item.name %>', '<%= row.mausacmay %>', '<%= rowIndex %>')">
-                                            <strong class="strongmausac1">
-                    <%= row.mausacmay %>
-                </strong>
+                                        <div class="d-flex colorOption1" data-index="<%= index %>itemmobile" style="display: none;" onclick="showDetails1('<%= item.name %>', '<%= row.mausacmay %>', '<%= rowIndex %>')">
+                                            <div id="mausac<%= rowIndex %><%= item.name %>itemmobile" class="color-circle">
+                                                <div class="color-circle-inner strongmausac1" style="background-color: <%= row.mausacmay %>">
+                                                    <%= row.mausacmay %>
+                                                </div>
+                                            </div>
                                         </div>
                                         <% }); %>
                                             <% }); %>
@@ -921,8 +980,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                                 <% }); %>
                                                     <% }); %>
                             </div>
-
-
                         </div>
                         <div class="tab-pane fade show active border-top border-bottom padding-small thongsoo" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                             <h4 style="font-weight: bold; font-family: 'Times New Roman', Times, serif; margin-bottom: 2%;">THÔNG SỐ
@@ -1008,10 +1065,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <div class="d-flex loai" id="colorContainer" style="display: none; flex-wrap: wrap;">
                                     <% mangjson.dungluong.forEach((item, index) => { %>
                                         <% item.mausac.forEach((row, rowIndex) => { %>
-                                            <div id="mausac<%= rowIndex %><%= item.name %>" class="d-flex divloai colorOption" data-index="<%= index %>" style="display: none;" onclick="showDetails('<%= item.name %>', '<%= row.mausacmay %>','<%= rowIndex %>')">
-                                                <strong class="strongmausac">
-                    <%= row.mausacmay %>
-                </strong>
+                                            <div class="d-flex colorOption" data-index="<%= index %>" style="display: none;" onclick="showDetails('<%= item.name %>', '<%= row.mausacmay %>','<%= rowIndex %>')">
+                                                <div id="mausac<%= rowIndex %><%= item.name %>" class="color-circle1">
+                                                    <div class="color-circle-inner1 strongmausac1" style="background-color: <%= row.mausacmay %>">
+                                                    </div>
+                                                </div>
                                             </div>
                                             <% }); %>
                                                 <% }); %>
@@ -1348,7 +1406,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     document.getElementById('colorContainer').style.display = 'flex';
                     document.getElementById('detailContainer').style.display = 'none';
 
-                    // Xóa lớp selected từ dung lượng trước đó
                     if (currentDungluong !== null) {
                         const previousDungluong = document.getElementById(`dungluong${currentDungluong}`);
                         if (previousDungluong) {
@@ -1362,30 +1419,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         currentDungluong = index;
                     }
 
-                    // Chọn màu sắc tương ứng nếu đã chọn trước đó
-                    if (currentColor) {
-                        const matchingColorOption = [...selectedColorOptions].find(option => {
-                            return option.querySelector('.strongmausac').textContent.trim() === currentColor;
-                        });
-
-                        if (matchingColorOption) {
-                            const color = matchingColorOption.querySelector('.strongmausac').textContent.trim();
-                            showDetails(dungluongOption.textContent.trim(), color, currentMausac !== null ? currentMausac : 0); // Giữ lại chi tiết đã chọn
-                        } else {
-                            // Nếu không tìm thấy màu sắc đã chọn, chọn màu sắc đầu tiên
-                            const firstColor = selectedColorOptions[0];
-                            if (firstColor) {
-                                const color = firstColor.querySelector('.strongmausac').textContent.trim();
-                                showDetails(dungluongOption.textContent.trim(), color, 0); // Chọn chi tiết đầu tiên
-                            }
-                        }
-                    } else {
-                        // Nếu chưa có màu sắc nào được chọn, chọn màu sắc đầu tiên
-                        const firstColor = selectedColorOptions[0];
-                        if (firstColor) {
-                            const color = firstColor.querySelector('.strongmausac').textContent.trim();
-                            showDetails(dungluongOption.textContent.trim(), color, 0); // Chọn chi tiết đầu tiên
-                        }
+                    const firstColorOption = selectedColorOptions[0];
+                    if (firstColorOption) {
+                        const colorElement = firstColorOption.querySelector('.color-circle-inner1');
+                        const color = getComputedColor(colorElement);
+                        showDetails(dungluongOption.textContent.trim(), color, 0);
                     }
                 }
 
@@ -1403,19 +1441,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                     document.getElementById('detailContainer').style.display = 'flex';
 
-                    // Xóa lớp selected cho màu sắc trước đó
                     if (currentMausac !== null) {
                         const previousMausac = document.getElementById(`mausac${currentMausac}${index}`);
                         if (previousMausac) {
-                            previousMausac.classList.remove('selected');
+                            previousMausac.classList.remove('selected2');
                         }
                     }
 
                     const mausacOption = document.getElementById(`mausac${rowIndex}${index}`);
                     if (mausacOption) {
-                        mausacOption.classList.add('selected');
+                        mausacOption.classList.add('selected2');
                         currentMausac = rowIndex;
-                        currentColor = mausacOption.querySelector('.strongmausac').textContent.trim();
+                        currentColor = getComputedColor(mausacOption.querySelector('.strongmausac1'));
                     }
 
                     const detailOption = selectedDetailOptions[currentChitiet];
@@ -1450,7 +1487,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         const name = dungluongOption.textContent.trim();
                         const firstMausac = document.querySelector(`.colorOption[data-index="0"]`);
                         if (firstMausac) {
-                            const color = firstMausac.querySelector('.strongmausac').textContent.trim();
+                            const colorElement = firstMausac.querySelector('.color-circle-inner1');
+                            const color = getComputedColor(colorElement);
                             currentColor = color;
                             showDetails(name, color, 0);
                             const firstChitiet = document.querySelector(`.detailOption[data-color="${name}${color}"]`);
@@ -1539,18 +1577,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     });
 
                     document.getElementById('detailContainer1').style.display = 'flex';
-
                     // Xóa lớp selected cho màu sắc trước đó
-                    if (currentMausac1 !== null) {
+                    if (currentMausac1 !== rowIndex) {
                         const previousMausac = document.getElementById(`mausac${currentMausac1}${index}itemmobile`);
                         if (previousMausac) {
-                            previousMausac.classList.remove('selected');
+                            previousMausac.classList.remove('selected1');
                         }
                     }
+                    console.error(currentMausac1)
 
                     const mausacOption = document.getElementById(`mausac${rowIndex}${index}itemmobile`);
                     if (mausacOption) {
-                        mausacOption.classList.add('selected');
+                        mausacOption.classList.add('selected1');
                         currentMausac1 = rowIndex;
                         currentColor1 = mausacOption.querySelector('.strongmausac1').textContent.trim();
                     }
@@ -1600,10 +1638,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
 
                 window.onload = function() {
-                    init()
                     init1();
                 };
             </script>
+
+
+
 
             <script>
                 function makeCall() {

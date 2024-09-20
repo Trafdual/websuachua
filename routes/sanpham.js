@@ -35,7 +35,25 @@ router.get('/dungluong/:idloaisp', async (req, res) => {
         }
       })
     )
-    res.render('sanphammoi/dungluong.ejs', { dungluong,idloaisp })
+    res.render('sanphammoi/dungluong.ejs', { dungluong, idloaisp })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+
+router.post('/deletedungluong/:iddungluong/:idloaisp', async (req, res) => {
+  try {
+    const iddungluong = req.params.iddungluong
+    const idloaisp = req.params.idloaisp
+    const loaisp = await LoaiSP.TenSP.findById(idloaisp)
+    const dungluong = await DungLuong.dungluong.findById(iddungluong)
+    loaisp.dungluongmay = loaisp.dungluongmay.filter(
+      dungluong1 => dungluong1.toString() !== dungluong._id
+    )
+    await loaisp.save()
+    await DungLuong.dungluong.findByIdAndDelete(iddungluong)
+    res.redirect(`/dungluong/${idloaisp}`)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -46,13 +64,12 @@ router.get('/getadddungluong/:idloaisp', async (req, res) => {
   try {
     const idloaisp = req.params.idloaisp
     const loaisp = await LoaiSP.TenSP.findById(idloaisp)
-    res.render('sanphammoi/addduluong.ejs', { idloaisp:loaisp._id })
+    res.render('sanphammoi/addduluong.ejs', { idloaisp: loaisp._id })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-
 
 router.post('/postmausac/:iddungluong', async (req, res) => {
   try {
@@ -83,7 +100,7 @@ router.get('/mausac/:iddungluong', async (req, res) => {
         }
       })
     )
-    res.render('sanphammoi/mausac.ejs', { mausac,iddungluong })
+    res.render('sanphammoi/mausac.ejs', { mausac, iddungluong })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -99,6 +116,19 @@ router.get('/getaddmausac/:iddungluong', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
+router.get('/getputmausac/:idmausac', async (req, res) => {
+  try {
+    const idmausac = req.params.idmausac
+    res.render('sanphammoi/putmausac.ejs', { idmausac })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+
+router.post('/putmausac/:idmausac', async (req, res) => {
+  
+})
 
 router.get('/phantram/:idmausac', async (req, res) => {
   try {
@@ -112,7 +142,7 @@ router.get('/phantram/:idmausac', async (req, res) => {
         }
       })
     )
-    res.render('sanphammoi/phantram.ejs', { phantram,idmausac })
+    res.render('sanphammoi/phantram.ejs', { phantram, idmausac })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
@@ -128,7 +158,6 @@ router.get('/getaddphantram/:idmausac', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-
 
 router.post('/postphantram/:idmausac', async (req, res) => {
   try {

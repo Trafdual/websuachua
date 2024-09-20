@@ -540,8 +540,12 @@ router.post('/deleteloaisp/:id', function _callee15(req, res) {
     }
   }, null, null, [[0, 13]]);
 });
-router.post('/postchitietsp/:id', upload.single('image'), function _callee16(req, res) {
-  var id, _req$body3, name, content, price, image, chitietsp, tensp;
+router.post('/postchitietsp/:id', uploads.fields([{
+  name: 'image',
+  maxCount: 1
+} // Một ảnh duy nhất
+]), function _callee16(req, res) {
+  var id, _req$body3, name, content, price, _domain, image, chitietsp, tensp;
 
   return regeneratorRuntime.async(function _callee16$(_context16) {
     while (1) {
@@ -550,17 +554,20 @@ router.post('/postchitietsp/:id', upload.single('image'), function _callee16(req
           _context16.prev = 0;
           id = req.params.id;
           _req$body3 = req.body, name = _req$body3.name, content = _req$body3.content, price = _req$body3.price;
-          image = req.file.buffer.toString('base64');
+          _domain = 'https://www.baominhmobile.com'; // Thay đổi thành domain của bạn
+          // Lấy tên file ảnh từ req.files và thêm domain vào trước tên file
+
+          image = req.files['image'] ? "".concat(_domain, "/").concat(req.files['image'][0].filename) : null;
           chitietsp = new Sp.ChitietSp({
             image: image,
             name: name,
             content: content,
             price: price
           });
-          _context16.next = 7;
+          _context16.next = 8;
           return regeneratorRuntime.awrap(LoaiSP.TenSP.findById(id));
 
-        case 7:
+        case 8:
           tensp = _context16.sent;
 
           if (!tensp) {
@@ -572,32 +579,32 @@ router.post('/postchitietsp/:id', upload.single('image'), function _callee16(req
           chitietsp.idloaisp = id;
           chitietsp.loaisp = tensp.name;
           tensp.chitietsp.push(chitietsp._id);
-          _context16.next = 14;
+          _context16.next = 15;
           return regeneratorRuntime.awrap(chitietsp.save());
 
-        case 14:
-          _context16.next = 16;
+        case 15:
+          _context16.next = 17;
           return regeneratorRuntime.awrap(tensp.save());
 
-        case 16:
+        case 17:
           res.redirect('/main');
-          _context16.next = 23;
+          _context16.next = 24;
           break;
 
-        case 19:
-          _context16.prev = 19;
+        case 20:
+          _context16.prev = 20;
           _context16.t0 = _context16["catch"](0);
           console.error(_context16.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context16.t0)
           });
 
-        case 23:
+        case 24:
         case "end":
           return _context16.stop();
       }
     }
-  }, null, null, [[0, 19]]);
+  }, null, null, [[0, 20]]);
 });
 router.get('/getchitietsp/:idloaisp', function _callee18(req, res) {
   var idloaisp, loaisp, chitiet;
@@ -2848,7 +2855,7 @@ router.post('/postblog2', uploads.fields([{
   maxCount: 100000
 } // Nhiều ảnh (có thể điều chỉnh số lượng tối đa)
 ]), function _callee69(req, res) {
-  var _req$body13, tieude_blog, content, tieude, keywords, urlBase, _domain, imgblog, img, tieude_khongdau1, tieude_khongdau, blog, i, updatedContent, _updatedContent2;
+  var _req$body13, tieude_blog, content, tieude, keywords, urlBase, _domain2, imgblog, img, tieude_khongdau1, tieude_khongdau, blog, i, updatedContent, _updatedContent2;
 
   return regeneratorRuntime.async(function _callee69$(_context69) {
     while (1) {
@@ -2857,12 +2864,12 @@ router.post('/postblog2', uploads.fields([{
           _context69.prev = 0;
           _req$body13 = req.body, tieude_blog = _req$body13.tieude_blog, content = _req$body13.content, tieude = _req$body13.tieude, keywords = _req$body13.keywords, urlBase = _req$body13.urlBase; // Xác định domain
 
-          _domain = 'https://www.baominhmobile.com'; // Thay đổi thành domain của bạn
+          _domain2 = 'https://www.baominhmobile.com'; // Thay đổi thành domain của bạn
           // Lấy tên file ảnh từ req.files và thêm domain vào trước tên file
 
-          imgblog = req.files['imgblog'] ? "".concat(_domain, "/").concat(req.files['imgblog'][0].filename) : null;
+          imgblog = req.files['imgblog'] ? "".concat(_domain2, "/").concat(req.files['imgblog'][0].filename) : null;
           img = req.files['img'] ? req.files['img'].map(function (file) {
-            return "".concat(_domain, "/").concat(file.filename);
+            return "".concat(_domain2, "/").concat(file.filename);
           }) : [];
           tieude_khongdau1 = unicode(tieude_blog);
           tieude_khongdau = removeSpecialChars(tieude_khongdau1);
