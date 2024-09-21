@@ -11,7 +11,9 @@ camera:{type:String},
 pinsac:{type:String},
 congsac:{type:String},
 hang:{type:String},
-thongtin:{type:String}
+thongtin:{type:String},
+dungluongmay: [{ type: db.mongoose.Schema.Types.ObjectId, ref: 'dungluong' }]
+
 });
 
 const TenSP = db.mongoose.model('loaisp', tenSpSchema);

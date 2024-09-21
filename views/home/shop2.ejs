@@ -420,6 +420,18 @@
 
         gtag('config', 'AW-16700715907');
     </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXSL91B52T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-ZXSL91B52T');
+    </script>
 </head>
 
 <body>
@@ -433,7 +445,9 @@
         </div>
 
         <div class="anhdt">
-            <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="" onclick="makeCall()">
+            <a href="tel: 0833354354">
+                <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="">
+            </a>
         </div>
     </div>
 
@@ -487,11 +501,12 @@
                                 <div style="width: 30%;" class="col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="product-card position-relative ">
                                         <div class="image-holder">
-                                            <img src="data:image/jpeg;base64,<%= product.image %>" alt="product-item" class="img-fluid anh">
+                                            <img src="<%= product.image %>" alt="product-item" class="img-fluid anh">
                                         </div>
                                         <div class="divbtn cart-concern position-absolute btnsp">
                                             <div class="cart-button d-flex btnsp2">
-                                                <a href="/getchitiet/<%= encodeURIComponent(product.name).replace(/%20/g, '-').replace(/%25/g, 'pt') %>/<%= encodeURIComponent(nameloaisp).replace(/%20/g, '-').replace(/%25/g, 'pt') %>" class="btn btn-medium btn-danger btmua">Chi tiết</a>
+                                                <a href="/getchitiet/<%= encodeURIComponent(product.name).replace(/%20/g, '-').replace(/%25/g, 'pt' ) %>/<%=
+                                  encodeURIComponent(product.idloaisp.name).replace(/%20/g, '-' ).replace(/%25/g, 'pt' ) %>" class="btn btn-medium btn-danger btmua">Chi tiết</a>
                                                 <p onclick="makeCall()" class="btn btn-medium btn-danger btmua">Mua ngay</p>
                                             </div>
                                         </div>
@@ -540,20 +555,6 @@
                     </main>
                     <aside class="col-md-3">
                         <div class="sidebar">
-                            <div class="widget-menu">
-                                <div class="widget-search-bar">
-                                    <form role="search" method="get" class="d-flex">
-                                        <input class="search-field" placeholder="Search" type="search">
-                                        <div class="search-icon bg-dark">
-                                            <a href="#">
-                                                <svg class="search text-light">
-                        <use xlink:href="#search"></use>
-                      </svg>
-                                            </a>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
                             <div class="widget-product-categories pt-3">
                                 <h5 class="widget-title text-decoration-underline text-uppercase">Thể loại</h5>
                                 <ul class="product-categories sidebar-list list-unstyled">

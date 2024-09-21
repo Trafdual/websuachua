@@ -12,6 +12,8 @@ var homeRouter = require('./routes/home.route');
 
 var apinewsanpham = require('./routes/apinewsanpham');
 
+var sanphammoi = require('./routes/sanpham');
+
 var methodOverride = require('method-override');
 
 var bodyParser = require('body-parser');
@@ -51,6 +53,7 @@ app.use('/', settingsRouter); // app.use('/',sitmaprouter);
 // app.use('/test', testRouter);
 
 app.use('/', apinewsanpham);
+app.use('/', sanphammoi);
 app.use(express["static"](path.join(__dirname, '/public')));
 app.use(express["static"](path.join(__dirname, '/uploads')));
 app.listen(3000, function () {

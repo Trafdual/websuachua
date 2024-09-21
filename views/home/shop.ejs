@@ -34,7 +34,7 @@
             j.src =
                 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-KB5DNX5V');
+        })(window, document, 'script', 'dataLayer', 'GTM-PNXD3PWT');
     </script>
     <!-- End Google Tag Manager -->
     <!-- link icon -->
@@ -131,6 +131,7 @@
                 /* Biến hình thành hình tròn */
                 animation: expand 2s infinite;
                 display: inline-block;
+                left: 22%;
             }
             .anhdt {
                 position: relative;
@@ -144,6 +145,7 @@
                 /* Biến hình thành hình tròn */
                 animation: expand 2s infinite;
                 display: inline-block;
+                left: 22%;
             }
             body {
                 background-color: aliceblue;
@@ -311,6 +313,7 @@
                 /* Biến hình thành hình tròn */
                 animation: expand 2s infinite;
                 display: inline-block;
+                left: 20%;
             }
             .anhdt {
                 position: relative;
@@ -324,6 +327,7 @@
                 /* Biến hình thành hình tròn */
                 animation: expand 2s infinite;
                 display: inline-block;
+                left: 18%;
             }
             .name {
                 font-size: 150%;
@@ -420,21 +424,36 @@
 
         gtag('config', 'AW-16700715907');
     </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXSL91B52T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-ZXSL91B52T');
+    </script>
 </head>
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB5DNX5V"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W64QB5Z8"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div class="facezalo">
         <div class="anhfz">
             <img class="anhfacezalo" id="fanpageButton" src="https://cdn-icons-png.flaticon.com/512/1617/1617222.png" alt="">
         </div>
-
         <div class="anhdt">
-            <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="" onclick="makeCall()">
+            <a href="tel: 0833354354">
+                <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="">
+            </a>
+
         </div>
+        <p>Gọi điện ngay</p>
     </div>
 
     <%- include('../include/header2.ejs') %>
@@ -484,20 +503,24 @@
                         </div>
                         <div class="product-content product-store d-flex flex-wrap overflow-hidden">
                             <% chitiet.forEach((product) => { %>
-                                <div style="width: 30%;" class="col-lg-4 col-md-6 col-sm-6 col-12">
+                                <div style="width: 33%;" class="col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="product-card position-relative ">
                                         <div class="image-holder">
-                                            <img src="data:image/jpeg;base64,<%= product.image %>" alt="product-item" class="img-fluid anh">
+                                            <a href="/getchitiet/<%= encodeURIComponent(product.name).replace(/%20/g, '-').replace(/%25/g, 'pt') %>/<%= encodeURIComponent(nameloaisp).replace(/%20/g, '-').replace(/%25/g, 'pt') %>">
+                                            <img src="<%= product.image %>" alt="product-item" class="img-fluid anh">
+                                            </a>
                                         </div>
                                         <div class="divbtn cart-concern position-absolute btnsp">
                                             <div class="cart-button d-flex btnsp2">
-                                                <a href="/getchitiet/<%= encodeURIComponent(product.name).replace(/%20/g, '-').replace(/%25/g, 'pt') %>/<%= encodeURIComponent(nameloaisp).replace(/%20/g, '-').replace(/%25/g, 'pt') %>" class="btn btn-medium btn-danger btmua">Chi tiết</a>
-                                                <p onclick="makeCall()" class="btn btn-medium btn-danger btmua">Mua ngay</p>
+                                                <a href="tel: 0833354354" class="btn btn-medium btn-danger btmua">Gọi điện</a>
+                                                <a href="https://baominhmobile.com/mess">
+                                                    <p class="btn btn-medium btn-danger btmua">Nhắn tin</p>
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="card-detail text-center justify-content-between align-items-baseline pt-3 thanhphan">
                                             <h6 class="name">
-                                                <a href="#">
+                                                <a href="/getchitiet/<%= encodeURIComponent(product.name).replace(/%20/g, '-').replace(/%25/g, 'pt') %>/<%= encodeURIComponent(nameloaisp).replace(/%20/g, '-').replace(/%25/g, 'pt') %>">
                                                     <%= product.name %>
                                                 </a>
                                             </h6>
@@ -539,20 +562,6 @@
                     </main>
                     <aside class="col-md-3">
                         <div class="sidebar">
-                            <div class="widget-menu">
-                                <div class="widget-search-bar">
-                                    <form role="search" method="get" class="d-flex">
-                                        <input class="search-field" placeholder="Search" type="search">
-                                        <div class="search-icon bg-dark">
-                                            <a href="#">
-                                                <svg class="search text-light">
-                        <use xlink:href="#search"></use>
-                      </svg>
-                                            </a>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
                             <div class="widget-product-categories pt-3">
                                 <h5 class="widget-title text-decoration-underline text-uppercase">Thể loại</h5>
                                 <ul class="product-categories sidebar-list list-unstyled">
@@ -635,7 +644,7 @@
 
                     fanpageButton.addEventListener("click", function() {
                         // Thay thế "URL_FANPAGE_FACEBOOK_CUA_BAN" bằng đường dẫn fanpage của bạn
-                        window.location.href = "https://www.facebook.com/messages/t/102425705973353/";
+                        window.location.href = "https://baominhmobile.com/mess";
                     });
                 });
             </script>

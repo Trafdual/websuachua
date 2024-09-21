@@ -37,7 +37,7 @@
             j.src =
                 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-KB5DNX5V');
+        })(window, document, 'script', 'dataLayer', 'GTM-PNXD3PWT');
     </script>
     <!-- End Google Tag Manager -->
     <!-- script
@@ -198,11 +198,13 @@
             .divloai {
                 border: 1px solid #f86e6e;
                 border-radius: 10px;
-                width: 35%;
+                width: 30%;
                 padding: 3%;
-                margin-right: 5%;
+                margin-right: 3%;
                 flex-wrap: wrap;
                 margin-top: 2%;
+                justify-content: center;
+                cursor: pointer;
             }
             .divconloai {
                 margin-left: 5%;
@@ -407,6 +409,42 @@
                 width: 100%;
                 height: 100%;
             }
+            .selected {
+                border: 2px solid #0064fa;
+                /* Màu viền khi được chọn */
+                color: #007ef5;
+                /* Màu chữ khi được chọn */
+            }
+            .color-circle {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 2px solid #ccc;
+                margin: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: border 0.3s ease;
+            }
+            .color-circle-inner {
+                width: 80%;
+                height: 80%;
+                border-radius: 50%;
+            }
+            .color-circle:hover {
+                border-color: #000;
+            }
+            .color-circle.selected {
+                border-color: #000;
+            }
+            .color-circle-inner {
+                background-color: #ddd;
+                /* Default color */
+            }
+            .selected1 {
+                border-color: #000;
+            }
         }
         
         @media only screen and (min-width: 701px) {
@@ -560,11 +598,17 @@
             .divloai {
                 border: 1px solid #f86e6e;
                 border-radius: 10px;
-                width: 40%;
-                padding: 3%;
-                margin-right: 5%;
+                width: 15%;
+                padding-left: 1%;
+                padding-right: 1%;
+                padding-top: 1%;
+                padding-bottom: 1%;
+                margin-right: 3%;
                 flex-wrap: wrap;
                 margin-top: 2%;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                justify-content: center;
+                cursor: pointer;
             }
             .divconloai {
                 margin-left: 5%;
@@ -794,6 +838,39 @@
             #ttin {
                 color: black;
             }
+            .selected {
+                border: 2px solid #0064fa;
+                /* Màu viền khi được chọn */
+                color: #007ef5;
+                /* Màu chữ khi được chọn */
+            }
+            .color-circle1 {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 2px solid #ccc;
+                margin: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: border 0.3s ease;
+            }
+            .color-circle-inner1 {
+                width: 80%;
+                height: 80%;
+                border-radius: 50%;
+                background-color: #ddd;
+            }
+            .color-circle1:hover {
+                border-color: #000;
+            }
+            .color-circle1.selected {
+                border-color: #000;
+            }
+            .selected2 {
+                border-color: #000;
+            }
         }
     </style>
 
@@ -814,8 +891,8 @@
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB5DNX5V"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W64QB5Z8"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div class="facezalo">
         <div class="anhfz">
@@ -823,7 +900,9 @@
         </div>
 
         <div class="anhdt">
-            <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="" onclick="makeCall()">
+            <a href="tel: 0833354354">
+                <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="">
+            </a>
         </div>
     </div>
 
@@ -853,7 +932,7 @@
                                 </div>
                             </div>
                             <div class="product-price pt-3 pb-3 d-flex align-items-center">
-                                <strong class="display-6 fw-bold pricestrong">
+                                <strong class="display-6 fw-bold pricestrong1">
                 <%= mangjson.spjson.price %>
               </strong>
                                 <div class="tragop ms-3">
@@ -863,20 +942,42 @@
                             <p>
                                 <%= mangjson.spjson.content %>
                             </p>
+                            <h5>Dung lượng:</h5>
                             <div class="d-flex loai">
-                                <% mangjson.mangloai.forEach((item,index)=> { %>
-                                    <div class="d-flex divloai">
-                                        <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>">
-                                        <div class="divconloai">
-                                            <strong class="strongloai">
-                          <%= item.name %>
-                        </strong>
-                                            <strong class="strongloai2 price<%= index %>">
-                          <%= item.price %>
-                        </strong>
-                                        </div>
+                                <% mangjson.dungluong.forEach((item, index) => { %>
+                                    <div id="dungluong<%= index %>itemmobile" class="d-flex divloai" onclick="showColors1('<%= index %>')">
+                                        <strong class="strongdungluong" id="strongdungluong<%= index %>">
+                <%= item.name %>
+            </strong>
                                     </div>
                                     <% }); %>
+                            </div>
+                            <h5>Màu sắc:</h5>
+                            <div class="d-flex loai" id="colorContainer1" style="display: none; flex-wrap: wrap;">
+                                <% mangjson.dungluong.forEach((item, index) => { %>
+                                    <% item.mausac.forEach((row, rowIndex) => { %>
+                                        <div class="d-flex colorOption1" data-index="<%= index %>itemmobile" style="display: none;" onclick="showDetails1('<%= item.name %>', '<%= row.mausacmay %>', '<%= rowIndex %>')">
+                                            <div id="mausac<%= rowIndex %><%= item.name %>itemmobile" class="color-circle">
+                                                <div class="color-circle-inner strongmausac1" style="background-color: <%= row.mausacmay %>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                            <% }); %>
+                            </div>
+                            <h5>Chi tiết:</h5>
+                            <div class="d-flex loai" id="detailContainer1" style="display: none;">
+                                <% mangjson.dungluong.forEach(item => { %>
+                                    <% item.mausac.forEach(row => { %>
+                                        <% row.chitiet.forEach((ct, index) => { %>
+                                            <div id="chitiet<%= item.name %><%= row.mausacmay %><%= index %>itemmobile" class="d-flex divloai detailOption1" data-color="<%= item.name %><%= row.mausacmay %>itemmobile" data-price="<%= ct.price %>" style="display: none;" onclick="chitietselect1('<%= index %>', '<%= row.mausacmay %>', '<%= item.name %>', '<%= ct.price %>')">
+                                                <strong class="strongchitiet">
+                        <%= ct.name %>
+                    </strong>
+                                            </div>
+                                            <% }); %>
+                                                <% }); %>
+                                                    <% }); %>
                             </div>
                         </div>
                         <div class="tab-pane fade show active border-top border-bottom padding-small thongsoo" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -949,18 +1050,46 @@
                                         <p class="ptragop">Trả góp 0%</p>
                                     </div>
                                 </div>
-                                <div class="d-flex loai ">
-                                    <% mangjson.mangloai.forEach((item, index) => { %>
-                                        <div class="d-flex divloai">
-                                            <input type="checkbox" id="myCheckbox<%= index %>" name="myCheckbox" class="inputloai" data-price="<%= item.price %>" data-index="<%= index %>" <%=index===0 ? 'checked' : '' %>>
-                                            <div class="divconloai">
-                                                <strong class="strongloai"><%= item.name %></strong>
-                                                <strong class="strongloai2 price<%= index %>"><%= item.price %></strong>
-                                            </div>
+                                <h5>Dung lượng:</h5>
+                                <div class="d-flex loai">
+                                    <% mangjson.dungluong.forEach((item, index) => { %>
+                                        <div id="dungluong<%= index %>" class="d-flex divloai" onclick="showColors('<%= index %>')">
+                                            <strong class="strongdungluong" id="strongdungluong<%= index %>">
+                <%= item.name %>
+            </strong>
                                         </div>
                                         <% }); %>
-
                                 </div>
+                                <h5>Màu sắc:</h5>
+                                <div class="d-flex loai" id="colorContainer" style="display: none; flex-wrap: wrap;">
+                                    <% mangjson.dungluong.forEach((item, index) => { %>
+                                        <% item.mausac.forEach((row, rowIndex) => { %>
+                                            <div class="d-flex colorOption" data-index="<%= index %>" style="display: none;" onclick="showDetails('<%= item.name %>', '<%= row.mausacmay %>','<%= rowIndex %>')">
+                                                <div id="mausac<%= rowIndex %><%= item.name %>" class="color-circle1">
+                                                    <div class="color-circle-inner1 strongmausac1" style="background-color: <%= row.mausacmay %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }); %>
+                                                <% }); %>
+                                </div>
+
+                                <h5>Chi tiết:</h5>
+                                <div class="d-flex loai" id="detailContainer" style="display: none;">
+                                    <% mangjson.dungluong.forEach(item => { %>
+                                        <% item.mausac.forEach(row => { %>
+                                            <% row.chitiet.forEach((ct,index) => { %>
+                                                <div id="chitiet<%= item.name %><%= row.mausacmay %><%= index %>" class="d-flex divloai detailOption" data-color="<%= item.name %><%= row.mausacmay %>" data-price="<%= ct.price %>" style="display: none;" onclick="chitietselect('<%= index %>','<%= row.mausacmay %>','<%= item.name %>','<%= ct.price %>')">
+                                                    <strong class="strongchitiet">
+                        <%= ct.name %>
+                    </strong>
+                                                </div>
+                                                <% }); %>
+                                                    <% }); %>
+                                                        <% }); %>
+                                </div>
+
+
                                 <p>
                                     <%= mangjson.spjson.content %>
                                 </p>
@@ -982,19 +1111,19 @@
                                                 <div class="dbodykhuyenmai ">
                                                     <p style="color: aliceblue; text-align: center;">1</p>
                                                 </div>
-                                                <p class="pbodykhuyenmai"> Tặng thêm quà tặng trị giá 1.750.000đ</p>
+                                                <p class="pbodykhuyenmai"> Cơ hội trúng thưởng xe máy Honda hoặc iPhone 13</p>
                                             </div>
                                             <div class="d-flex">
                                                 <div class="dbodykhuyenmai">
                                                     <p style="color: aliceblue; text-align: center;">2</p>
                                                 </div>
-                                                <p class="pbodykhuyenmai"> Tặng tai nghe lightning chính hãng bảo hành 12 tháng khi nâng cấp gói bảo hành</p>
+                                                <p class="pbodykhuyenmai"> Tặng tai nghe không dây chính hãng bảo hành 12 tháng khi nâng cấp gói bảo hành</p>
                                             </div>
                                             <div class="d-flex">
                                                 <div class="dbodykhuyenmai">
                                                     <p style="color: aliceblue; text-align: center;">3</p>
                                                 </div>
-                                                <p class="pbodykhuyenmai"> Tặng Voucher nghỉ dưỡng Miễn Phí tại khách sạn</p>
+                                                <p class="pbodykhuyenmai"> Thay pin miễn phí trọn đời máy</p>
                                             </div>
                                             <div class="d-flex">
                                                 <div class="dbodykhuyenmai">
@@ -1020,13 +1149,13 @@
                                                 <div class="dbodykhuyenmai">
                                                     <p style="color: aliceblue; text-align: center;">7</p>
                                                 </div>
-                                                <p class="pbodykhuyenmai"> Tặng 100.000₫ và Airpods khi mua 2 sản phẩm trở lên.</p>
+                                                <p class="pbodykhuyenmai"> Tặng sạc dự phòng 10000 mAh.</p>
                                             </div>
                                             <div class="d-flex">
                                                 <div class="dbodykhuyenmai">
                                                     <p style="color: aliceblue; text-align: center;">8</p>
                                                 </div>
-                                                <p class="pbodykhuyenmai"> Tặng 200.000₫ khi mua kèm Airpods 2 và Airpods Pro.</p>
+                                                <p class="pbodykhuyenmai"> Tặng voucher 500.000₫ khi mua sản phẩm thứ 2.</p>
                                             </div>
                                             <div class="d-flex">
                                                 <div class="dbodykhuyenmai">
@@ -1052,11 +1181,11 @@
                                         <h4 style="font-weight: bold; font-family: 'Times New Roman', Times, serif;">BẢO HÀNH:</h4>
                                         <div class="d-flex">
                                             <i class="fa fa-asterisk fa-2xs ibaohanh"></i>
-                                            <p class="pbaohanh">* Miễn phí Bảo hành 12 tháng, hỗ trợ bảo hành hãng theo chính sách tại thị trường VN.</p>
+                                            <p class="pbaohanh">* Miễn phí Bảo hành 24 tháng, hỗ trợ bảo hành hãng theo chính sách tại thị trường VN.</p>
                                         </div>
                                         <div class="d-flex">
                                             <i class="fa fa-asterisk fa-2xs ibaohanh"></i>
-                                            <p class="pbaohanh">* Bảo hành mở rộng 24 tháng phần cứng + 400k yên tâm sử dụng</p>
+                                            <p class="pbaohanh">* Bảo hành mở rộng 24 tháng phần cứng</p>
                                         </div>
                                         <div class="d-flex">
                                             <i class="fa fa-asterisk fa-2xs ibaohanh"></i>
@@ -1065,10 +1194,10 @@
                                     </div>
                                     <div class="btnmua d-flex">
                                         <div onclick="goToFanpage()" class="muangay">
-                                            <h5 style="color: aliceblue; font-weight: bold;font-size: 15px;">Nhắn tin Trực tiếp với Fanpage ngay bây giờ để đặt hàng</h5>
+                                            <h5 style="color: aliceblue; font-weight: bold;font-size: 15px;">Nhắn tin Trực tiếp với Fanpage</h5>
                                         </div>
                                         <div onclick="makeCall()" class="muatragop">
-                                            <h5 style="color: aliceblue; font-weight: bold;font-size: 15px;"> Gọi điện Trực tiếp cho Cửa hàng để đặt hàng</h5>
+                                            <h5 style="color: aliceblue; font-weight: bold;font-size: 15px;"> Gọi điện Trực tiếp</h5>
 
 
                                         </div>
@@ -1155,6 +1284,14 @@
                 function goToFanpage() {
                     window.location.href = "/mess";
                 }
+                document.addEventListener("DOMContentLoaded", function() {
+                    const fanpageButton = document.getElementById("fanpageButton");
+
+                    fanpageButton.addEventListener("click", function() {
+                        // Thay thế "URL_FANPAGE_FACEBOOK_CUA_BAN" bằng đường dẫn fanpage của bạn
+                        window.location.href = "https://baominhmobile.com/mess";
+                    });
+                });
             </script>
             <script>
                 document.title = '<%= nameloai %>'
@@ -1246,6 +1383,284 @@
                     });
                 });
             </script>
+
+            <script>
+                let currentDungluong = null;
+                let currentMausac = null;
+                let currentChitiet = 0;
+                let currentColor = '';
+
+                // Biến lưu vị trí màu sắc đã chọn
+                let selectedMausacIndex = 0;
+
+                function showColors(index) {
+                    const colorOptions = document.querySelectorAll('.colorOption');
+                    colorOptions.forEach(option => {
+                        option.style.display = 'none'; // Ẩn tất cả các tùy chọn màu
+                    });
+
+                    const selectedColorOptions = document.querySelectorAll(`.colorOption[data-index="${index}"]`);
+                    selectedColorOptions.forEach(option => {
+                        option.style.display = 'flex'; // Hiển thị tùy chọn màu cho dung lượng đã chọn
+                    });
+
+                    document.getElementById('colorContainer').style.display = 'flex';
+                    document.getElementById('detailContainer').style.display = 'none';
+
+                    // Xử lý việc chọn dung lượng
+                    if (currentDungluong !== null) {
+                        const previousDungluong = document.getElementById(`dungluong${currentDungluong}`);
+                        if (previousDungluong) {
+                            previousDungluong.classList.remove('selected'); // Bỏ chọn dung lượng trước đó
+                        }
+                    }
+
+                    const dungluongOption = document.getElementById(`dungluong${index}`);
+                    if (dungluongOption) {
+                        dungluongOption.classList.add('selected'); // Đánh dấu dung lượng đã chọn
+                        currentDungluong = index; // Cập nhật dung lượng hiện tại
+                    }
+
+                    // Khôi phục màu sắc theo vị trí đã chọn
+                    const firstColorOption = selectedColorOptions[selectedMausacIndex]; // Lấy màu sắc ở vị trí đã chọn
+                    if (firstColorOption) {
+                        const colorElement = firstColorOption.querySelector('.color-circle-inner1');
+                        const color = getComputedColor(colorElement); // Lấy màu sắc từ phần tử
+                        showDetails(dungluongOption.textContent.trim(), color, selectedMausacIndex); // Gọi showDetails với màu sắc ở vị trí đã chọn
+                    }
+                }
+
+                function showDetails(index, color, rowIndex) {
+                    const detailOptions = document.querySelectorAll('.detailOption');
+                    detailOptions.forEach(option => {
+                        option.style.display = 'none';
+                        option.classList.remove('selected');
+                    });
+
+                    const selectedDetailOptions = document.querySelectorAll(`.detailOption[data-color="${index}${color}"]`);
+                    selectedDetailOptions.forEach(option => {
+                        option.style.display = 'flex';
+                    });
+
+                    document.getElementById('detailContainer').style.display = 'flex';
+
+                    // Cập nhật trạng thái cho màu sắc
+                    if (currentMausac !== null) {
+                        const previousMausac = document.querySelector(`.color-circle1.selected2`);
+                        if (previousMausac) {
+                            previousMausac.classList.remove('selected2'); // Bỏ lớp selected2 khỏi màu sắc trước đó
+                        }
+                    }
+
+                    const mausacOption = document.getElementById(`mausac${rowIndex}${index}`);
+                    if (mausacOption) {
+                        mausacOption.classList.add('selected2');
+                        currentMausac = rowIndex;
+                        currentColor = getComputedColor(mausacOption.querySelector('.strongmausac1'));
+
+                        // Cập nhật vị trí màu sắc đã chọn
+                        selectedMausacIndex = rowIndex;
+                    }
+
+                    const detailOption = selectedDetailOptions[currentChitiet];
+                    if (detailOption) {
+                        const price = detailOption.getAttribute('data-price');
+                        chitietselect(currentChitiet, color, index, price);
+                    }
+                }
+
+                function chitietselect(index, rowname, itemname, price) {
+                    const detailOptions = document.querySelectorAll('.detailOption');
+                    detailOptions.forEach(option => {
+                        option.classList.remove('selected');
+                    });
+
+                    const priceElement = document.querySelector('.pricemobile2');
+                    if (priceElement) {
+                        priceElement.textContent = price;
+                    }
+
+                    const chitietOption = document.getElementById(`chitiet${itemname}${rowname}${index}`);
+                    if (chitietOption) {
+                        chitietOption.classList.add('selected');
+                        currentChitiet = index;
+                    }
+                }
+
+                function init() {
+                    showColors(0);
+                    const dungluongOption = document.getElementById('dungluong0');
+                    if (dungluongOption) {
+                        const name = dungluongOption.textContent.trim();
+                        const firstMausac = document.querySelector(`.colorOption[data-index="0"]`);
+                        if (firstMausac) {
+                            const colorElement = firstMausac.querySelector('.color-circle-inner1');
+                            const color = getComputedColor(colorElement);
+                            currentColor = color;
+                            showDetails(name, color, 0);
+                            const firstChitiet = document.querySelector(`.detailOption[data-color="${name}${color}"]`);
+                            if (firstChitiet) {
+                                const price = firstChitiet.getAttribute('data-price');
+                                chitietselect(0, color, name, price);
+                            }
+                        }
+                    }
+                }
+            </script>
+
+
+            <script>
+                let currentDungluong1 = null;
+                let currentMausac1 = null;
+                let currentChitiet1 = 0;
+                let currentColor1 = '';
+
+                // Biến lưu vị trí màu sắc đã chọn
+                let selectedMausacIndex1 = 0;
+
+                function getComputedColor(element) {
+                    const color = window.getComputedStyle(element).backgroundColor;
+                    return rgbToHex(color);
+                }
+
+                function rgbToHex(rgb) {
+                    const result = rgb.match(/\d+/g);
+                    return `#${result.map(x => {
+            const hex = parseInt(x).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        }).join('')}`;
+                }
+
+                function showColors1(index) {
+                    // Ẩn tất cả màu sắc
+                    const colorOptions = document.querySelectorAll('.colorOption1');
+                    colorOptions.forEach(option => {
+                        option.style.display = 'none';
+                        option.classList.remove('selected');
+                    });
+
+                    // Hiển thị màu sắc tương ứng với dung lượng đã chọn
+                    const selectedColorOptions = document.querySelectorAll(`.colorOption1[data-index="${index}itemmobile"]`);
+                    selectedColorOptions.forEach(option => {
+                        option.style.display = 'flex';
+                    });
+
+                    // Cập nhật hiển thị
+                    document.getElementById('colorContainer1').style.display = 'flex';
+                    document.getElementById('detailContainer1').style.display = 'none';
+
+                    // Xóa lớp "selected" từ dung lượng trước đó
+                    if (currentDungluong1 !== null) {
+                        const previousDungluong = document.getElementById(`dungluong${currentDungluong1}itemmobile`);
+                        if (previousDungluong) {
+                            previousDungluong.classList.remove('selected');
+                        }
+                    }
+
+                    // Thêm lớp "selected" cho dung lượng hiện tại
+                    const dungluongOption = document.getElementById(`dungluong${index}itemmobile`);
+                    if (dungluongOption) {
+                        dungluongOption.classList.add('selected');
+                        currentDungluong1 = index;
+                    }
+
+                    const firstColorOption = selectedColorOptions[selectedMausacIndex1]; // Lấy màu sắc ở vị trí đã chọn
+                    if (firstColorOption) {
+                        const colorElement = firstColorOption.querySelector('.color-circle-inner');
+                        const color = getComputedColor(colorElement); // Lấy màu sắc từ phần tử
+                        showDetails1(dungluongOption.textContent.trim(), color, selectedMausacIndex1); // Gọi showDetails với màu sắc ở vị trí đã chọn
+                    }
+                }
+
+                function showDetails1(index, color, rowIndex) {
+                    // Ẩn tất cả chi tiết
+                    const detailOptions = document.querySelectorAll('.detailOption1');
+                    detailOptions.forEach(option => {
+                        option.style.display = 'none';
+                        option.classList.remove('selected');
+                    });
+
+                    // Hiển thị chi tiết tương ứng
+                    const selectedDetailOptions = document.querySelectorAll(`.detailOption1[data-color="${index}${color}itemmobile"]`);
+                    selectedDetailOptions.forEach(option => {
+                        option.style.display = 'flex';
+                    });
+
+                    document.getElementById('detailContainer1').style.display = 'flex';
+
+                    // Xóa lớp "selected" từ màu sắc trước đó
+                    if (currentMausac1 !== null) {
+                        const previousMausac = document.querySelector(`.color-circle.selected1`);
+                        if (previousMausac) {
+                            previousMausac.classList.remove('selected1');
+                        }
+                    }
+
+                    // Thêm lớp "selected" cho màu sắc hiện tại
+                    const mausacOption = document.getElementById(`mausac${rowIndex}${index}itemmobile`);
+                    if (mausacOption) {
+                        mausacOption.classList.add('selected1');
+                        currentMausac1 = rowIndex;
+                        currentColor1 = getComputedColor(mausacOption.querySelector('.color-circle-inner'));
+
+                        // Cập nhật vị trí màu sắc đã chọn
+                        selectedMausacIndex1 = rowIndex;
+                    }
+
+                    // Hiển thị chi tiết đã chọn
+                    const detailOption = selectedDetailOptions[currentChitiet1];
+                    if (detailOption) {
+                        const price = detailOption.getAttribute('data-price');
+                        chitietselect1(currentChitiet1, color, index, price);
+                    }
+                }
+
+                function chitietselect1(index, rowname, itemname, price) {
+                    const detailOptions = document.querySelectorAll('.detailOption1');
+                    detailOptions.forEach(option => {
+                        option.classList.remove('selected');
+                    });
+
+                    // Cập nhật giá tiền
+                    const priceElement = document.querySelector('.pricestrong1');
+                    if (priceElement) {
+                        priceElement.textContent = price;
+                    }
+
+                    // Đánh dấu chi tiết đã chọn
+                    const chitietOption = document.getElementById(`chitiet${itemname}${rowname}${index}itemmobile`);
+                    if (chitietOption) {
+                        chitietOption.classList.add('selected');
+                        currentChitiet1 = index;
+                    }
+                }
+
+                function init1() {
+                    showColors1(0); // Chọn dung lượng đầu tiên
+                    const dungluongOption = document.getElementById('dungluong0itemmobile');
+                    if (dungluongOption) {
+                        const name = dungluongOption.textContent.trim();
+                        const firstMausac = document.querySelector(`.colorOption1[data-index="0itemmobile"]`);
+                        if (firstMausac) {
+                            const colorElement = firstMausac.querySelector('.color-circle-inner');
+                            const color = getComputedColor(colorElement);
+                            showDetails1(name, color, 0); // Chọn màu sắc và chi tiết đầu tiên
+                            const firstChitiet = document.querySelector(`.detailOption1[data-color="${name}${color}itemmobile"]`);
+                            if (firstChitiet) {
+                                const price = firstChitiet.getAttribute('data-price');
+                                chitietselect1(0, color, name, price); // Chọn chi tiết đầu tiên
+                            }
+                        }
+                    }
+                }
+
+                window.onload = function() {
+                    init()
+                    init1(); // Chỉ gọi init1 để khởi tạo
+                };
+            </script>
+
+
             <script>
                 function makeCall() {
                     event.preventDefault();
@@ -1283,6 +1698,14 @@
             <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
             <script type="text/javascript" src="/js/plugins.js"></script>
             <script type="text/javascript" src="/js/script.js"></script>
+</body>
+
+</html>
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="/js/plugins.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
 </body>
 
 </html>

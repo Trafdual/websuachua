@@ -1,7 +1,7 @@
 <%- include('../include/header.ejs') %>
 
     <div class="container">
-        <h2><img style="width: 35px;" src="https://cdn-icons-png.flaticon.com/512/13/13398.png"></a> Sản Phẩm</h2>
+        <h2><img style="width: 35px;" src="https://cdn-icons-png.flaticon.com/512/13/13398.png"></a> Dung lượng</h2>
         <div class="row">
 
 
@@ -11,8 +11,8 @@
                     <button class="btn btn-light" type="submit">Search</button>
                 </form>
                 <div class="col-sm-4 col-md-2">
-                    <a type="button" class="btn btn-danger" href="/getadddungluong/<%= idsp %>">
-                        ➕ Thêm loại chi tiết
+                    <a type="button" class="btn btn-danger" href="/getadddungluong/<%= idloaisp %>">
+                        ➕ Thêm dung lượng
                     </a>
                 </div>
 
@@ -30,11 +30,10 @@
                 <tr>
                     <th>ID</th>
                     <th>Tên</th>
-                    <th>Giá bán</th>
-                    <th></th>
+                    <th>chức năng</th>
                 </tr>
 
-                <% mangloai.forEach( ( row )=>{ %>
+                <% dungluong.forEach( ( row )=>{ %>
 
                     <tr>
                         <td>
@@ -45,21 +44,17 @@
                                 <%= row.name %>
                             </a>
                         </td>
-                        <td>
-                            <%= row.price %>
-                        </td>
 
                         <td>
-                            <a href="/geteditloaichitiet/<%= idsp %>/<%= row._id%>">
-                                <button type="button" class="btn btn-light">Sửa</button>
+                            <a href="/mausac/<%= row._id%>">
+                                <button type="button" class="btn btn-light">Màu sắc</button>
                             </a>
-
-                            <form action="/deleteloaichitiet/<%= idsp %>/<%= row._id%>" method="post" id="deleteForm">
-                                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#deleteModal<%= row._id %>">
+                            <form action="/deletedungluong/<%= row._id %>/<%= idloaisp %>" method="post" id="deleteForm">
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#deleteModalxoadungluong<%= row._id %>">
                                     Xóa
                                 </button>
 
-                                <div class="modal fade" id="deleteModal<%= row._id %>" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel">
+                                <div class="modal fade" id="deleteModalxoadungluong<%= row._id %>" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -76,7 +71,6 @@
                                 </div>
                             </form>
                         </td>
-
                     </tr>
                     <% } ) %>
 

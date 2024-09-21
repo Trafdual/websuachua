@@ -78,6 +78,9 @@
                             <a href="/editloaisp/<%= row._id %>">
                                 <button type="button" class="btn btn-light">Sửa</button>
                             </a>
+                            <a href="/dungluong/<%= row._id %>">
+                                <button type="button" class="btn btn-light">dung lượng</button>
+                            </a>
                             <form action="/deleteloaisp/<%= row._id %>" method="post" id="deleteForm">
                                 <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#deleteModal<%= row._id %>">
                                     Xóa

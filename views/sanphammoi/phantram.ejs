@@ -1,0 +1,62 @@
+<%- include('../include/header.ejs') %>
+
+    <div class="container">
+        <h2><img style="width: 35px;" src="https://cdn-icons-png.flaticon.com/512/13/13398.png"></a>Phần trăm</h2>
+        <div class="row">
+
+
+            <div class="row col-12 col-sm-4 col-md-12" style="height: 30px; text-align: center; margin-top: 10px;">
+                <form class="search d-flex" role="search" action="/search" method="GET">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                    <button class="btn btn-light" type="submit">Search</button>
+                </form>
+                <div class="col-sm-4 col-md-2">
+                    <a type="button" class="btn btn-danger" href="/getaddphantram/<%= idmausac %>">
+                        ➕ Thêm phần trăm
+                    </a>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    </div>
+    <div class="container" style="margin-top: 40px;">
+        <div class="col-1 col-sm-4 col-md-12">
+
+            <table class="table table-bordered table-striped" style="text-align: center;">
+                <tr>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th></th>
+                </tr>
+
+                <% phantram.forEach( ( row )=>{ %>
+
+                    <tr>
+                        <td>
+
+                            <%= row.name %>
+
+                        </td>
+                        <td>
+
+                            <%= row.price %>
+
+                        </td>
+
+                        <td>
+
+                        </td>
+
+                    </tr>
+                    <% } ) %>
+
+            </table>
+
+        </div>
+    </div>
+
+    <%- include('../include/footer.ejs') %>

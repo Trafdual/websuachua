@@ -7,6 +7,8 @@ const multer = require('multer')
 var myMDBlog = require('../models/blog.model')
 const checkAuth = require('../controllers/checkAuth')
 const checkAuth2 = require('../controllers/checkAuth2')
+const DungLuong = require('../models/dungluongModel')
+const MauSac = require('../models/MauSacModel')
 
 const LinkKien = require('../models/LinkKienModel')
 const LoaiLinkKien = require('../models/LoaiLinhKien')
@@ -237,27 +239,39 @@ router.post('/deleteloaisp/:id', async (req, res) => {
   }
 })
 
-router.post('/postchitietsp/:id', upload.single('image'), async (req, res) => {
-  try {
-    const id = req.params.id
-    const { name, content, price } = req.body
-    const image = req.file.buffer.toString('base64')
-    const chitietsp = new Sp.ChitietSp({ image, name, content, price })
-    const tensp = await LoaiSP.TenSP.findById(id)
-    if (!tensp) {
-      res.status(403).json({ message: 'khong tim thay tensp' })
+router.post(
+  '/postchitietsp/:id',
+  uploads.fields([
+    { name: 'image', maxCount: 1 } // Một ảnh duy nhất
+  ]),
+  async (req, res) => {
+    try {
+      const id = req.params.id
+      const { name, content, price } = req.body
+      const domain = 'https://www.baominhmobile.com' // Thay đổi thành domain của bạn
+
+      // Lấy tên file ảnh từ req.files và thêm domain vào trước tên file
+      const image = req.files['image']
+        ? `${domain}/${req.files['image'][0].filename}`
+        : null
+
+      const chitietsp = new Sp.ChitietSp({ image, name, content, price })
+      const tensp = await LoaiSP.TenSP.findById(id)
+      if (!tensp) {
+        res.status(403).json({ message: 'khong tim thay tensp' })
+      }
+      chitietsp.idloaisp = id
+      chitietsp.loaisp = tensp.name
+      tensp.chitietsp.push(chitietsp._id)
+      await chitietsp.save()
+      await tensp.save()
+      res.redirect('/main')
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
     }
-    chitietsp.idloaisp = id
-    chitietsp.loaisp = tensp.name
-    tensp.chitietsp.push(chitietsp._id)
-    await chitietsp.save()
-    await tensp.save()
-    res.redirect('/main')
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
-})
+)
 
 router.get('/getchitietsp/:idloaisp', async (req, res) => {
   try {
@@ -354,6 +368,7 @@ router.get('/search-products', async (req, res) => {
     const searchResults = await Sp.ChitietSp.find({
       name: { $regex: regex }
     })
+      .populate('idloaisp', 'name')
       .skip(skip)
       .limit(limit)
       .lean()
@@ -383,17 +398,56 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
   try {
     const namesp = req.params.namesp.replace(/-/g, ' ').replace(/pt/g, '%')
     const nameloai = req.params.nameloai.replace(/-/g, ' ').replace(/pt/g, '%')
+
     const sp = await Sp.ChitietSp.findOne({ name: namesp })
     const tenloai = await LoaiSP.TenSP.find().lean()
     const page = parseInt(req.query.page, 10) || 1
+    const theloai = await LoaiSP.TenSP.findOne({ name: nameloai })
 
     if (!sp) {
       return res.status(404).json({ message: 'Không tìm thấy sản phẩm' })
     }
+
     const loai = await LoaiSP.TenSP.findOne({ name: nameloai })
     if (!loai) {
       return res.status(404).json({ message: 'Không tìm thấy loại sản phẩm' })
     }
+    const dungluong = await Promise.all(
+      theloai.dungluongmay.map(async dl => {
+        const dungluongmay = await DungLuong.dungluong.findById(dl._id)
+        if (!dungluongmay) return null // Kiểm tra nếu dungluongmay tồn tại
+
+        const mausac = await Promise.all(
+          dungluongmay.mausac.map(async ms => {
+            const mausacmay = await MauSac.mausac.findById(ms._id)
+            if (!mausacmay) return null // Kiểm tra nếu mausacmay tồn tại
+            return {
+              mausacmay: mausacmay.name,
+              chitiet: mausacmay.chitiet.map(ct => {
+                return {
+                  name: ct.name,
+                  price: ct.price
+                }
+              })
+            }
+          })
+        )
+
+        // Lọc các giá trị null từ mausac
+        const filteredMausac = mausac.filter(ms => ms !== null)
+
+        return {
+          name: dungluongmay.name,
+          mausac: filteredMausac // Chỉ trả về mausac đã được lọc
+        }
+      })
+    )
+
+    // Lọc các giá trị null và loại bỏ các mảng rỗng
+    const filteredDungluong = dungluong.filter(
+      dl => dl !== null && dl.mausac.length > 0
+    )
+
     const spjson = {
       image: sp.image,
       name: sp.name,
@@ -409,6 +463,7 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
       hang: loai.hang,
       thongtin: loai.thongtin
     }
+
     const mangloai = await Promise.all(
       sp.chitiet.map(async mang => {
         return {
@@ -420,10 +475,10 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
 
     const mangjson = {
       spjson: spjson,
-      mangloai: mangloai
+      mangloai: mangloai,
+      dungluong: filteredDungluong
     }
-    // res.json(namesp)
-    // // res.json(mangjson)
+
     res.render('home/single-product.ejs', {
       mangjson,
       nameloai,
@@ -574,34 +629,31 @@ router.post('/deletechitietsp/:id', async (req, res) => {
   }
 })
 
-router.post(
-  '/updatechitietsp/:id',
-  async (req, res) => {
-    try {
-      const id = req.params.id
-      const { name, content, price,image } = req.body
-    
-      const chitietsp = await Sp.ChitietSp.findById(id)
-      if (!chitietsp) {
-        return res
-          .status(404)
-          .json({ message: 'Không tìm thấy chi tiết sản phẩm' })
-      }
+router.post('/updatechitietsp/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    const { name, content, price, image } = req.body
 
-      chitietsp.content = content
-      chitietsp.price = price
-      chitietsp.name = name
-      chitietsp.image=image
-
-      await chitietsp.save()
-
-      res.redirect('/main')
-    } catch (error) {
-      console.error(error)
-      res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+    const chitietsp = await Sp.ChitietSp.findById(id)
+    if (!chitietsp) {
+      return res
+        .status(404)
+        .json({ message: 'Không tìm thấy chi tiết sản phẩm' })
     }
+
+    chitietsp.content = content
+    chitietsp.price = price
+    chitietsp.name = name
+    chitietsp.image = image
+
+    await chitietsp.save()
+
+    res.redirect('/main')
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
-)
+})
 
 router.get('/editsp/:id', async (req, res) => {
   try {

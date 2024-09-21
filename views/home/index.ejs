@@ -182,6 +182,12 @@
                 margin-top: 0.5%;
                 margin: 0 auto;
             }
+            .sale47 {
+                margin: 0 auto;
+                height: 35px;
+                margin-right: 2%;
+                margin-left: 2%;
+            }
             .sale46 {
                 overflow: hidden;
                 background-color: rgb(251, 251, 252);
@@ -355,6 +361,8 @@
                 padding-left: 10px;
                 transition: box-shadow 0.3s, border-color 0.3s;
                 flex: 1;
+                position: relative;
+                padding-right: 30px;
             }
             .inputSearch:focus {
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -370,6 +378,27 @@
                 font-weight: bold;
                 height: 50px;
                 cursor: pointer;
+            }
+            .inputSearch::after {
+                content: '\00d7';
+                /* Ký tự dấu x (×) */
+                position: absolute;
+                right: 10px;
+                /* Khoảng cách từ cạnh phải */
+                top: 50%;
+                /* Căn giữa theo chiều dọc */
+                transform: translateY(-50%);
+                /* Căn giữa chính xác theo chiều dọc */
+                cursor: pointer;
+                font-size: 16px;
+                color: #888;
+                /* Màu sắc của dấu x */
+                display: none;
+                /* Ẩn dấu x mặc định */
+            }
+            .inputSearch:not(:placeholder-shown)::after {
+                display: block;
+                /* Hiển thị dấu x khi có nội dung */
             }
         }
         
@@ -409,6 +438,7 @@
                 animation: shake 1s infinite alternate;
                 /* Sử dụng animation với tên 'shake', thời gian 0.5s, lặp lại vô hạn và chuyển động xen kẽ */
                 transform-origin: center;
+                cursor: pointer;
                 /* Đặt điểm xoay tại trung tâm của ảnh */
             }
             @keyframes shake {
@@ -537,6 +567,14 @@
                 background-color: rgb(251, 251, 252);
                 margin-top: 0.5%;
                 margin: 0 auto;
+                margin-left: 10%;
+                margin-right: 10%;
+                border-radius: 10px;
+            }
+            .sale47 {
+                padding-bottom: 3%;
+                padding-top: 2%;
+                height: 23%;
                 margin-left: 10%;
                 margin-right: 10%;
                 border-radius: 10px;
@@ -804,6 +842,18 @@
 
         gtag('config', 'AW-16700715907');
     </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXSL91B52T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-ZXSL91B52T');
+    </script>
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
@@ -817,7 +867,9 @@
         </div>
 
         <div class="anhdt">
-            <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="" onclick="makeCall()">
+            <a href="tel: 0833354354">
+                <img class="anhfacezalo" src="https://freeiconshop.com/wp-content/uploads/edd/phone-flat.png" alt="">
+            </a>
         </div>
     </div>
 
@@ -856,9 +908,8 @@
                 <div class="row">
                     <div class="display-header justify-content-between">
                         <div>
-                            <h4>Tìm kiếm sản phẩm</h4>
-                            <form action="/search-products" style="display: flex;" role="search" method="get">
-                                <input class="inputSearch" type="text" placeholder="Nhập từ khóa tìm kiếm" name="query">
+                            <form action="/search-products" style="display: flex; position: relative;" role="search" method="get">
+                                <input id="search-input" class="inputSearch" type="text" placeholder="Tìm kiếm sản phẩm" name="query">
                                 <button class="btnSearch" type="submit">Tìm kiếm</button>
                             </form>
                         </div>
@@ -867,7 +918,8 @@
             </div>
             <div id="overlay" class="overlay"></div>
         </section>
-       
+
+
         <section id="yearly-sale" class="bg-light-blue mt-2 mb-2 overflow-hidden sale46">
             <div class="container ">
                 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
@@ -905,10 +957,12 @@
                     <section id="mobile-products" class="product-store position-relative no-padding-top section">
                         <div class="container sp">
                             <div class="row">
-                                <div class="display-header d-flex justify-content-between pb-3 ">
-                                    <h2 class="display-7 text-dark text-uppercase">
-                                        <%= row.name %>
-                                    </h2>
+                                <div class="display-header d-flex justify-content-between pb-3 align-items-center">
+                                    <a href="/getspchitiet/<%= encodeURIComponent(row.name).replace(/%20/g, '-') %>" class="btn btn-normal text-uppercase">
+                                        <h2 class="display-7 text-dark text-uppercase">
+                                            <%= row.name %>
+                                        </h2>
+                                    </a>
                                     <div class="btn-right">
                                         <a href="/getspchitiet/<%= encodeURIComponent(row.name).replace(/%20/g, '-') %>" class="btn
                     btn-medium btn-normal text-uppercase">Xem Thêm</a>
@@ -920,12 +974,15 @@
                                 </div>
                                 <div class="swiper product-swiper swiper-container">
                                     <div class="swiper-wrapper">
-                                        <% row.chitietsp.slice(0, 4).forEach((item, index)=> { %>
+                                        <% row.chitietsp.slice(0, 7).forEach((item, index)=> { %>
                                             <% var rowname=row.name; %>
                                                 <div class="swiper-slide">
                                                     <div class="product-card position-relative">
                                                         <div class="image-holder">
+                                                            <a href="/getchitiet/<%= encodeURIComponent(item.name).replace(/%20/g, '-').replace(/%25/g, 'pt' ) %>/<%=
+                                  encodeURIComponent(rowname).replace(/%20/g, '-' ).replace(/%25/g, 'pt' ) %>">
                                                             <img src="<%= item.image %>" alt="product-item" class="img-fluid anh" loading="lazy">
+                                                            </a>
                                                         </div>
                                                         <div style="padding: 5%;" class="cart-concern position-absolute ">
                                                             <div class="cart-button d-flex">
@@ -954,10 +1011,10 @@
                             </div>
                         </div>
                     </section>
-                    <section id="yearly-sale" class="bg-light-blue mt-2 mb-2 overflow-hidden sale45" style="background-image: url('/images/banner5.png');background-position: right; background-repeat: no-repeat; background-size: cover;">
-                        
+                    <section class="bg-light-blue mt-2 mb-2 overflow-hidden sale47" style="background-image: url('/images/banner5.png');background-position: right; background-repeat: no-repeat; background-size: cover;">
+
                     </section>
-                    
+
                     <% }) %>
                         <section id="yearly-sale" class="bg-light-blue mt-2 mb-2 overflow-hidden sale45" style="background-image: url('/images/single-image1.png');background-position: right; background-repeat: no-repeat; background-size: cover;">
                             <div class="row d-flex flex-wrap ">
@@ -1186,7 +1243,7 @@
 
                     fanpageButton.addEventListener("click", function() {
                         // Thay thế "URL_FANPAGE_FACEBOOK_CUA_BAN" bằng đường dẫn fanpage của bạn
-                        window.location.href = "https://www.facebook.com/messages/t/102425705973353/";
+                        window.location.href = "https://baominhmobile.com/mess";
                     });
 
                     leftImage.style.transition = "bottom 0.3s ease-in-out";
@@ -1205,6 +1262,28 @@
                             // Nếu không, đặt lại vị trí của hình ảnh
                             leftImage.style.bottom = "35%";
                             rightImage.style.bottom = "35%";
+                        }
+                    });
+                });
+                document.addEventListener('DOMContentLoaded', function() {
+                    const searchInput = document.getElementById('search-input');
+
+                    searchInput.addEventListener('input', function() {
+                        if (searchInput.value.length > 0) {
+                            searchInput.classList.add('has-content');
+                        } else {
+                            searchInput.classList.remove('has-content');
+                        }
+                    });
+
+                    searchInput.addEventListener('click', function(event) {
+                        if (event.target === searchInput) {
+                            const clearIcon = getComputedStyle(searchInput, '::after').content;
+                            if (clearIcon === '"×"') {
+                                searchInput.value = '';
+                                searchInput.dispatchEvent(new Event('input')); // Để cập nhật hiển thị dấu x
+                                searchInput.focus(); // Đặt lại tiêu điểm cho ô nhập liệu
+                            }
                         }
                     });
                 });
