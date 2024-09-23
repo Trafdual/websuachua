@@ -2752,7 +2752,7 @@ function escapeRegExp(string) {
 
 function removeSpecialChars(str) {
   // Danh sách các ký tự đặc biệt bạn muốn xóa
-  var specialChars = /[:+,!@#$%^&*()-?/]/g; // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
+  var specialChars = /[:+,!@#$%^&*()\-?/]/g; // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
   // Xóa các ký tự đặc biệt
 
   return str.replace(specialChars, '');
@@ -2999,14 +2999,14 @@ router.get('/getblog', function _callee72(req, res) {
   }, null, null, [[0, 11]]);
 });
 router.post('/editblog/:idblog', function _callee73(req, res) {
-  var _req$body14, tieude_blog, img_blog, tieude, content, img, keywords, urlBase, idblog, blog, i, updatedContent, _updatedContent3;
+  var _req$body14, tieude_blog, img_blog, tieude, content, img, keywords, urlBase, tieude_khongdau, idblog, blog, i, updatedContent, _updatedContent3;
 
   return regeneratorRuntime.async(function _callee73$(_context73) {
     while (1) {
       switch (_context73.prev = _context73.next) {
         case 0:
           _context73.prev = 0;
-          _req$body14 = req.body, tieude_blog = _req$body14.tieude_blog, img_blog = _req$body14.img_blog, tieude = _req$body14.tieude, content = _req$body14.content, img = _req$body14.img, keywords = _req$body14.keywords, urlBase = _req$body14.urlBase;
+          _req$body14 = req.body, tieude_blog = _req$body14.tieude_blog, img_blog = _req$body14.img_blog, tieude = _req$body14.tieude, content = _req$body14.content, img = _req$body14.img, keywords = _req$body14.keywords, urlBase = _req$body14.urlBase, tieude_khongdau = _req$body14.tieude_khongdau;
           idblog = req.params.idblog;
           _context73.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
@@ -3015,7 +3015,7 @@ router.post('/editblog/:idblog', function _callee73(req, res) {
           blog = _context73.sent;
           blog.tieude_blog = tieude_blog;
           blog.img_blog = img_blog;
-          blog.tieude_khongdau = unicode(tieude_blog);
+          blog.tieude_khongdau = tieude_khongdau;
 
           if (Array.isArray(content) && Array.isArray(img) && Array.isArray(tieude)) {
             blog.noidung.forEach(function (nd, index) {

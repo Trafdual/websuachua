@@ -1239,7 +1239,8 @@ function escapeRegExp (string) {
 }
 function removeSpecialChars (str) {
   // Danh sách các ký tự đặc biệt bạn muốn xóa
-  const specialChars = /[:+,!@#$%^&*()-?/]/g // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
+  const specialChars = /[:+,!@#$%^&*()\-?/]/g
+ // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
 
   // Xóa các ký tự đặc biệt
   return str.replace(specialChars, '')
@@ -1426,13 +1427,13 @@ router.get('/getblog', async (req, res) => {
 
 router.post('/editblog/:idblog', async (req, res) => {
   try {
-    const { tieude_blog, img_blog, tieude, content, img, keywords, urlBase } =
+    const { tieude_blog, img_blog, tieude, content, img, keywords, urlBase, tieude_khongdau } =
       req.body
     const idblog = req.params.idblog
     const blog = await myMDBlog.blogModel.findById(idblog)
     blog.tieude_blog = tieude_blog
     blog.img_blog = img_blog
-    blog.tieude_khongdau = unicode(tieude_blog)
+    blog.tieude_khongdau = tieude_khongdau
 
     if (Array.isArray(content) && Array.isArray(img) && Array.isArray(tieude)) {
       blog.noidung.forEach((nd, index) => {
