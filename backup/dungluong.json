@@ -1,0 +1,155 @@
+[
+  {
+    "_id": "66ebca400ac2e1d32af41266",
+    "name": "64GB",
+    "mausac": [
+      "66ebcc2c0eb8b3e0050f8754",
+      "66ebe2bcb34b65c2d0337ba6",
+      "66ece033d6ab89ac64102857",
+      "66ece03cd6ab89ac64102865"
+    ],
+    "__v": 4
+  },
+  {
+    "_id": "66ebf0a7b34b65c2d0337cfb",
+    "name": "256GB",
+    "mausac": [
+      "66ebf0afb34b65c2d0337d03",
+      "66ec0efbb34b65c2d03380a6",
+      "66ece08ad6ab89ac641028c8",
+      "66ece090d6ab89ac641028d6"
+    ],
+    "__v": 4
+  },
+  {
+    "_id": "66ece132d6ab89ac64102973",
+    "name": "128GB",
+    "mausac": [
+      "66ece153d6ab89ac64102983",
+      "66ece162d6ab89ac64102989",
+      "66ece16ad6ab89ac64102990",
+      "66ece17bd6ab89ac64102998"
+    ],
+    "__v": 4
+  },
+  {
+    "_id": "66ece140d6ab89ac6410297a",
+    "name": "256GB",
+    "mausac": [
+      "66ece207d6ab89ac64102a05",
+      "66ece20ed6ab89ac64102a0b"
+    ],
+    "__v": 2
+  },
+  {
+    "_id": "66ececf5c4b6b3a2c227d876",
+    "name": "128GB",
+    "mausac": [
+      "66ecedb8c4b6b3a2c227d87e",
+      "66ecedd0c4b6b3a2c227d884",
+      "66ecede8c4b6b3a2c227d88b",
+      "66ecee0ac4b6b3a2c227d893",
+      "66ee98e3835742f37ebc9db9"
+    ],
+    "__v": 5
+  },
+  {
+    "_id": "66ed0547c4b6b3a2c227dbb0",
+    "name": "256GB",
+    "mausac": [
+      "66ed0552c4b6b3a2c227dbb8",
+      "66ed055ac4b6b3a2c227dbbe",
+      "66ed0561c4b6b3a2c227dbc5",
+      "66ed0567c4b6b3a2c227dbcd",
+      "66ee98f4835742f37ebc9de0"
+    ],
+    "__v": 5
+  },
+  {
+    "_id": "66ed15f81774e16250b19036",
+    "name": "128GB",
+    "mausac": [
+      "66ed16601774e16250b1903d",
+      "66ed170f1774e16250b19064",
+      "66ed178d1774e16250b1911a",
+      "66ed17e81774e16250b1914a"
+    ],
+    "__v": 4
+  },
+  {
+    "_id": "66ed18461774e16250b19180",
+    "name": "256GB",
+    "mausac": [
+      "66ed18c81774e16250b19188",
+      "66ed19501774e16250b19243",
+      "66ed19b71774e16250b19270",
+      "66ed1a0e1774e16250b192e0"
+    ],
+    "__v": 4
+  },
+  {
+    "_id": "66ed1c361774e16250b195d3",
+    "name": "128GB",
+    "mausac": [
+      "66ed1d081774e16250b195f5",
+      "66ed1d611774e16250b1961b",
+      "66ed1db01774e16250b19647",
+      "66ed1de81774e16250b1966f"
+    ],
+    "__v": 4
+  },
+  {
+    "_id": "66ed1e211774e16250b196af",
+    "name": "256GB",
+    "mausac": [
+      "66ed1e321774e16250b196b7",
+      "66ed1e6c1774e16250b196d3",
+      "66ed1ea81774e16250b196f7",
+      "66ed1edf1774e16250b1971b"
+    ],
+    "__v": 4
+  },
+  {
+    "_id": "66ed2fa9be50ba1bfdb5cc9d",
+    "name": "64GB",
+    "mausac": [
+      "66ed2ff9be50ba1bfdb5cca4",
+      "66ed300abe50ba1bfdb5cccd",
+      "66ed3017be50ba1bfdb5ccd4"
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed32eabe50ba1bfdb5d06b",
+    "name": "256GB",
+    "mausac": [
+      "66ed3428be50ba1bfdb5d285",
+      "66ed346abe50ba1bfdb5d2a5",
+      "66ed34adbe50ba1bfdb5d2c9"
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66f3c8e6daad8fdaa380ee2c",
+    "name": "256GB",
+    "mausac": [
+      "66f3c8f1daad8fdaa380ee33",
+      "66f3c8fbdaad8fdaa380ee39",
+      "66f3c901daad8fdaa380ee40",
+      "66f3c905daad8fdaa380ee48"
+    ],
+    "__v": 4
+  },
+  {
+    "_id": "66fa8c01daad8fdaa388c6f3",
+    "name": "128GB",
+    "mausac": [
+      "66fa8c18daad8fdaa388c6fa",
+      "66fa8c25daad8fdaa388c700",
+      "66fa8c32daad8fdaa388c707",
+      "66fa8c41daad8fdaa388c70f",
+      "66fa8c4fdaad8fdaa388c718"
+    ],
+    "__v": 5
+  }
+]

@@ -1575,8 +1575,12 @@ router.get('/suachua', function _callee38(req, res) {
     }
   }, null, null, [[0, 10]]);
 });
-router.post('/postlinkkien/:idloailinkkien', upload.single('image'), function _callee39(req, res) {
-  var _req$body7, name, price, idloailinkkien, loailinhkien, image, linkkien;
+router.post('/postlinkkien/:idloailinkkien', uploads.fields([{
+  name: 'image',
+  maxCount: 1
+} // Một ảnh duy nhất
+]), function _callee39(req, res) {
+  var _req$body7, name, price, idloailinkkien, _domain2, loailinhkien, image, linkkien;
 
   return regeneratorRuntime.async(function _callee39$(_context39) {
     while (1) {
@@ -1585,12 +1589,13 @@ router.post('/postlinkkien/:idloailinkkien', upload.single('image'), function _c
           _context39.prev = 0;
           _req$body7 = req.body, name = _req$body7.name, price = _req$body7.price;
           idloailinkkien = req.params.idloailinkkien;
-          _context39.next = 5;
+          _domain2 = 'http://localhost:3000';
+          _context39.next = 6;
           return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(idloailinkkien));
 
-        case 5:
+        case 6:
           loailinhkien = _context39.sent;
-          image = req.file.buffer.toString('base64');
+          image = req.files['image'] ? "".concat(_domain2, "/").concat(req.files['image'][0].filename) : null;
           linkkien = new LinkKien.linkkien({
             name: name,
             price: price,
@@ -1599,32 +1604,32 @@ router.post('/postlinkkien/:idloailinkkien', upload.single('image'), function _c
           linkkien.loailinhkien = loailinhkien._id;
           linkkien.loai = loailinhkien.name;
           loailinhkien.linhkien.push(linkkien._id);
-          _context39.next = 13;
+          _context39.next = 14;
           return regeneratorRuntime.awrap(linkkien.save());
 
-        case 13:
-          _context39.next = 15;
+        case 14:
+          _context39.next = 16;
           return regeneratorRuntime.awrap(loailinhkien.save());
 
-        case 15:
+        case 16:
           res.redirect("/linhkien/".concat(idloailinkkien));
-          _context39.next = 22;
+          _context39.next = 23;
           break;
 
-        case 18:
-          _context39.prev = 18;
+        case 19:
+          _context39.prev = 19;
           _context39.t0 = _context39["catch"](0);
           console.error(_context39.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context39.t0)
           });
 
-        case 22:
+        case 23:
         case "end":
           return _context39.stop();
       }
     }
-  }, null, null, [[0, 18]]);
+  }, null, null, [[0, 19]]);
 });
 router.get('/addlinhkien/:id', function _callee40(req, res) {
   var id;
@@ -2855,7 +2860,7 @@ router.post('/postblog2', uploads.fields([{
   maxCount: 100000
 } // Nhiều ảnh (có thể điều chỉnh số lượng tối đa)
 ]), function _callee69(req, res) {
-  var _req$body13, tieude_blog, content, tieude, keywords, urlBase, _domain2, imgblog, img, tieude_khongdau1, tieude_khongdau, blog, i, updatedContent, _updatedContent2;
+  var _req$body13, tieude_blog, content, tieude, keywords, urlBase, _domain3, imgblog, img, tieude_khongdau1, tieude_khongdau, blog, i, updatedContent, _updatedContent2;
 
   return regeneratorRuntime.async(function _callee69$(_context69) {
     while (1) {
@@ -2864,12 +2869,12 @@ router.post('/postblog2', uploads.fields([{
           _context69.prev = 0;
           _req$body13 = req.body, tieude_blog = _req$body13.tieude_blog, content = _req$body13.content, tieude = _req$body13.tieude, keywords = _req$body13.keywords, urlBase = _req$body13.urlBase; // Xác định domain
 
-          _domain2 = 'https://www.baominhmobile.com'; // Thay đổi thành domain của bạn
+          _domain3 = 'https://www.baominhmobile.com'; // Thay đổi thành domain của bạn
           // Lấy tên file ảnh từ req.files và thêm domain vào trước tên file
 
-          imgblog = req.files['imgblog'] ? "".concat(_domain2, "/").concat(req.files['imgblog'][0].filename) : null;
+          imgblog = req.files['imgblog'] ? "".concat(_domain3, "/").concat(req.files['imgblog'][0].filename) : null;
           img = req.files['img'] ? req.files['img'].map(function (file) {
-            return "".concat(_domain2, "/").concat(file.filename);
+            return "".concat(_domain3, "/").concat(file.filename);
           }) : [];
           tieude_khongdau1 = unicode(tieude_blog);
           tieude_khongdau = removeSpecialChars(tieude_khongdau1);

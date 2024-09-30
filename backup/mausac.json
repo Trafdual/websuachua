@@ -1,0 +1,1100 @@
+[
+  {
+    "_id": "66ebcc2c0eb8b3e0050f8754",
+    "name": "#575352",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "6.950.000đ",
+        "_id": "66ebcea6d7d9946931c8d239"
+      },
+      {
+        "name": "99%",
+        "price": "9.450.000đ",
+        "_id": "66ebe2dab34b65c2d0337bb2"
+      },
+      {
+        "name": "fullbox",
+        "price": "10.450.000đ",
+        "_id": "66ec1a02b34b65c2d0338196"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ebe2bcb34b65c2d0337ba6",
+    "name": "#f8f8f8",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.550.000đ",
+        "_id": "66ebe30ab34b65c2d0337bca"
+      },
+      {
+        "name": "99%",
+        "price": "9.950.000đ",
+        "_id": "66ec1a14b34b65c2d03381a0"
+      },
+      {
+        "name": "fullbox",
+        "price": "10.950.000đ",
+        "_id": "66ec1a1fb34b65c2d03381a8"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ebf0afb34b65c2d0337d03",
+    "name": "#575352",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.950.000đ",
+        "_id": "66ebf0d9b34b65c2d0337d0a"
+      },
+      {
+        "name": "99%",
+        "price": "10.450.000đ",
+        "_id": "66ebf0e6b34b65c2d0337d10"
+      },
+      {
+        "name": "fullbox",
+        "price": "11.450.000đ",
+        "_id": "66ec1997b34b65c2d0338175"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ec0efbb34b65c2d03380a6",
+    "name": "#f8f8f8",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "8.450.000đ",
+        "_id": "66ec0f1fb34b65c2d03380b0"
+      },
+      {
+        "name": "99%",
+        "price": "10.950.000đ",
+        "_id": "66ec0f27b34b65c2d03380b6"
+      },
+      {
+        "name": "fullbox",
+        "price": "11.950.000đ",
+        "_id": "66ec1a39b34b65c2d03381c0"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ece033d6ab89ac64102857",
+    "name": "#f9eac8",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.550.000đ",
+        "_id": "66ece04ad6ab89ac64102875"
+      },
+      {
+        "name": "99%",
+        "price": "9.950.000đ",
+        "_id": "66ece052d6ab89ac6410287b"
+      },
+      {
+        "name": "fullbox",
+        "price": "10.950.000đ",
+        "_id": "66ece05ad6ab89ac64102883"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ece03cd6ab89ac64102865",
+    "name": "#8a9686",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.550.000đ",
+        "_id": "66ece069d6ab89ac64102899"
+      },
+      {
+        "name": "99%",
+        "price": "9.950.000đ",
+        "_id": "66ece070d6ab89ac6410289f"
+      },
+      {
+        "name": "fullbox",
+        "price": "10.950.000đ",
+        "_id": "66ece077d6ab89ac641028a7"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ece08ad6ab89ac641028c8",
+    "name": "#f9eac8",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "8.450.000đ",
+        "_id": "66ece09bd6ab89ac641028e6"
+      },
+      {
+        "name": "99%",
+        "price": "10.950.000đ",
+        "_id": "66ece0a3d6ab89ac641028ec"
+      },
+      {
+        "name": "fullbox",
+        "price": "11.950.000đ",
+        "_id": "66ece0add6ab89ac641028f4"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ece090d6ab89ac641028d6",
+    "name": "#37403b",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "8.450.000đ",
+        "_id": "66ece0c1d6ab89ac6410290a"
+      },
+      {
+        "name": "99%",
+        "price": "10.950.000đ",
+        "_id": "66ece0ccd6ab89ac64102910"
+      },
+      {
+        "name": "fullbox",
+        "price": "11.950.000đ",
+        "_id": "66ece0d3d6ab89ac64102918"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ece153d6ab89ac64102983",
+    "name": "Black",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.450.000đ",
+        "_id": "66ece187d6ab89ac641029a2"
+      },
+      {
+        "name": "99%",
+        "price": "11.250.000đ",
+        "_id": "66ece18fd6ab89ac641029a8"
+      },
+      {
+        "name": "fullbox",
+        "price": "12.750.000đ",
+        "_id": "66ece196d6ab89ac641029b0"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ece162d6ab89ac64102989",
+    "name": "White",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.950.000đ",
+        "_id": "66ece1a6d6ab89ac641029b8"
+      },
+      {
+        "name": "99%",
+        "price": "11.750.000đ",
+        "_id": "66ece1add6ab89ac641029be"
+      },
+      {
+        "name": "fullbox",
+        "price": "13.250.000đ",
+        "_id": "66ece1b3d6ab89ac641029c6"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ece16ad6ab89ac64102990",
+    "name": "Gold",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.950.000đ",
+        "_id": "66ece1c0d6ab89ac641029ce"
+      },
+      {
+        "name": "99%",
+        "price": "11.750.000đ",
+        "_id": "66ece1c7d6ab89ac641029d4"
+      },
+      {
+        "name": "fullbox",
+        "price": "13.250.000đ",
+        "_id": "66ece1ced6ab89ac641029dc"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ece17bd6ab89ac64102998",
+    "name": "Blue",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.950.000đ",
+        "_id": "66ece1e6d6ab89ac641029ec"
+      },
+      {
+        "name": "99%",
+        "price": "11.750.000đ",
+        "_id": "66ece1edd6ab89ac641029f2"
+      },
+      {
+        "name": "fullbox",
+        "price": "13.250.000đ",
+        "_id": "66ece1f4d6ab89ac641029fa"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ece207d6ab89ac64102a05",
+    "name": "Black",
+    "chitiet": [],
+    "__v": 0
+  },
+  {
+    "_id": "66ece20ed6ab89ac64102a0b",
+    "name": "White",
+    "chitiet": [],
+    "__v": 0
+  },
+  {
+    "_id": "66ecedb8c4b6b3a2c227d87e",
+    "name": "#4a4945",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "11.950.000đ",
+        "_id": "66ecf066c4b6b3a2c227d945"
+      },
+      {
+        "name": "99%",
+        "price": "14.550.000đ",
+        "_id": "66ed0004c4b6b3a2c227da9f"
+      },
+      {
+        "name": "fullbox",
+        "price": "15.550.000đ",
+        "_id": "66ed000dc4b6b3a2c227daa7"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ecedd0c4b6b3a2c227d884",
+    "name": "#eeefe9",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "11.950.000đ",
+        "_id": "66ed0027c4b6b3a2c227dabe"
+      },
+      {
+        "name": "99%",
+        "price": "15.050.000đ",
+        "_id": "66ed0031c4b6b3a2c227dac4"
+      },
+      {
+        "name": "fullbox",
+        "price": "16.050.000",
+        "_id": "66ed003cc4b6b3a2c227dacc"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ecede8c4b6b3a2c227d88b",
+    "name": "#edd9bf",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "11.950.000đ",
+        "_id": "66ed1b471774e16250b19528"
+      },
+      {
+        "name": "99%",
+        "price": "15.050.000đ",
+        "_id": "66ed1b581774e16250b1952e"
+      },
+      {
+        "name": "Full box",
+        "price": "16.050.000đ",
+        "_id": "66ed1b691774e16250b19536"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ecee0ac4b6b3a2c227d893",
+    "name": "#505f4e",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "11.950.000đ",
+        "_id": "66ed1b981774e16250b1954b"
+      },
+      {
+        "name": "99%",
+        "price": "15.050.000đ",
+        "_id": "66ed1ba21774e16250b19551"
+      },
+      {
+        "name": "Full box",
+        "price": "16.050.000đ",
+        "_id": "66ed1baa1774e16250b19559"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed0552c4b6b3a2c227dbb8",
+    "name": "#4a4945",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "13.450.000đ",
+        "_id": "66ed0572c4b6b3a2c227dbd7"
+      },
+      {
+        "name": "99%",
+        "price": "16.450.000đ",
+        "_id": "66ed057ec4b6b3a2c227dbdd"
+      },
+      {
+        "name": "fullbox",
+        "price": "17.450.000đ",
+        "_id": "66ed0592c4b6b3a2c227dbe5"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed055ac4b6b3a2c227dbbe",
+    "name": "#eeefe9",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "13.450.000đ",
+        "_id": "66ed05a2c4b6b3a2c227dbed"
+      },
+      {
+        "name": "99%",
+        "price": "16.950.000đ",
+        "_id": "66ed05abc4b6b3a2c227dbf3"
+      },
+      {
+        "name": "fullbox",
+        "price": "17.950.000đ",
+        "_id": "66ed05b6c4b6b3a2c227dbfb"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed0561c4b6b3a2c227dbc5",
+    "name": "#edd9bf",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "13.450.000đ",
+        "_id": "66ed1bd71774e16250b19581"
+      },
+      {
+        "name": "99%",
+        "price": "16.950.000đ",
+        "_id": "66ed1be71774e16250b19587"
+      },
+      {
+        "name": "Full box",
+        "price": "17.950.000đ",
+        "_id": "66ed1bf41774e16250b1958f"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed0567c4b6b3a2c227dbcd",
+    "name": "#505f4e",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "13.450.000đ",
+        "_id": "66ed1c061774e16250b1959b"
+      },
+      {
+        "name": "99%",
+        "price": "16.950.000đ",
+        "_id": "66ed1c101774e16250b195a1"
+      },
+      {
+        "name": "Full box",
+        "price": "17.950.000đ",
+        "_id": "66ed1c1a1774e16250b195a9"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed16601774e16250b1903d",
+    "name": "#514d4c",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.450.000đ",
+        "_id": "66ed16821774e16250b19044"
+      },
+      {
+        "name": "99%",
+        "price": "11.250.000đ",
+        "_id": "66ed16ad1774e16250b1904a"
+      },
+      {
+        "name": "Full box",
+        "price": "12.750.000đ",
+        "_id": "66ed16c81774e16250b19052"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed170f1774e16250b19064",
+    "name": "#f5f5f5",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.950.000đ",
+        "_id": "66ed17241774e16250b1906f"
+      },
+      {
+        "name": "99%",
+        "price": "11.750.000đ",
+        "_id": "66ed17421774e16250b19075"
+      },
+      {
+        "name": "Full box",
+        "price": "13.250.000đ",
+        "_id": "66ed17541774e16250b190a0"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed178d1774e16250b1911a",
+    "name": "#39505d",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.950.000đ",
+        "_id": "66ed17af1774e16250b19131"
+      },
+      {
+        "name": "99%",
+        "price": "11.750.000đ",
+        "_id": "66ed17bc1774e16250b19137"
+      },
+      {
+        "name": "Full box",
+        "price": "13.250.000đ",
+        "_id": "66ed17c61774e16250b1913f"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed17e81774e16250b1914a",
+    "name": "#fbeedb",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "7.950.000đ",
+        "_id": "66ed17f01774e16250b1915d"
+      },
+      {
+        "name": "99%",
+        "price": "11.750.000đ",
+        "_id": "66ed17fd1774e16250b19163"
+      },
+      {
+        "name": "Full box",
+        "price": "13.250.000đ",
+        "_id": "66ed18091774e16250b1916b"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed18c81774e16250b19188",
+    "name": "#514d4c",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "10.450.000đ",
+        "_id": "66ed18fe1774e16250b19206"
+      },
+      {
+        "name": "99%",
+        "price": "12.750.000đ",
+        "_id": "66ed190c1774e16250b1920c"
+      },
+      {
+        "name": "Full box",
+        "price": "13.850.000đ",
+        "_id": "66ed191a1774e16250b19214"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed19501774e16250b19243",
+    "name": "#f5f5f5",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "10.950.000đ",
+        "_id": "66ed19651774e16250b1924e"
+      },
+      {
+        "name": "99%",
+        "price": "13.250.000đ",
+        "_id": "66ed19791774e16250b19254"
+      },
+      {
+        "name": "Full box",
+        "price": "14.350.000đ",
+        "_id": "66ed198a1774e16250b1925c"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed19b71774e16250b19270",
+    "name": "#39505d",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "10.950.000đ",
+        "_id": "66ed19ca1774e16250b19287"
+      },
+      {
+        "name": "99%",
+        "price": "13.250.000đ",
+        "_id": "66ed19db1774e16250b1928d"
+      },
+      {
+        "name": "Full box",
+        "price": "14.350.000đ",
+        "_id": "66ed19e51774e16250b19295"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed1a0e1774e16250b192e0",
+    "name": "#fbeedb",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "10.950.000đ",
+        "_id": "66ed1a1a1774e16250b192f3"
+      },
+      {
+        "name": "99%",
+        "price": "13.250.000đ",
+        "_id": "66ed1a271774e16250b192f9"
+      },
+      {
+        "name": "Full box",
+        "price": "14.350.000đ",
+        "_id": "66ed1a311774e16250b19301"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed1d081774e16250b195f5",
+    "name": "#4a4945",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "15.950.000đ",
+        "_id": "66ed1d301774e16250b19601"
+      },
+      {
+        "name": "99%",
+        "price": "20.450.000đ",
+        "_id": "66ed1d3c1774e16250b19607"
+      },
+      {
+        "name": "Full box",
+        "price": "21.450.000đ",
+        "_id": "66ed1d4a1774e16250b1960f"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed1d611774e16250b1961b",
+    "name": "#eeefe9",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "15.950.000đ",
+        "_id": "66ed1d741774e16250b19626"
+      },
+      {
+        "name": "99%",
+        "price": "20.950.000đ",
+        "_id": "66ed1d811774e16250b1962c"
+      },
+      {
+        "name": "Full box",
+        "price": "21.950.000đ",
+        "_id": "66ed1d901774e16250b19634"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed1db01774e16250b19647",
+    "name": "#edd9bf",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "15.950.000đ",
+        "_id": "66ed1db81774e16250b19656"
+      },
+      {
+        "name": "99%",
+        "price": "20.950.000đ",
+        "_id": "66ed1dc51774e16250b1965c"
+      },
+      {
+        "name": "Full box",
+        "price": "21.950.000đ",
+        "_id": "66ed1dcf1774e16250b19664"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed1de81774e16250b1966f",
+    "name": "#505f4e",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "15.950.000đ",
+        "_id": "66ed1df41774e16250b19682"
+      },
+      {
+        "name": "99%",
+        "price": "20.950.000đ",
+        "_id": "66ed1dfc1774e16250b19688"
+      },
+      {
+        "name": "Full box",
+        "price": "21.950.000đ",
+        "_id": "66ed1e051774e16250b19690"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed1e321774e16250b196b7",
+    "name": "#4a4945",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "17.450.000đ",
+        "_id": "66ed1e431774e16250b196be"
+      },
+      {
+        "name": "99%",
+        "price": "22.950.000đ",
+        "_id": "66ed1e4d1774e16250b196c4"
+      },
+      {
+        "name": "Full box",
+        "price": "24.250.000đ",
+        "_id": "66ed1e581774e16250b196cc"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed1e6c1774e16250b196d3",
+    "name": "#eeefe9",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "17.450.000đ",
+        "_id": "66ed1e781774e16250b196de"
+      },
+      {
+        "name": "99%",
+        "price": "23.450.000đ",
+        "_id": "66ed1e831774e16250b196e4"
+      },
+      {
+        "name": "Full box",
+        "price": "24.750.000đ",
+        "_id": "66ed1e931774e16250b196ec"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed1ea81774e16250b196f7",
+    "name": "#edd9bf",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "17.450.000đ",
+        "_id": "66ed1eb71774e16250b19706"
+      },
+      {
+        "name": "99%",
+        "price": "23.450.000đ",
+        "_id": "66ed1ec31774e16250b1970c"
+      },
+      {
+        "name": "Full box",
+        "price": "24.750.000đ",
+        "_id": "66ed1ecf1774e16250b19714"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed1edf1774e16250b1971b",
+    "name": "#505f4e",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "17.450.000đ",
+        "_id": "66ed1eeb1774e16250b1972e"
+      },
+      {
+        "name": "99%",
+        "price": "23.450.000đ",
+        "_id": "66ed1ef31774e16250b19734"
+      },
+      {
+        "name": "Full box",
+        "price": "24.750.000đ",
+        "_id": "66ed1efa1774e16250b1973c"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed2ff9be50ba1bfdb5cca4",
+    "name": "#000000",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "4.950.000đ",
+        "_id": "66ed306bbe50ba1bfdb5ccee"
+      },
+      {
+        "name": "99%",
+        "price": "6.050.000đ",
+        "_id": "66ed307bbe50ba1bfdb5ccf4"
+      },
+      {
+        "name": "FULLBOX",
+        "price": "6.950.000đ",
+        "_id": "66ed3101be50ba1bfdb5cdbd"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed300abe50ba1bfdb5cccd",
+    "name": "#ffffff",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "5.450.000đ",
+        "_id": "66ed339ebe50ba1bfdb5d1d3"
+      },
+      {
+        "name": "99%",
+        "price": "6.550.000đ",
+        "_id": "66ed33aebe50ba1bfdb5d225"
+      },
+      {
+        "name": "FULLBOX",
+        "price": "7.450.000đ",
+        "_id": "66ed33c3be50ba1bfdb5d22d"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed3017be50ba1bfdb5ccd4",
+    "name": "#ffd479",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "5.450.000đ",
+        "_id": "66ed33e3be50ba1bfdb5d267"
+      },
+      {
+        "name": "99%",
+        "price": "6.550.000đ",
+        "_id": "66ed33eabe50ba1bfdb5d26d"
+      },
+      {
+        "name": "FULLBOX",
+        "price": "7.450.000đ",
+        "_id": "66ed33f6be50ba1bfdb5d275"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed3428be50ba1bfdb5d285",
+    "name": "#000000",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "5.950.000đ",
+        "_id": "66ed343ebe50ba1bfdb5d28c"
+      },
+      {
+        "name": "99%",
+        "price": "7.050.000đ",
+        "_id": "66ed3448be50ba1bfdb5d292"
+      },
+      {
+        "name": "FULLBOX",
+        "price": "7.950.000đ",
+        "_id": "66ed3455be50ba1bfdb5d29a"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed346abe50ba1bfdb5d2a5",
+    "name": "#ffffff",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "6.450.000đ",
+        "_id": "66ed347ebe50ba1bfdb5d2b0"
+      },
+      {
+        "name": "99%",
+        "price": "7.550.000đ",
+        "_id": "66ed348dbe50ba1bfdb5d2b6"
+      },
+      {
+        "name": "FULLBOX",
+        "price": "8.450.000đ",
+        "_id": "66ed349bbe50ba1bfdb5d2be"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ed34adbe50ba1bfdb5d2c9",
+    "name": "#ffd479",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "6.450.000đ",
+        "_id": "66ed34b6be50ba1bfdb5d2d8"
+      },
+      {
+        "name": "99%",
+        "price": "7.550.000đ",
+        "_id": "66ed34c2be50ba1bfdb5d2de"
+      },
+      {
+        "name": "FULLBOX",
+        "price": "8.450.000đ",
+        "_id": "66ed34ccbe50ba1bfdb5d2e6"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ee98e3835742f37ebc9db9",
+    "name": "#9dbbd5",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "11.950.000đ",
+        "_id": "66ee99ac835742f37ebc9fc4"
+      },
+      {
+        "name": "99%",
+        "price": "15.050.000đ",
+        "_id": "66ee99b5835742f37ebc9fca"
+      },
+      {
+        "name": "FULLBOX",
+        "price": "16.050.000đ",
+        "_id": "66ee99c0835742f37ebc9fd2"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66ee98f4835742f37ebc9de0",
+    "name": "#9dbbd5",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "13.450.000đ",
+        "_id": "66ee993e835742f37ebc9e70"
+      },
+      {
+        "name": "99%",
+        "price": "16.950.000đ",
+        "_id": "66ee994b835742f37ebc9e9d"
+      },
+      {
+        "name": "FULLBOX",
+        "price": "17.950.000đ",
+        "_id": "66ee9965835742f37ebc9ea5"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66f3c8f1daad8fdaa380ee33",
+    "name": "#9d9894",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "20.500.000đ",
+        "_id": "66f3c91cdaad8fdaa380ee52"
+      },
+      {
+        "name": "99%",
+        "price": "23.500.000đ",
+        "_id": "66f3c925daad8fdaa380ee58"
+      },
+      {
+        "name": "fullbox",
+        "price": "24.500.000đ",
+        "_id": "66f3c92adaad8fdaa380ee60"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66f3c8fbdaad8fdaa380ee39",
+    "name": "#575654",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "20.500.000đ",
+        "_id": "66f3c93bdaad8fdaa380ee68"
+      },
+      {
+        "name": "99%",
+        "price": "23.500.000đ",
+        "_id": "66f3c941daad8fdaa380ee6e"
+      },
+      {
+        "name": "fullbox",
+        "price": "24.500.000đ",
+        "_id": "66f3c946daad8fdaa380ee76"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66f3c901daad8fdaa380ee40",
+    "name": "#eae7e0",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "20.500.000đ",
+        "_id": "66f3c956daad8fdaa380eea5"
+      },
+      {
+        "name": "99%",
+        "price": "23.500.000đ",
+        "_id": "66f3c963daad8fdaa380eeab"
+      },
+      {
+        "name": "fullbox",
+        "price": "24.500.000đ",
+        "_id": "66f3c96cdaad8fdaa380eeb3"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66f3c905daad8fdaa380ee48",
+    "name": "#4b4f58",
+    "chitiet": [
+      {
+        "name": "95%",
+        "price": "20.500.000đ",
+        "_id": "66f3c978daad8fdaa380eee2"
+      },
+      {
+        "name": "99%",
+        "price": "23.500.000đ",
+        "_id": "66f3c97ddaad8fdaa380eee8"
+      },
+      {
+        "name": "fullbox",
+        "price": "24.500.000đ",
+        "_id": "66f3c983daad8fdaa380eef0"
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": "66fa8c18daad8fdaa388c6fa",
+    "name": "#1d242c",
+    "chitiet": [],
+    "__v": 0
+  },
+  {
+    "_id": "66fa8c25daad8fdaa388c700",
+    "name": "#e80826",
+    "chitiet": [],
+    "__v": 0
+  },
+  {
+    "_id": "66fa8c32daad8fdaa388c707",
+    "name": "#faf4f0",
+    "chitiet": [],
+    "__v": 0
+  },
+  {
+    "_id": "66fa8c41daad8fdaa388c70f",
+    "name": "#ceb8e4",
+    "chitiet": [],
+    "__v": 0
+  },
+  {
+    "_id": "66fa8c4fdaad8fdaa388c718",
+    "name": "#a0b3c4",
+    "chitiet": [],
+    "__v": 0
+  }
+]

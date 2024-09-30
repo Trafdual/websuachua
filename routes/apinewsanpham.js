@@ -700,15 +700,21 @@ router.get('/suachua', async (req, res) => {
 
 router.post(
   '/postlinkkien/:idloailinkkien',
-  upload.single('image'),
+  uploads.fields([
+    { name: 'image', maxCount: 1 } // Một ảnh duy nhất
+  ]),
   async (req, res) => {
     try {
       const { name, price } = req.body
       const idloailinkkien = req.params.idloailinkkien
+      const domain = 'http://localhost:3000'
       const loailinhkien = await LoaiLinkKien.loailinkkien.findById(
         idloailinkkien
       )
-      const image = req.file.buffer.toString('base64')
+      const image = req.files['image']
+        ? `${domain}/${req.files['image'][0].filename}`
+        : null
+
       const linkkien = new LinkKien.linkkien({ name, price, image })
       linkkien.loailinhkien = loailinhkien._id
       linkkien.loai = loailinhkien.name
@@ -1240,7 +1246,7 @@ function escapeRegExp (string) {
 function removeSpecialChars (str) {
   // Danh sách các ký tự đặc biệt bạn muốn xóa
   const specialChars = /[:+,!@#$%^&*()\-?/]/g
- // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
+  // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
 
   // Xóa các ký tự đặc biệt
   return str.replace(specialChars, '')
@@ -1427,8 +1433,16 @@ router.get('/getblog', async (req, res) => {
 
 router.post('/editblog/:idblog', async (req, res) => {
   try {
-    const { tieude_blog, img_blog, tieude, content, img, keywords, urlBase, tieude_khongdau } =
-      req.body
+    const {
+      tieude_blog,
+      img_blog,
+      tieude,
+      content,
+      img,
+      keywords,
+      urlBase,
+      tieude_khongdau
+    } = req.body
     const idblog = req.params.idblog
     const blog = await myMDBlog.blogModel.findById(idblog)
     blog.tieude_blog = tieude_blog

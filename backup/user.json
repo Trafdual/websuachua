@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "66c319fc1b22a2b6e0913541",
+    "ten": "hu",
+    "email": "",
+    "sdt": null,
+    "passwrd": "123",
+    "__v": 0
+  },
+  {
+    "_id": "66c316851d779ae55ad72a76",
+    "ten": "hello",
+    "email": "",
+    "sdt": null,
+    "passwrd": "123",
+    "__v": 0
+  }
+]
