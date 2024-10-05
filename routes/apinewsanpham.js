@@ -300,7 +300,7 @@ router.get('/getchitietsp/:idloaisp', async (req, res) => {
   }
 })
 
-router.get('/getspchitiet/:nameloaisp', async (req, res) => {
+router.get('/iphone/:nameloaisp', async (req, res) => {
   try {
     const nameloaisp = req.params.nameloaisp.replace(/-/g, ' ')
     const loaisp = await LoaiSP.TenSP.findOne({ name: nameloaisp })
