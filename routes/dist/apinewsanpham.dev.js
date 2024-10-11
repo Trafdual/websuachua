@@ -1047,7 +1047,8 @@ router.get('/getchitiet/:namesp/:nameloai', function _callee25(req, res) {
             nameloai: nameloai,
             namesp: namesp,
             tenloai: tenloai,
-            currentPage: page
+            currentPage: page,
+            idsp: sp._id
           });
           _context25.next = 36;
           break;

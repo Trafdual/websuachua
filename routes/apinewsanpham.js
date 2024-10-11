@@ -484,7 +484,8 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
       nameloai,
       namesp,
       tenloai,
-      currentPage: page
+      currentPage: page,
+      idsp:sp._id
     })
   } catch (error) {
     console.error(error)
