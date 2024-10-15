@@ -430,6 +430,7 @@ router.get('/phantram/:idmausac', function _callee12(req, res) {
           _context12.next = 7;
           return regeneratorRuntime.awrap(Promise.all(mausac.chitiet.map(function (ct) {
             return {
+              _id: ct._id,
               name: ct.name,
               price: ct.price
             };
@@ -525,5 +526,108 @@ router.post('/postphantram/:idmausac', function _callee14(req, res) {
       }
     }
   }, null, null, [[0, 12]]);
+});
+router.get('/geteditphantram/:idmausac/:id', function _callee15(req, res) {
+  var idmausac, id, mausac, index, phantram;
+  return regeneratorRuntime.async(function _callee15$(_context15) {
+    while (1) {
+      switch (_context15.prev = _context15.next) {
+        case 0:
+          _context15.prev = 0;
+          idmausac = req.params.idmausac;
+          id = req.params.id;
+          _context15.next = 5;
+          return regeneratorRuntime.awrap(MauSac.mausac.findById(idmausac));
+
+        case 5:
+          mausac = _context15.sent;
+          index = mausac.chitiet.findIndex(function (ct) {
+            return ct._id.toString() === id;
+          });
+          phantram = {
+            name: mausac.chitiet[index].name,
+            price: mausac.chitiet[index].price
+          };
+          res.render('sanphammoi/editphantram.ejs', {
+            phantram: phantram,
+            idmausac: idmausac,
+            id: id
+          });
+          _context15.next = 15;
+          break;
+
+        case 11:
+          _context15.prev = 11;
+          _context15.t0 = _context15["catch"](0);
+          console.error(_context15.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context15.t0)
+          });
+
+        case 15:
+        case "end":
+          return _context15.stop();
+      }
+    }
+  }, null, null, [[0, 11]]);
+});
+router.post('/editphantram/:idmausac/:id', function _callee16(req, res) {
+  var idmausac, id, _req$body2, name, price, mausac, index;
+
+  return regeneratorRuntime.async(function _callee16$(_context16) {
+    while (1) {
+      switch (_context16.prev = _context16.next) {
+        case 0:
+          _context16.prev = 0;
+          idmausac = req.params.idmausac;
+          id = req.params.id;
+          _req$body2 = req.body, name = _req$body2.name, price = _req$body2.price;
+          _context16.next = 6;
+          return regeneratorRuntime.awrap(MauSac.mausac.findById(idmausac));
+
+        case 6:
+          mausac = _context16.sent;
+          index = mausac.chitiet.findIndex(function (ct) {
+            return ct._id.toString() === id;
+          });
+
+          if (!(index !== -1)) {
+            _context16.next = 13;
+            break;
+          }
+
+          mausac.chitiet[index].name = name;
+          mausac.chitiet[index].price = price;
+          _context16.next = 14;
+          break;
+
+        case 13:
+          return _context16.abrupt("return", res.status(404).json({
+            message: 'Không tìm thấy id trong danh sách phần trăm'
+          }));
+
+        case 14:
+          _context16.next = 16;
+          return regeneratorRuntime.awrap(mausac.save());
+
+        case 16:
+          res.redirect("/phantram/".concat(idmausac));
+          _context16.next = 23;
+          break;
+
+        case 19:
+          _context16.prev = 19;
+          _context16.t0 = _context16["catch"](0);
+          console.error(_context16.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context16.t0)
+          });
+
+        case 23:
+        case "end":
+          return _context16.stop();
+      }
+    }
+  }, null, null, [[0, 19]]);
 });
 module.exports = router;
