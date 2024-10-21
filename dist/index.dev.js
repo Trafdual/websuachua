@@ -29,7 +29,11 @@ var mongoStoreOptions = {
   mongooseConnection: db.mongoose.connection,
   mongoUrl: uri,
   collection: 'sessions'
-}; // app.set('view engine', 'ejs');
+};
+
+var cors = require('cors');
+
+app.use(cors()); // app.set('view engine', 'ejs');
 // view engine setup
 
 app.use(session({

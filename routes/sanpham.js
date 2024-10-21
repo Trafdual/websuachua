@@ -6,7 +6,7 @@ const DungLuong = require('../models/dungluongModel')
 const moment = require('moment')
 const momenttimezone = require('moment-timezone')
 const MauSac = require('../models/MauSacModel')
-const test=require('../models/tesmodel')
+const test = require('../models/tesmodel')
 let clients = []
 let hasSentMessage = false
 
@@ -36,22 +36,25 @@ const sendEvent = data => {
     client.write(`data: ${JSON.stringify(data)}\n\n`)
   })
 }
-router.get('/testmodel',async(req,res)=>{
+router.get('/testmodel', async (req, res) => {
   try {
-    const test1= await test.testmodel.find().lean()
+    const test1 = await test.testmodel.find().lean()
     res.json(test1)
   } catch (error) {
     console.log(error)
   }
 })
 
-router.post('/posttestmodel', async(req,res)=>{
+router.post('/posttestmodel', async (req, res) => {
   try {
-    const {name}=req.body
-    const test1= new test.testmodel({name})
+    const { name } = req.body
+    const test1 = new test.testmodel({ name })
     await test1.save()
+    sendEvent({ message: `Sản phẩm mới đã được thêm: ${name}` })
+    res.json(test1)
   } catch (error) {
     console.log(error)
+    res.json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
 
@@ -199,7 +202,7 @@ router.get('/phantram/:idmausac', async (req, res) => {
     const phantram = await Promise.all(
       mausac.chitiet.map(ct => {
         return {
-          _id:ct._id,
+          _id: ct._id,
           name: ct.name,
           price: ct.price
         }
@@ -255,15 +258,14 @@ router.post('/editphantram/:idmausac/:id', async (req, res) => {
   try {
     const idmausac = req.params.idmausac
     const id = req.params.id
-    const {name,price}=req.body
+    const { name, price } = req.body
     const mausac = await MauSac.mausac.findById(idmausac)
     const index = mausac.chitiet.findIndex(ct => ct._id.toString() === id)
-    
-    if(index !== -1){
-      mausac.chitiet[index].name=name
-      mausac.chitiet[index].price=price
-    }
-    else {
+
+    if (index !== -1) {
+      mausac.chitiet[index].name = name
+      mausac.chitiet[index].price = price
+    } else {
       return res
         .status(404)
         .json({ message: 'Không tìm thấy id trong danh sách phần trăm' })
@@ -276,6 +278,5 @@ router.post('/editphantram/:idmausac/:id', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-
 
 module.exports = router

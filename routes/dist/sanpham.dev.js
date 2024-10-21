@@ -92,20 +92,27 @@ router.post('/posttestmodel', function _callee2(req, res) {
           return regeneratorRuntime.awrap(test1.save());
 
         case 5:
-          _context2.next = 10;
+          sendEvent({
+            message: "S\u1EA3n ph\u1EA9m m\u1EDBi \u0111\xE3 \u0111\u01B0\u1EE3c th\xEAm: ".concat(name)
+          });
+          res.json(test1);
+          _context2.next = 13;
           break;
 
-        case 7:
-          _context2.prev = 7;
+        case 9:
+          _context2.prev = 9;
           _context2.t0 = _context2["catch"](0);
           console.log(_context2.t0);
+          res.json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context2.t0)
+          });
 
-        case 10:
+        case 13:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[0, 7]]);
+  }, null, null, [[0, 9]]);
 });
 router.post('/postdungluong/:idloaisp', function _callee3(req, res) {
   var idloaisp, name, loaisp, dungluong;
