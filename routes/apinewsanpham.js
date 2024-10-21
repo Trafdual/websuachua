@@ -534,6 +534,7 @@ router.post('/editloaichitiet/:chitietspid/:id', async (req, res) => {
   }
 })
 
+
 router.get('/geteditloaichitiet/:chitietspid/:id', async (req, res) => {
   try {
     const chitietspid = req.params.chitietspid

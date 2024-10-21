@@ -6,6 +6,55 @@ const DungLuong = require('../models/dungluongModel')
 const moment = require('moment')
 const momenttimezone = require('moment-timezone')
 const MauSac = require('../models/MauSacModel')
+const test=require('../models/tesmodel')
+let clients = []
+let hasSentMessage = false
+
+router.get('/events', (req, res) => {
+  console.log('Client connected to events API') // Thông báo khi có client kết nối
+  res.setHeader('Content-Type', 'text/event-stream')
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Connection', 'keep-alive')
+  res.flushHeaders()
+  try {
+    clients.push(res)
+
+    // Dọn dẹp khi client ngắt kết nối
+    req.on('close', () => {
+      clients = clients.filter(client => client !== res)
+      console.log('Client disconnected from events API')
+    })
+  } catch (error) {
+    console.error('Error in events API:', error)
+    res.status(500).send('Internal Server Error')
+  }
+})
+
+// Hàm gửi sự kiện cho tất cả client
+const sendEvent = data => {
+  clients.forEach(client => {
+    client.write(`data: ${JSON.stringify(data)}\n\n`)
+  })
+}
+router.get('/testmodel',async(req,res)=>{
+  try {
+    const test1= await test.testmodel.find().lean()
+    res.json(test1)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+router.post('/posttestmodel', async(req,res)=>{
+  try {
+    const {name}=req.body
+    const test1= new test.testmodel({name})
+    await test1.save()
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 router.post('/postdungluong/:idloaisp', async (req, res) => {
   try {
     const idloaisp = req.params.idloaisp
