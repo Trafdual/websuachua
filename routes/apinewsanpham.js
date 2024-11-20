@@ -485,7 +485,7 @@ router.get('/getchitiet/:namesp/:nameloai', async (req, res) => {
       namesp,
       tenloai,
       currentPage: page,
-      idsp:sp._id
+      idsp: sp._id
     })
   } catch (error) {
     console.error(error)
@@ -533,7 +533,6 @@ router.post('/editloaichitiet/:chitietspid/:id', async (req, res) => {
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
   }
 })
-
 
 router.get('/geteditloaichitiet/:chitietspid/:id', async (req, res) => {
   try {
@@ -1074,6 +1073,25 @@ router.get('/donhang', checkAuth2, async (req, res) => {
       donHangIsReadTrue,
       donHangIsReadFalse
     })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+
+router.post('/deletedonchuaduyet', async (req, res) => {
+  try {
+    await Notify.notify.deleteMany({ isRead: false })
+    res.json({ message: 'xóa thành công' })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
+  }
+})
+router.post('/deletedanhgiachuaduyet', async (req, res) => {
+  try {
+    await DanhGia.danhgia.deleteMany({ isRead: false })
+    res.json({ message: 'xóa thành công' })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })

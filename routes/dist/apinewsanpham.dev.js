@@ -2473,11 +2473,77 @@ router.get('/donhang', checkAuth2, function _callee62(req, res) {
     }
   }, null, null, [[0, 9]]);
 });
-router.get('/donhang/longpoll', function _callee63(req, res) {
-  var timeout, startTime, checkForUpdates;
+router.post('/deletedonchuaduyet', function _callee63(req, res) {
   return regeneratorRuntime.async(function _callee63$(_context63) {
     while (1) {
       switch (_context63.prev = _context63.next) {
+        case 0:
+          _context63.prev = 0;
+          _context63.next = 3;
+          return regeneratorRuntime.awrap(Notify.notify.deleteMany({
+            isRead: false
+          }));
+
+        case 3:
+          res.json({
+            message: 'xóa thành công'
+          });
+          _context63.next = 10;
+          break;
+
+        case 6:
+          _context63.prev = 6;
+          _context63.t0 = _context63["catch"](0);
+          console.error(_context63.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context63.t0)
+          });
+
+        case 10:
+        case "end":
+          return _context63.stop();
+      }
+    }
+  }, null, null, [[0, 6]]);
+});
+router.post('/deletedanhgiachuaduyet', function _callee64(req, res) {
+  return regeneratorRuntime.async(function _callee64$(_context64) {
+    while (1) {
+      switch (_context64.prev = _context64.next) {
+        case 0:
+          _context64.prev = 0;
+          _context64.next = 3;
+          return regeneratorRuntime.awrap(DanhGia.danhgia.deleteMany({
+            isRead: false
+          }));
+
+        case 3:
+          res.json({
+            message: 'xóa thành công'
+          });
+          _context64.next = 10;
+          break;
+
+        case 6:
+          _context64.prev = 6;
+          _context64.t0 = _context64["catch"](0);
+          console.error(_context64.t0);
+          res.status(500).json({
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context64.t0)
+          });
+
+        case 10:
+        case "end":
+          return _context64.stop();
+      }
+    }
+  }, null, null, [[0, 6]]);
+});
+router.get('/donhang/longpoll', function _callee65(req, res) {
+  var timeout, startTime, checkForUpdates;
+  return regeneratorRuntime.async(function _callee65$(_context65) {
+    while (1) {
+      switch (_context65.prev = _context65.next) {
         case 0:
           try {
             // Thay đổi thời gian chờ phù hợp với nhu cầu của bạn
@@ -2549,19 +2615,19 @@ router.get('/donhang/longpoll', function _callee63(req, res) {
 
         case 1:
         case "end":
-          return _context63.stop();
+          return _context65.stop();
       }
     }
   });
 });
-router.post('/danhgia', function _callee64(req, res) {
+router.post('/danhgia', function _callee66(req, res) {
   var _req$body11, tenkhach, content, rating, vietnamTime, danhgia;
 
-  return regeneratorRuntime.async(function _callee64$(_context64) {
+  return regeneratorRuntime.async(function _callee66$(_context66) {
     while (1) {
-      switch (_context64.prev = _context64.next) {
+      switch (_context66.prev = _context66.next) {
         case 0:
-          _context64.prev = 0;
+          _context66.prev = 0;
           _req$body11 = req.body, tenkhach = _req$body11.tenkhach, content = _req$body11.content, rating = _req$body11.rating;
           vietnamTime = momenttimezone().toDate();
           danhgia = new DanhGia.danhgia({
@@ -2570,41 +2636,41 @@ router.post('/danhgia', function _callee64(req, res) {
             rating: rating,
             date: vietnamTime
           });
-          _context64.next = 6;
+          _context66.next = 6;
           return regeneratorRuntime.awrap(danhgia.save());
 
         case 6:
           res.redirect('/');
-          _context64.next = 13;
+          _context66.next = 13;
           break;
 
         case 9:
-          _context64.prev = 9;
-          _context64.t0 = _context64["catch"](0);
-          console.error(_context64.t0);
+          _context66.prev = 9;
+          _context66.t0 = _context66["catch"](0);
+          console.error(_context66.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context64.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context66.t0)
           });
 
         case 13:
         case "end":
-          return _context64.stop();
+          return _context66.stop();
       }
     }
   }, null, null, [[0, 9]]);
 });
-router.get('/getdanhgia', function _callee65(req, res) {
+router.get('/getdanhgia', function _callee67(req, res) {
   var danhgia, danhgiaIsReadTrue, danhgiaIsReadFalse;
-  return regeneratorRuntime.async(function _callee65$(_context65) {
+  return regeneratorRuntime.async(function _callee67$(_context67) {
     while (1) {
-      switch (_context65.prev = _context65.next) {
+      switch (_context67.prev = _context67.next) {
         case 0:
-          _context65.prev = 0;
-          _context65.next = 3;
+          _context67.prev = 0;
+          _context67.next = 3;
           return regeneratorRuntime.awrap(DanhGia.danhgia.find());
 
         case 3:
-          danhgia = _context65.sent;
+          danhgia = _context67.sent;
           danhgiaIsReadTrue = danhgia.filter(function (d) {
             return d.isRead === true;
           }).map(function (d) {
@@ -2631,94 +2697,94 @@ router.get('/getdanhgia', function _callee65(req, res) {
             danhgiaIsReadTrue: danhgiaIsReadTrue,
             danhgiaIsReadFalse: danhgiaIsReadFalse
           });
-          _context65.next = 13;
+          _context67.next = 13;
           break;
 
         case 9:
-          _context65.prev = 9;
-          _context65.t0 = _context65["catch"](0);
-          console.error(_context65.t0);
+          _context67.prev = 9;
+          _context67.t0 = _context67["catch"](0);
+          console.error(_context67.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context65.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context67.t0)
           });
 
         case 13:
         case "end":
-          return _context65.stop();
+          return _context67.stop();
       }
     }
   }, null, null, [[0, 9]]);
 });
-router.post('/duyetdanhgia/:iddanhgia', function _callee66(req, res) {
+router.post('/duyetdanhgia/:iddanhgia', function _callee68(req, res) {
   var iddanhgia, danhgia;
-  return regeneratorRuntime.async(function _callee66$(_context66) {
+  return regeneratorRuntime.async(function _callee68$(_context68) {
     while (1) {
-      switch (_context66.prev = _context66.next) {
+      switch (_context68.prev = _context68.next) {
         case 0:
-          _context66.prev = 0;
+          _context68.prev = 0;
           iddanhgia = req.params.iddanhgia;
-          _context66.next = 4;
+          _context68.next = 4;
           return regeneratorRuntime.awrap(DanhGia.danhgia.findById(iddanhgia));
 
         case 4:
-          danhgia = _context66.sent;
+          danhgia = _context68.sent;
           danhgia.isRead = true;
-          _context66.next = 8;
+          _context68.next = 8;
           return regeneratorRuntime.awrap(danhgia.save());
 
         case 8:
           res.redirect('/getdanhgia');
-          _context66.next = 15;
+          _context68.next = 15;
           break;
 
         case 11:
-          _context66.prev = 11;
-          _context66.t0 = _context66["catch"](0);
-          console.error(_context66.t0);
+          _context68.prev = 11;
+          _context68.t0 = _context68["catch"](0);
+          console.error(_context68.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context66.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context68.t0)
           });
 
         case 15:
         case "end":
-          return _context66.stop();
+          return _context68.stop();
       }
     }
   }, null, null, [[0, 11]]);
 });
-router.get('/contentBlog/:tieude', function _callee67(req, res) {
+router.get('/contentBlog/:tieude', function _callee69(req, res) {
   var tieude_khongdau, blog, listBl, content;
-  return regeneratorRuntime.async(function _callee67$(_context67) {
+  return regeneratorRuntime.async(function _callee69$(_context69) {
     while (1) {
-      switch (_context67.prev = _context67.next) {
+      switch (_context69.prev = _context69.next) {
         case 0:
-          _context67.prev = 0;
+          _context69.prev = 0;
           tieude_khongdau = decodeURIComponent(req.params.tieude).replace(/-/g, ' ');
-          _context67.next = 4;
+          _context69.next = 4;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findOne({
             tieude_khongdau: tieude_khongdau
           }));
 
         case 4:
-          blog = _context67.sent;
+          blog = _context69.sent;
 
           if (blog) {
-            _context67.next = 7;
+            _context69.next = 7;
             break;
           }
 
-          return _context67.abrupt("return", res.status(404).json({
+          return _context69.abrupt("return", res.status(404).json({
             message: 'Blog không tồn tại'
           }));
 
         case 7:
-          _context67.next = 9;
+          _context69.next = 9;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.find().sort({
             _id: -1
           }));
 
         case 9:
-          listBl = _context67.sent;
+          listBl = _context69.sent;
           content = blog.noidung.map(function (noidung) {
             return {
               tieude: noidung.tieude,
@@ -2732,20 +2798,20 @@ router.get('/contentBlog/:tieude', function _callee67(req, res) {
             listBl: listBl,
             image_blog: blog.img_blog
           });
-          _context67.next = 18;
+          _context69.next = 18;
           break;
 
         case 14:
-          _context67.prev = 14;
-          _context67.t0 = _context67["catch"](0);
-          console.error(_context67.t0);
+          _context69.prev = 14;
+          _context69.t0 = _context69["catch"](0);
+          console.error(_context69.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context67.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context69.t0)
           });
 
         case 18:
         case "end":
-          return _context67.stop();
+          return _context69.stop();
       }
     }
   }, null, null, [[0, 14]]);
@@ -2791,14 +2857,14 @@ function replaceKeywordsWithLinks(content, keywords, urlBase) {
   return content;
 }
 
-router.post('/postblog', function _callee68(req, res) {
+router.post('/postblog', function _callee70(req, res) {
   var _req$body12, tieude_blog, img, content, tieude, img_blog, keywords, urlBase, tieude_khongdau1, tieude_khongdau, blog, i, updatedContent, _updatedContent;
 
-  return regeneratorRuntime.async(function _callee68$(_context68) {
+  return regeneratorRuntime.async(function _callee70$(_context70) {
     while (1) {
-      switch (_context68.prev = _context68.next) {
+      switch (_context70.prev = _context70.next) {
         case 0:
-          _context68.prev = 0;
+          _context70.prev = 0;
           _req$body12 = req.body, tieude_blog = _req$body12.tieude_blog, img = _req$body12.img, content = _req$body12.content, tieude = _req$body12.tieude, img_blog = _req$body12.img_blog, keywords = _req$body12.keywords, urlBase = _req$body12.urlBase;
           tieude_khongdau1 = unicode(tieude_blog);
           tieude_khongdau = removeSpecialChars(tieude_khongdau1);
@@ -2829,25 +2895,25 @@ router.post('/postblog', function _callee68(req, res) {
             }, "keywords", keywords));
           }
 
-          _context68.next = 8;
+          _context70.next = 8;
           return regeneratorRuntime.awrap(blog.save());
 
         case 8:
           res.redirect('/main');
-          _context68.next = 15;
+          _context70.next = 15;
           break;
 
         case 11:
-          _context68.prev = 11;
-          _context68.t0 = _context68["catch"](0);
-          console.error(_context68.t0);
+          _context70.prev = 11;
+          _context70.t0 = _context70["catch"](0);
+          console.error(_context70.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context68.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context70.t0)
           });
 
         case 15:
         case "end":
-          return _context68.stop();
+          return _context70.stop();
       }
     }
   }, null, null, [[0, 11]]);
@@ -2860,14 +2926,14 @@ router.post('/postblog2', uploads.fields([{
   name: 'img',
   maxCount: 100000
 } // Nhiều ảnh (có thể điều chỉnh số lượng tối đa)
-]), function _callee69(req, res) {
+]), function _callee71(req, res) {
   var _req$body13, tieude_blog, content, tieude, keywords, urlBase, _domain3, imgblog, img, tieude_khongdau1, tieude_khongdau, blog, i, updatedContent, _updatedContent2;
 
-  return regeneratorRuntime.async(function _callee69$(_context69) {
+  return regeneratorRuntime.async(function _callee71$(_context71) {
     while (1) {
-      switch (_context69.prev = _context69.next) {
+      switch (_context71.prev = _context71.next) {
         case 0:
-          _context69.prev = 0;
+          _context71.prev = 0;
           _req$body13 = req.body, tieude_blog = _req$body13.tieude_blog, content = _req$body13.content, tieude = _req$body13.tieude, keywords = _req$body13.keywords, urlBase = _req$body13.urlBase; // Xác định domain
 
           _domain3 = 'https://www.baominhmobile.com'; // Thay đổi thành domain của bạn
@@ -2910,115 +2976,115 @@ router.post('/postblog2', uploads.fields([{
             });
           }
 
-          _context69.next = 11;
+          _context71.next = 11;
           return regeneratorRuntime.awrap(blog.save());
 
         case 11:
           res.redirect('/main');
-          _context69.next = 18;
+          _context71.next = 18;
           break;
 
         case 14:
-          _context69.prev = 14;
-          _context69.t0 = _context69["catch"](0);
-          console.error(_context69.t0);
+          _context71.prev = 14;
+          _context71.t0 = _context71["catch"](0);
+          console.error(_context71.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context69.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context71.t0)
           });
 
         case 18:
         case "end":
-          return _context69.stop();
+          return _context71.stop();
       }
     }
   }, null, null, [[0, 14]]);
 });
-router.get('/getaddblog', function _callee70(req, res) {
-  return regeneratorRuntime.async(function _callee70$(_context70) {
+router.get('/getaddblog', function _callee72(req, res) {
+  return regeneratorRuntime.async(function _callee72$(_context72) {
     while (1) {
-      switch (_context70.prev = _context70.next) {
+      switch (_context72.prev = _context72.next) {
         case 0:
           res.render('home/addblog.ejs');
 
         case 1:
         case "end":
-          return _context70.stop();
+          return _context72.stop();
       }
     }
   });
 });
-router.get('/getaddblogtest', function _callee71(req, res) {
-  return regeneratorRuntime.async(function _callee71$(_context71) {
+router.get('/getaddblogtest', function _callee73(req, res) {
+  return regeneratorRuntime.async(function _callee73$(_context73) {
     while (1) {
-      switch (_context71.prev = _context71.next) {
+      switch (_context73.prev = _context73.next) {
         case 0:
           res.render('home/test.ejs');
 
         case 1:
         case "end":
-          return _context71.stop();
+          return _context73.stop();
       }
     }
   });
 });
-router.get('/getblog', function _callee72(req, res) {
+router.get('/getblog', function _callee74(req, res) {
   var listBl, tenloai, page;
-  return regeneratorRuntime.async(function _callee72$(_context72) {
+  return regeneratorRuntime.async(function _callee74$(_context74) {
     while (1) {
-      switch (_context72.prev = _context72.next) {
+      switch (_context74.prev = _context74.next) {
         case 0:
-          _context72.prev = 0;
-          _context72.next = 3;
+          _context74.prev = 0;
+          _context74.next = 3;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.find().sort({
             _id: -1
           }));
 
         case 3:
-          listBl = _context72.sent;
-          _context72.next = 6;
+          listBl = _context74.sent;
+          _context74.next = 6;
           return regeneratorRuntime.awrap(LoaiSP.TenSP.find().lean());
 
         case 6:
-          tenloai = _context72.sent;
+          tenloai = _context74.sent;
           page = parseInt(req.query.page, 10) || 1;
           res.render('home/blog.ejs', {
             listBl: listBl,
             tenloai: tenloai,
             currentPage: page
           });
-          _context72.next = 15;
+          _context74.next = 15;
           break;
 
         case 11:
-          _context72.prev = 11;
-          _context72.t0 = _context72["catch"](0);
-          console.error(_context72.t0);
+          _context74.prev = 11;
+          _context74.t0 = _context74["catch"](0);
+          console.error(_context74.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context72.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context74.t0)
           });
 
         case 15:
         case "end":
-          return _context72.stop();
+          return _context74.stop();
       }
     }
   }, null, null, [[0, 11]]);
 });
-router.post('/editblog/:idblog', function _callee73(req, res) {
+router.post('/editblog/:idblog', function _callee75(req, res) {
   var _req$body14, tieude_blog, img_blog, tieude, content, img, keywords, urlBase, tieude_khongdau, idblog, blog, i, updatedContent, _updatedContent3;
 
-  return regeneratorRuntime.async(function _callee73$(_context73) {
+  return regeneratorRuntime.async(function _callee75$(_context75) {
     while (1) {
-      switch (_context73.prev = _context73.next) {
+      switch (_context75.prev = _context75.next) {
         case 0:
-          _context73.prev = 0;
+          _context75.prev = 0;
           _req$body14 = req.body, tieude_blog = _req$body14.tieude_blog, img_blog = _req$body14.img_blog, tieude = _req$body14.tieude, content = _req$body14.content, img = _req$body14.img, keywords = _req$body14.keywords, urlBase = _req$body14.urlBase, tieude_khongdau = _req$body14.tieude_khongdau;
           idblog = req.params.idblog;
-          _context73.next = 5;
+          _context75.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blog = _context73.sent;
+          blog = _context75.sent;
           blog.tieude_blog = tieude_blog;
           blog.img_blog = img_blog;
           blog.tieude_khongdau = tieude_khongdau;
@@ -3059,36 +3125,36 @@ router.post('/editblog/:idblog', function _callee73(req, res) {
             });
           }
 
-          _context73.next = 12;
+          _context75.next = 12;
           return regeneratorRuntime.awrap(blog.save());
 
         case 12:
           res.redirect('/main');
-          _context73.next = 19;
+          _context75.next = 19;
           break;
 
         case 15:
-          _context73.prev = 15;
-          _context73.t0 = _context73["catch"](0);
-          console.error(_context73.t0);
+          _context75.prev = 15;
+          _context75.t0 = _context75["catch"](0);
+          console.error(_context75.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context73.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context75.t0)
           });
 
         case 19:
         case "end":
-          return _context73.stop();
+          return _context75.stop();
       }
     }
   }, null, null, [[0, 15]]);
 });
-router.get('/editblog/:idblog', function _callee74(req, res) {
+router.get('/editblog/:idblog', function _callee76(req, res) {
   var removeAllLinks, idblog, blogg, blog;
-  return regeneratorRuntime.async(function _callee74$(_context74) {
+  return regeneratorRuntime.async(function _callee76$(_context76) {
     while (1) {
-      switch (_context74.prev = _context74.next) {
+      switch (_context76.prev = _context76.next) {
         case 0:
-          _context74.prev = 0;
+          _context76.prev = 0;
 
           // Hàm để loại bỏ tất cả các thẻ <a> khỏi nội dung
           removeAllLinks = function removeAllLinks(content) {
@@ -3097,11 +3163,11 @@ router.get('/editblog/:idblog', function _callee74(req, res) {
           };
 
           idblog = req.params.idblog;
-          _context74.next = 5;
+          _context76.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blogg = _context74.sent;
+          blogg = _context76.sent;
           blog = blogg.noidung.map(function (bl) {
             return {
               content: removeAllLinks(bl.content),
@@ -3118,20 +3184,20 @@ router.get('/editblog/:idblog', function _callee74(req, res) {
             tieude_khongdau: blogg.tieude_khongdau,
             img_blog: blogg.img_blog
           });
-          _context74.next = 14;
+          _context76.next = 14;
           break;
 
         case 10:
-          _context74.prev = 10;
-          _context74.t0 = _context74["catch"](0);
-          console.error(_context74.t0);
+          _context76.prev = 10;
+          _context76.t0 = _context76["catch"](0);
+          console.error(_context76.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context74.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context76.t0)
           });
 
         case 14:
         case "end":
-          return _context74.stop();
+          return _context76.stop();
       }
     }
   }, null, null, [[0, 10]]);
@@ -3144,21 +3210,21 @@ router.post('/editblog/:idblog', uploads.fields([{
   name: 'img',
   maxCount: 100000
 } // Nhiều ảnh (có thể điều chỉnh số lượng tối đa)
-]), function _callee75(req, res) {
+]), function _callee77(req, res) {
   var _req$body15, tieude_blog, tieude, content, keywords, urlBase, tieude_khongdau, idblog, blog, imgblog, img, i, updatedContent, _updatedContent4;
 
-  return regeneratorRuntime.async(function _callee75$(_context75) {
+  return regeneratorRuntime.async(function _callee77$(_context77) {
     while (1) {
-      switch (_context75.prev = _context75.next) {
+      switch (_context77.prev = _context77.next) {
         case 0:
-          _context75.prev = 0;
+          _context77.prev = 0;
           _req$body15 = req.body, tieude_blog = _req$body15.tieude_blog, tieude = _req$body15.tieude, content = _req$body15.content, keywords = _req$body15.keywords, urlBase = _req$body15.urlBase, tieude_khongdau = _req$body15.tieude_khongdau;
           idblog = req.params.idblog;
-          _context75.next = 5;
+          _context77.next = 5;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findById(idblog));
 
         case 5:
-          blog = _context75.sent;
+          blog = _context77.sent;
           imgblog = req.files && req.files['imgblog'] ? "".concat(domain, "/").concat(req.files['imgblog'][0].filename) : blog.img_blog;
           img = req.files && req.files['img'] ? req.files['img'].map(function (file) {
             return "".concat(domain, "/").concat(file.filename);
@@ -3208,25 +3274,25 @@ router.post('/editblog/:idblog', uploads.fields([{
             });
           }
 
-          _context75.next = 14;
+          _context77.next = 14;
           return regeneratorRuntime.awrap(blog.save());
 
         case 14:
           res.redirect('/main');
-          _context75.next = 21;
+          _context77.next = 21;
           break;
 
         case 17:
-          _context75.prev = 17;
-          _context75.t0 = _context75["catch"](0);
-          console.error(_context75.t0);
+          _context77.prev = 17;
+          _context77.t0 = _context77["catch"](0);
+          console.error(_context77.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context75.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context77.t0)
           });
 
         case 21:
         case "end":
-          return _context75.stop();
+          return _context77.stop();
       }
     }
   }, null, null, [[0, 17]]);
@@ -3243,34 +3309,34 @@ router.post('/upload', uploads.single('image'), function (req, res) {
     url: fileUrl
   });
 });
-router.post('/deleteblog/:idblog', function _callee76(req, res) {
+router.post('/deleteblog/:idblog', function _callee78(req, res) {
   var idblog, blog;
-  return regeneratorRuntime.async(function _callee76$(_context76) {
+  return regeneratorRuntime.async(function _callee78$(_context78) {
     while (1) {
-      switch (_context76.prev = _context76.next) {
+      switch (_context78.prev = _context78.next) {
         case 0:
-          _context76.prev = 0;
+          _context78.prev = 0;
           idblog = req.params.idblog;
-          _context76.next = 4;
+          _context78.next = 4;
           return regeneratorRuntime.awrap(myMDBlog.blogModel.findByIdAndDelete(idblog));
 
         case 4:
-          blog = _context76.sent;
+          blog = _context78.sent;
           res.redirect('/main');
-          _context76.next = 12;
+          _context78.next = 12;
           break;
 
         case 8:
-          _context76.prev = 8;
-          _context76.t0 = _context76["catch"](0);
-          console.error(_context76.t0);
+          _context78.prev = 8;
+          _context78.t0 = _context78["catch"](0);
+          console.error(_context78.t0);
           res.status(500).json({
-            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context76.t0)
+            message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context78.t0)
           });
 
         case 12:
         case "end":
-          return _context76.stop();
+          return _context78.stop();
       }
     }
   }, null, null, [[0, 8]]);
