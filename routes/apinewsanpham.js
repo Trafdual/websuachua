@@ -1264,11 +1264,8 @@ function escapeRegExp (string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 function removeSpecialChars (str) {
-  // Danh sách các ký tự đặc biệt bạn muốn xóa
   const specialChars = /[:+,!@#$%^&*()\-?/]/g
-  // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
-
-  // Xóa các ký tự đặc biệt
+  
   return str.replace(specialChars, '')
 }
 

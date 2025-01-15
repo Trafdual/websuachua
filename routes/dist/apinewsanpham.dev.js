@@ -2823,10 +2823,7 @@ function escapeRegExp(string) {
 }
 
 function removeSpecialChars(str) {
-  // Danh sách các ký tự đặc biệt bạn muốn xóa
-  var specialChars = /[:+,!@#$%^&*()\-?/]/g; // Thay đổi biểu thức chính quy theo các ký tự bạn muốn xóa
-  // Xóa các ký tự đặc biệt
-
+  var specialChars = /[:+,!@#$%^&*()\-?/]/g;
   return str.replace(specialChars, '');
 }
 

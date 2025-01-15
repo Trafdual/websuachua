@@ -59,7 +59,7 @@ app.use('/', settingsRouter); // app.use('/',sitmaprouter);
 app.use('/', apinewsanpham);
 app.use('/', sanphammoi);
 app.use(express["static"](path.join(__dirname, '/public')));
-app.use(express["static"](path.join(__dirname, '/uploads'))); // Backup specific collection using Mongoose model
+app.use(express["static"](path.join(__dirname, '/uploads'))); // // Backup specific collection using Mongoose model
 // mongoose.connection.on(
 //   'error',
 //   console.error.bind(console, 'MongoDB connection error:')
