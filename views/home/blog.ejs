@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>BẢO MINH STORE</title>
-    <meta charset="utf-8">
-    <meta name="google-site-verification" content="nXHafPjzQbcCTlbBFFc2qAA5CB95CzOEyv7uDEGgbpk" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="author" content="">
-    <meta name="keywords" content="">
-    <meta name="Giới Thiệu" content="">
-    <link rel="shortcut icon" type="x-icon" href="/images/banner-image1.png">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
-    <!-- script
+    <head>
+        <title>BẢO MINH STORE</title>
+        <meta charset="utf-8">
+        <meta name="google-site-verification"
+            content="nXHafPjzQbcCTlbBFFc2qAA5CB95CzOEyv7uDEGgbpk" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="author" content>
+        <meta name="keywords" content>
+        <meta name="Giới Thiệu" content>
+        <link rel="shortcut icon" type="x-icon"
+            href="/images/banner-image1.png">
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap"
+            rel="stylesheet">
+        <!-- script
     ================================================== -->
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16700715907"></script>
-    <script>
+        <!-- Google tag (gtag.js) -->
+        <script async
+            src="https://www.googletagmanager.com/gtag/js?id=AW-16700715907"></script>
+        <script>
         window.dataLayer = window.dataLayer || [];
 
         function gtag() {
@@ -33,7 +39,7 @@
 
         gtag('config', 'AW-16700715907');
     </script>
-    <style>
+        <style>
         @media only screen and (max-width: 700px) {
             .nav-search {
                 display: block;
@@ -148,54 +154,86 @@
             }
         }
     </style>
-</head>
+        <!-- Meta Pixel Code -->
+        <script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1130264488606980');
+fbq('track', 'PageView');
+</script>
+        <noscript><img height="1" width="1" style="display:none"
+                src="https://www.facebook.com/tr?id=1130264488606980&ev=PageView&noscript=1" /></noscript>
+        <!-- End Meta Pixel Code -->
+    </head>
 
-<body>
+    <body>
 
-    <%- include('../include/header2.ejs') %>
+        <%- include('../include/header2.ejs') %>
 
         <section id="latest-blog" class="section">
             <div class="container">
                 <div class="row">
-                    <div class="post-grid d-flex flex-wrap justify-content-between">
+                    <div
+                        class="post-grid d-flex flex-wrap justify-content-between">
                         <% listBl.forEach((item)=> { %>
-                            <div class="col-lg-4 col-sm-12">
-                                <div class="card border-none me-3">
-                                    <div class="card-image text-center overflow-hidden">
-                                        <img src="<%= item.img_blog %>" alt="product-item" id="img-fluid">
-                                    </div>
-                                </div>
-                                <div class="card-body text-uppercase" style="word-wrap: break-word">
-                                    <h3 class="card-title">
-                                        <a href="/contentBlog/<%= encodeURIComponent(item.tieude_khongdau).replace(/%20/g, '-')%>">
-                                            <%= item.tieude_blog %>
-                                        </a>
-                                    </h3>
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="card border-none me-3">
+                                <div
+                                    class="card-image text-center overflow-hidden">
+                                    <img src="<%= item.img_blog %>"
+                                        alt="product-item" id="img-fluid">
                                 </div>
                             </div>
-                            <% }); %>
+                            <div class="card-body text-uppercase"
+                                style="word-wrap: break-word">
+                                <h3 class="card-title">
+                                    <a
+                                        href="/contentBlog/<%= encodeURIComponent(item.tieude_khongdau).replace(/%20/g, '-')%>">
+                                        <%= item.tieude_blog %>
+                                    </a>
+                                </h3>
+                            </div>
+                        </div>
+                        <% }); %>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="subscribe" class="container-grid position-relative overflow-hidden">
+        <section id="subscribe"
+            class="container-grid position-relative overflow-hidden">
             <div class="container">
                 <div class="row">
-                    <div class="subscribe-content bg-dark d-flex flex-wrap justify-content-center align-items-center padding-medium">
+                    <div
+                        class="subscribe-content bg-dark d-flex flex-wrap justify-content-center align-items-center padding-medium">
                         <div class="col-md-6 col-sm-12">
                             <div class="display-header pe-3">
-                                <h2 class="display-7 text-uppercase text-light">Đăng ký cho chúng tôi ngay</h2>
+                                <h2
+                                    class="display-7 text-uppercase text-light">Đăng
+                                    ký cho chúng tôi ngay</h2>
                                 <p>
-                                    Nhận tin tức mới nhất, cập nhật và giao dịch được gửi trực tiếp đến hộp thư đến của bạn.
+                                    Nhận tin tức mới nhất, cập nhật và giao dịch
+                                    được gửi trực tiếp đến hộp thư đến của bạn.
                                 </p>
                             </div>
                         </div>
                         <div class="col-md-5 col-sm-12">
                             <form class="subscription-form validate">
                                 <div class="input-group flex-wrap">
-                                    <input class="form-control btn-rounded-none" type="email" name="EMAIL" placeholder="Địa chỉ email của bạn ở đây" required="">
-                                    <button class="btn btn-medium btn-primary text-uppercase btn-rounded-none" type="submit" name="subscribe">Đăng ký</button>
+                                    <input class="form-control btn-rounded-none"
+                                        type="email" name="EMAIL"
+                                        placeholder="Địa chỉ email của bạn ở đây"
+                                        required>
+                                    <button
+                                        class="btn btn-medium btn-primary text-uppercase btn-rounded-none"
+                                        type="submit" name="subscribe">Đăng
+                                        ký</button>
                                 </div>
                             </form>
                         </div>
@@ -206,12 +244,14 @@
 
         <%- include('../include/footer2.ejs') %>
 
-            <script src="/js/jquery-1.11.0.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-            <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
-            <script type="text/javascript" src="/js/plugins.js"></script>
-            <script type="text/javascript" src="/js/script.js"></script>
-            <script>
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+        <script type="text/javascript"
+            src="/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript" src="/js/plugins.js"></script>
+        <script type="text/javascript" src="/js/script.js"></script>
+        <script>
                 function makeCall() {
                     event.preventDefault();
                     // Thay đổi số điện thoại dưới đây bằng số điện thoại thực tế
@@ -243,6 +283,6 @@
                     }
                 });
             </script>
-</body>
+    </body>
 
 </html>
