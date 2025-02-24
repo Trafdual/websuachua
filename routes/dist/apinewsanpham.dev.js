@@ -1497,7 +1497,7 @@ router.get('/editsp/:id', function _callee35(req, res) {
   }, null, null, [[0, 8]]);
 });
 router.get('/suachua', function _callee38(req, res) {
-  var loailinhkien, loailinhkienjson;
+  var loailinhkien, listBl, loailinhkienjson;
   return regeneratorRuntime.async(function _callee38$(_context38) {
     while (1) {
       switch (_context38.prev = _context38.next) {
@@ -1509,6 +1509,13 @@ router.get('/suachua', function _callee38(req, res) {
         case 3:
           loailinhkien = _context38.sent;
           _context38.next = 6;
+          return regeneratorRuntime.awrap(myMDBlog.blogModel.find().sort({
+            _id: -1
+          }).limit(3));
+
+        case 6:
+          listBl = _context38.sent;
+          _context38.next = 9;
           return regeneratorRuntime.awrap(Promise.all(loailinhkien.map(function _callee37(loai) {
             var linkkienJson;
             return regeneratorRuntime.async(function _callee37$(_context37) {
@@ -1552,28 +1559,29 @@ router.get('/suachua', function _callee38(req, res) {
             });
           })));
 
-        case 6:
+        case 9:
           loailinhkienjson = _context38.sent;
           res.render('home/linkkien.ejs', {
-            loailinhkienjson: loailinhkienjson
+            loailinhkienjson: loailinhkienjson,
+            listBl: listBl
           });
-          _context38.next = 14;
+          _context38.next = 17;
           break;
 
-        case 10:
-          _context38.prev = 10;
+        case 13:
+          _context38.prev = 13;
           _context38.t0 = _context38["catch"](0);
           console.error(_context38.t0);
           res.status(500).json({
             message: "\u0110\xE3 x\u1EA3y ra l\u1ED7i: ".concat(_context38.t0)
           });
 
-        case 14:
+        case 17:
         case "end":
           return _context38.stop();
       }
     }
-  }, null, null, [[0, 10]]);
+  }, null, null, [[0, 13]]);
 });
 router.post('/postlinkkien/:idloailinkkien', uploads.fields([{
   name: 'image',

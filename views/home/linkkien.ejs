@@ -1,41 +1,36 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <title>BẢO MINH STORE - </title>
-        <meta charset="utf-8">
-        <meta name="google-site-verification"
-            content="nXHafPjzQbcCTlbBFFc2qAA5CB95CzOEyv7uDEGgbpk" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="author" content>
-        <meta name="keywords" content>
-        <meta name="description"
-            content="Cung cấp iphone chính hãng giá rẻ tại Hà Nội, Sửa chữa bảo hành miễn phí">
-        <link rel="shortcut icon" type="x-icon"
-            href="/images/banner-image1.png">
-        <meta property="og:image" content="/images/banner-image1.png">
-        <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="/css/style.css">
-        <link rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet">
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <style>
+<head>
+    <title>BẢO MINH STORE - </title>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="nXHafPjzQbcCTlbBFFc2qAA5CB95CzOEyv7uDEGgbpk" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content>
+    <meta name="keywords" content>
+    <meta name="description" content="Cung cấp iphone chính hãng giá rẻ tại Hà Nội, Sửa chữa bảo hành miễn phí">
+    <link rel="shortcut icon" type="x-icon" href="/images/banner-image1.png">
+    <meta property="og:image" content="/images/banner-image1.png">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
         @media only screen and (max-width: 700px) {
             .nav-search {
                 display: block;
             }
+
             .searchSection {
                 display: block;
             }
+
             .message-button {
                 background-color: #3498db;
                 color: white;
@@ -52,9 +47,11 @@
                 bottom: 70px;
                 right: 70px;
             }
+
             .message-button:hover {
                 animation: shake 0.5s;
             }
+
             body {
                 font-family: "Roboto", sans-serif;
                 font-size: 10px;
@@ -64,6 +61,7 @@
                 background-color: aliceblue;
                 background-image: none;
             }
+
             .facezalo {
                 position: fixed;
                 right: 5%;
@@ -73,6 +71,7 @@
                 align-items: flex-start;
                 z-index: 3;
             }
+
             .anhfacezalo {
                 width: 50%;
                 height: 50%;
@@ -82,20 +81,24 @@
                 transform-origin: center;
                 /* Đặt điểm xoay tại trung tâm của ảnh */
             }
+
             @keyframes shake {
                 0% {
                     transform: rotate(-10deg);
                     /* Góc xoay ban đầu */
                 }
+
                 50% {
                     transform: rotate(10deg);
                     /* Góc xoay giữa chừng */
                 }
+
                 100% {
                     transform: rotate(-10deg);
                     /* Góc xoay kết thúc */
                 }
             }
+
             @keyframes expand {
                 0% {
                     transform: scale(1);
@@ -103,12 +106,14 @@
                     opacity: 1;
                     /* Độ mờ ban đầu */
                 }
+
                 50% {
                     transform: scale(1.1);
                     /* Kích thước tăng lên */
                     opacity: 0.75;
                     /* Giảm độ mờ */
                 }
+
                 100% {
                     transform: scale(1);
                     /* Kích thước tăng lên */
@@ -116,6 +121,7 @@
                     /* Ẩn đi */
                 }
             }
+
             .anhfz {
                 position: relative;
                 text-align: center;
@@ -129,6 +135,7 @@
                 animation: expand 2s infinite;
                 display: inline-block;
             }
+
             .anhdt {
                 position: relative;
                 text-align: center;
@@ -142,9 +149,9 @@
                 animation: expand 2s infinite;
                 display: inline-block;
             }
+
             .section {
                 padding-right: 3%;
-                padding-bottom: 3%;
                 padding-top: 2%;
                 width: 100%;
                 overflow: hidden;
@@ -152,10 +159,12 @@
                 margin-top: 0.5%;
                 margin: 0 auto;
             }
+
             .product-swiper {
                 height: 400px;
                 /* Thiết lập chiều cao cố định cho swiper */
             }
+
             .section1 {
                 padding-bottom: 1%;
                 padding-top: 2%;
@@ -165,6 +174,7 @@
                 margin-top: 0.5%;
                 margin: 0 auto;
             }
+
             .sc {
                 margin-top: 15%;
                 background-color: rgb(251, 251, 252);
@@ -172,12 +182,14 @@
                 margin-left: 1%;
                 margin-right: 1%;
             }
+
             .sp {
                 margin-top: 1%;
                 margin-left: 2%;
                 margin-right: 2%;
                 margin-bottom: 2%;
             }
+
             .sale45 {
                 padding-left: 2%;
                 padding-right: 5%;
@@ -189,12 +201,14 @@
                 margin-top: 0.5%;
                 margin: 0 auto;
             }
+
             .sale47 {
                 margin: 0 auto;
                 height: 35px;
                 margin-right: 2%;
                 margin-left: 2%;
             }
+
             .sale46 {
                 overflow: hidden;
                 background-color: rgb(251, 251, 252);
@@ -202,91 +216,116 @@
                 margin: 0 auto;
                 border-radius: 10px;
             }
+
             .imgbanner {
                 width: 100%;
             }
+
             .divsale45 {
                 width: 70%;
                 margin-bottom: 10%;
                 margin-left: 43.3333%;
             }
+
             .h3sale {
                 width: 80%;
             }
+
             .list {
                 width: 100%;
                 background-color: rgb(251, 251, 252);
             }
+
             .thanhphan {
                 width: 100%;
             }
+
             .name {
                 margin-right: 1px;
             }
+
             #left,
             #right {
                 display: none;
             }
+
             #hi {
                 top: 10%;
                 bottom: 7%;
                 position: relative;
             }
+
             #billboard {
                 display: none;
             }
+
             header {
                 top: 0;
             }
+
             .anh {
                 width: 290px;
                 height: auto;
             }
+
             .divimgsale {
                 width: 100%;
                 height: 40%;
                 margin: 0 auto;
             }
+
             .imgsale {
                 width: 100%;
                 height: 100%;
                 margin-bottom: 3%;
             }
+
             @keyframes shake {
                 0% {
                     transform: translate(0, 0);
                 }
+
                 10% {
                     transform: translate(-5px, 0);
                 }
+
                 20% {
                     transform: translate(5px, 0);
                 }
+
                 30% {
                     transform: translate(-5px, 0);
                 }
+
                 40% {
                     transform: translate(5px, 0);
                 }
+
                 50% {
                     transform: translate(-5px, 0);
                 }
+
                 60% {
                     transform: translate(5px, 0);
                 }
+
                 70% {
                     transform: translate(-5px, 0);
                 }
+
                 80% {
                     transform: translate(5px, 0);
                 }
+
                 90% {
                     transform: translate(-5px, 0);
                 }
+
                 100% {
                     transform: translate(0, 0);
                 }
             }
+
             .dialog-overlay {
                 position: fixed;
                 top: 0;
@@ -299,6 +338,7 @@
                 align-items: center;
                 z-index: 20;
             }
+
             .dialog-content {
                 margin-top: 10%;
                 margin-left: 5%;
@@ -311,17 +351,21 @@
                 max-width: 57%;
                 text-align: center;
             }
+
             .dialog-buttons {
                 margin-top: 20px;
             }
+
             .rating .star {
                 color: #ccc;
                 /* Màu mặc định cho tất cả các sao */
             }
+
             .rating .star.selected {
                 color: gold;
                 /* Màu của các sao đã chọn */
             }
+
             .dialog-xemthem {
                 margin-top: 10%;
                 margin-left: 5%;
@@ -339,6 +383,7 @@
                 /* Thêm thanh trượt nếu nội dung vượt quá độ cao tối đa */
                 position: relative;
             }
+
             .dialog-button {
                 width: 27.15%;
                 position: fixed;
@@ -352,13 +397,16 @@
                 z-index: 1;
                 /* Đảm bảo nút hiển thị trên thanh trượt */
             }
+
             .btndong {
                 background-color: #fb2104;
                 color: rgb(251, 252, 253);
             }
+
             #img-fluid {
                 height: 200px;
             }
+
             .inputSearch {
                 font-size: 15px;
                 height: 50px;
@@ -371,10 +419,12 @@
                 position: relative;
                 padding-right: 30px;
             }
+
             .inputSearch:focus {
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
                 border-color: rgb(200, 0, 0);
             }
+
             .btnSearch {
                 border: none;
                 font-size: 15px;
@@ -386,6 +436,7 @@
                 height: 50px;
                 cursor: pointer;
             }
+
             .inputSearch::after {
                 content: '\00d7';
                 /* Ký tự dấu x (×) */
@@ -403,16 +454,47 @@
                 display: none;
                 /* Ẩn dấu x mặc định */
             }
+
             .inputSearch:not(:placeholder-shown)::after {
                 display: block;
                 /* Hiển thị dấu x khi có nội dung */
             }
+
+            .swiper-pagination {
+                top: 30%;
+            }
+
+            .product-card {
+                box-shadow: 3px 3px 3px rgba(206, 206, 206, 0.5);
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 10px;
+                transition: box-shadow 0.3s;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .a_btn_title {
+                text-decoration: none !important;
+            }
+
+            .btn_docthem a {
+                padding: 10px !important;
+                border-radius: 10px;
+                border: 1px solid rgb(4, 91, 190) !important;
+                text-decoration: none !important;
+                box-shadow: 3px 3px 3px rgb(0 0 0 / 50%);
+                width: 100%;
+                font-weight: 700;
+            }
         }
-        
+
         @media only screen and (min-width: 701px) {
             .nav-search {
                 display: block;
             }
+
             .message-button {
                 background-color: #3498db;
                 color: white;
@@ -429,6 +511,7 @@
                 bottom: 70px;
                 right: 70px;
             }
+
             .facezalo {
                 position: fixed;
                 bottom: 10%;
@@ -438,6 +521,7 @@
                 align-items: flex-start;
                 z-index: 3;
             }
+
             .anhfacezalo {
                 width: 56%;
                 height: 56%;
@@ -448,20 +532,24 @@
                 cursor: pointer;
                 /* Đặt điểm xoay tại trung tâm của ảnh */
             }
+
             @keyframes shake {
                 0% {
                     transform: rotate(-10deg);
                     /* Góc xoay ban đầu */
                 }
+
                 50% {
                     transform: rotate(10deg);
                     /* Góc xoay giữa chừng */
                 }
+
                 100% {
                     transform: rotate(-10deg);
                     /* Góc xoay kết thúc */
                 }
             }
+
             @keyframes expand {
                 0% {
                     transform: scale(1);
@@ -469,12 +557,14 @@
                     opacity: 1;
                     /* Độ mờ ban đầu */
                 }
+
                 50% {
                     transform: scale(1.1);
                     /* Kích thước tăng lên */
                     opacity: 0.75;
                     /* Giảm độ mờ */
                 }
+
                 100% {
                     transform: scale(1);
                     /* Kích thước tăng lên */
@@ -482,6 +572,7 @@
                     /* Ẩn đi */
                 }
             }
+
             .anhfz {
                 position: relative;
                 text-align: center;
@@ -495,6 +586,7 @@
                 animation: expand 2s infinite;
                 display: inline-block;
             }
+
             .anhdt {
                 position: relative;
                 text-align: center;
@@ -508,9 +600,11 @@
                 animation: expand 2s infinite;
                 display: inline-block;
             }
+
             body {
                 background-color: white;
             }
+
             .section {
                 padding-right: 3%;
                 padding-top: 2%;
@@ -521,21 +615,28 @@
                 margin-left: 10%;
                 margin-right: 10%;
                 border-radius: 10px;
+                box-shadow: 3px 3px 3px 3px rgba(141, 141, 141, 0.5);
+                margin-bottom: 10px;
             }
+
             .product-swiper {
                 height: 450px;
                 /* Thiết lập chiều cao cố định cho swiper */
             }
+
             .section1 {
                 padding-bottom: 1%;
                 padding-top: 2%;
                 height: 23%;
                 background-color: rgb(251, 251, 252);
-                margin-top: 0.5%;
+                margin-top: 2%;
                 margin-left: 10%;
                 margin-right: 10%;
+                margin-bottom: 3%;
                 border-radius: 10px;
+                box-shadow: 3px 3px 3px 3px rgba(141, 141, 141, 0.5);
             }
+
             .sc {
                 background-color: rgb(251, 251, 252);
                 margin-top: 0.5%;
@@ -544,6 +645,7 @@
                 margin-right: 10%;
                 border-radius: 10px;
             }
+
             .ft {
                 z-index: 9;
                 background-color: rgb(251, 251, 252);
@@ -552,10 +654,12 @@
                 margin-right: 0;
                 padding-top: 10px;
             }
+
             .list {
                 width: 100%;
                 background-color: rgb(251, 251, 252);
             }
+
             .sale45 {
                 padding-left: 2%;
                 padding-right: 5%;
@@ -570,6 +674,7 @@
                 margin-right: 10%;
                 border-radius: 10px;
             }
+
             .sale47 {
                 padding-bottom: 3%;
                 padding-top: 2%;
@@ -578,6 +683,7 @@
                 margin-right: 10%;
                 border-radius: 10px;
             }
+
             .sale46 {
                 overflow: hidden;
                 background-color: rgb(251, 251, 252);
@@ -586,28 +692,34 @@
                 border-radius: 10px;
                 max-height: 10%;
             }
+
             .imgbanner {
                 width: 100%;
                 height: 550px;
             }
+
             .divsale45 {
                 width: 70%;
                 margin-bottom: 10%;
                 margin-left: 160%;
             }
+
             .h3sale {
                 width: 150%;
                 font-size: 40px;
             }
+
             .sp {
                 margin-top: 1%;
                 margin-left: 2%;
                 margin-right: 2%;
                 margin-bottom: 2%;
             }
+
             #header {
                 width: 100%;
             }
+
             #left,
             #right {
                 height: 50%;
@@ -618,24 +730,27 @@
                 bottom: 35%;
                 will-change: transform;
             }
+
             #left {
                 left: 0;
             }
+
             #right {
                 right: 0;
             }
+
             #thich {
                 box-sizing: border-box;
                 margin-left: 50px;
-                /* Để tránh chồng lấn với hình ảnh bên trái */
                 margin-right: 50px;
-                /* Để tránh chồng lấn với hình ảnh bên phải */
                 z-index: 1;
             }
+
             #hi {
                 bottom: 0;
                 position: relative;
             }
+
             #imagedoi {
                 position: absolute;
                 top: 45%;
@@ -643,6 +758,7 @@
                 right: 0;
                 z-index: 2;
             }
+
             #billboard {
                 margin-left: 50px;
                 /* Để tránh chồng lấn với hình ảnh bên trái */
@@ -653,19 +769,23 @@
                 z-index: 9;
                 background-image: none;
             }
+
             .anh {
                 width: 270px;
                 height: auto;
             }
+
             #footer-bottom {
                 z-index: 9;
                 background-color: rgb(251, 251, 252);
             }
+
             #billboard .image-holder {
                 margin-left: 0;
                 width: 100%;
                 height: 100%;
             }
+
             #anhbanner {
                 margin-top: 150px;
                 margin-left: 50px;
@@ -673,65 +793,83 @@
                 width: 220%;
                 height: auto;
             }
+
             .divimgsale {
                 width: 100%;
                 height: auto;
                 margin: 0 auto;
             }
+
             .imgsale {
                 width: 100%;
                 height: auto;
                 margin-bottom: 3%;
             }
+
             h6 {
                 text-transform: uppercase;
             }
+
             @keyframes tilt {
                 0% {
                     transform: rotate(-5deg);
                 }
+
                 50% {
                     transform: rotate(10deg);
                 }
+
                 100% {
                     transform: rotate(-5deg);
                 }
             }
+
             @keyframes shake {
                 0% {
                     transform: translate(0, 0);
                 }
+
                 10% {
                     transform: translate(-5px, 0);
                 }
+
                 20% {
                     transform: translate(5px, 0);
                 }
+
                 30% {
                     transform: translate(-5px, 0);
                 }
+
                 40% {
                     transform: translate(5px, 0);
                 }
+
                 50% {
                     transform: translate(-5px, 0);
                 }
+
                 60% {
                     transform: translate(5px, 0);
                 }
+
                 70% {
                     transform: translate(-5px, 0);
                 }
+
                 80% {
                     transform: translate(5px, 0);
                 }
+
                 90% {
                     transform: translate(-5px, 0);
                 }
+
                 100% {
                     transform: translate(0, 0);
                 }
             }
+
             .dialog-overlay {
                 position: fixed;
                 top: 0;
@@ -744,6 +882,7 @@
                 align-items: center;
                 z-index: 20;
             }
+
             .dialog-content {
                 margin-top: 10%;
                 margin-left: auto;
@@ -756,17 +895,21 @@
                 max-width: 400px;
                 text-align: center;
             }
+
             .dialog-buttons {
                 margin-top: 20px;
             }
+
             .rating .star {
                 color: #ccc;
                 /* Màu mặc định cho tất cả các sao */
             }
+
             .rating .star.selected {
                 color: gold;
                 /* Màu của các sao đã chọn */
             }
+
             .dialog-xemthem {
                 margin-top: 10%;
                 margin-left: auto;
@@ -784,6 +927,7 @@
                 /* Thêm thanh trượt nếu nội dung vượt quá độ cao tối đa */
                 position: relative;
             }
+
             .dialog-button {
                 width: 27.15%;
                 position: fixed;
@@ -797,29 +941,63 @@
                 z-index: 1;
                 /* Đảm bảo nút hiển thị trên thanh trượt */
             }
+
             .btndong {
                 background-color: #fb2104;
                 color: rgb(251, 252, 253);
             }
+
             #img-fluid {
                 height: 200px;
             }
+
             .searchSection {
                 display: none;
             }
-            .banner_carousel{
+
+            .banner_carousel {
                 width: 100% !important;
                 max-width: unset !important;
             }
-            .a_btn_title{
+
+            .a_btn_title {
                 text-decoration: none !important;
+            }
+
+            .product-card {
+                box-shadow: 3px 3px 3px rgba(206, 206, 206, 0.5);
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 10px;
+                transition: box-shadow 0.3s;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .swiper {
+                padding-right: calc(var(--bs-gutter-x)* .5) !important;
+                padding-left: calc(var(--bs-gutter-x)* .5) !important;
+            }
+
+            .swiper-pagination {
+                top: 96%;
+            }
+
+            .btn_docthem a {
+                padding: 10px !important;
+                border-radius: 10px;
+                border: 1px solid rgb(4, 91, 190) !important;
+                text-decoration: none !important;
+                box-shadow: 3px 3px 3px rgb(0 0 0 / 50%);
+                font-weight: 700;
             }
         }
     </style>
-        <!-- script
+    <!-- script
     ================================================== -->
-        <!-- Google tag (gtag.js) -->
-        <script>
+    <!-- Google tag (gtag.js) -->
+    <script>
         (function(w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({
@@ -830,90 +1008,77 @@
                 j = d.createElement(s),
                 dl = l != 'dataLayer' ? '&l=' + l : '';
             j.async = true;
-            j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-KB5DNX5V');
     </script>
-        <script async
-            src="https://www.googletagmanager.com/gtag/js?id=AW-16700715907"></script>
-        <script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16700715907"></script>
+    <script>
         window.dataLayer = window.dataLayer || [];
 
         function gtag() {
             dataLayer.push(arguments);
         }
         gtag('js', new Date());
-
         gtag('config', 'AW-16700715907');
     </script>
-        <!-- Google tag (gtag.js) -->
-        <script async
-            src="https://www.googletagmanager.com/gtag/js?id=G-ZXSL91B52T"></script>
-        <script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXSL91B52T"></script>
+    <script>
         window.dataLayer = window.dataLayer || [];
 
         function gtag() {
             dataLayer.push(arguments);
         }
         gtag('js', new Date());
-
         gtag('config', 'G-ZXSL91B52T');
     </script>
+    <!-- Meta Pixel Code -->
+    <script>
+        ! function(f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function() {
+                n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1130264488606980');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1130264488606980&ev=PageView&noscript=1" /></noscript>
+</head>
 
-        <!-- Meta Pixel Code -->
-        <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1130264488606980');
-fbq('track', 'PageView');
-</script>
-        <noscript><img height="1" width="1" style="display:none"
-                src="https://www.facebook.com/tr?id=1130264488606980&ev=PageView&noscript=1" /></noscript>
-    </head>
-
-    <body data-bs-spy="scroll" data-bs-target="#navbar"
-        data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true"
-        tabindex="0">
-        <noscript><iframe
-                src="https://www.googletagmanager.com/ns.html?id=GTM-KB5DNX5V"
-                height="0" width="0"
-                style="display:none;visibility:hidden"></iframe></noscript>
-        <div class="facezalo">
-            <div class="anhfz">
-                <a href="https://zalo.me/0394692992">
-                    <img class="anhfacezalo" id="fanpageButton"
-                        src="/images/mess.png"
-                        alt>
-                </a>
-            </div>
-
-            <div class="anhdt">
-                <a href="tel: 0969944444">
-                    <img class="anhfacezalo"
-                        src="/images/phone.webp"
-                        alt>
-                </a>
-            </div>
+<body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true"
+    tabindex="0">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB5DNX5V" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="facezalo">
+        <div class="anhfz">
+            <a href="https://zalo.me/0394692992">
+                <img class="anhfacezalo" id="fanpageButton" src="/images/mess.png" alt>
+            </a>
         </div>
-
-        <%- include('../include/header2.ejs') %>
-
-        <div class="container" style="height: 60px;"></div>
-
-        <section id="yearly-sale"
-            class="bg-light-blue mt-2 mb-2 overflow-hidden sale46">
-            <div class="container banner_carousel">
-                <div id="carouselExample" class="carousel slide"
-                    data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <!-- <div class="carousel-item active">
+        <div class="anhdt">
+            <a href="tel: 0969944444">
+                <img class="anhfacezalo" src="/images/phone.webp" alt>
+            </a>
+        </div>
+    </div> <%- include('../include/header2.ejs') %> <div class="container" style="height: 60px;"></div>
+    <section id="yearly-sale" class="bg-light-blue mt-2 mb-2 overflow-hidden sale46">
+        <div class="container banner_carousel">
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- <div class="carousel-item active">
                             <a
                                 href="https://www.facebook.com/profile.php?id=100086450281606">
                                 <img src="/images/banner2.png"
@@ -927,296 +1092,264 @@ fbq('track', 'PageView');
                                 <img src="/images/banner2.jpg" class="imgbanner"
                                     alt="Image 1"></a>
                         </div> -->
-                        <div class="carousel-item active">
-
-                            <a
-                                href="https://www.facebook.com/profile.php?id=100086450281606">
-                                <img src="/images/banner3.jpg" class="imgbanner"
-                                    alt="Image 1"></a>
-                        </div>
+                    <div class="carousel-item active">
+                        <a href="https://www.facebook.com/profile.php?id=100086450281606">
+                            <img src="/images/banner3.jpg" class="imgbanner" alt="Image 1"></a>
                     </div>
-                    <button class="carousel-control-prev" type="button"
-                        data-bs-target="#carouselExample" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"
-                            aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button"
-                        data-bs-target="#carouselExample" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"
-                            aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-        </section>
-
-        <div id="hi">
-
-            <div id="thich">
-
-                <% loailinhkienjson.forEach((row, index)=> { %>
-                <section id="mobile-products"
-                    class="product-store position-relative no-padding-top section">
-                    <div class="container sp">
-                        <div class="row">
-                            <div
-                                class="display-header d-flex justify-content-center pb-3 align-items-center">
-                                <a
-                                    href="/getspchitiet/<%= encodeURIComponent(row.name).replace(/%20/g, '-') %>"
-                                    class="btn btn-normal a_btn_title">
-                                    <h2
-                                        class="display-7 text-dark">
-                                        <%= row.name %>
-                                    </h2>
-                                </a>
-                                <!-- <div class="btn-right">
+        </div>
+    </section>
+    <div id="hi">
+        <div id="thich"> <% loailinhkienjson.forEach((row, index)=> { %> <section id="mobile-products"
+                class="product-store position-relative no-padding-top section">
+                <div class="container sp">
+                    <div class="row">
+                        <div class="display-header d-flex justify-content-center pb-3 align-items-center">
+                            <a href="/getspchitiet/<%= encodeURIComponent(row.name).replace(/%20/g, '-') %>"
+                                class="btn btn-normal a_btn_title">
+                                <h2 class="display-7 text-dark"> <%=
+                                        row.name %> </h2>
+                            </a>
+                            <!-- <div class="btn-right">
                                     <a
                                         href="/getspchitiet/<%= encodeURIComponent(row.name).replace(/%20/g, '-') %>"
                                         class="btn
                     btn-medium btn-normal text-uppercase">Xem Thêm</a>
 
                                 </div> -->
-                            </div>
-
-                            <div class="swiper product-swiper swiper-container">
-                                <div class="swiper-wrapper">
-                                    <% row.linkkienJson.slice(0,
-                                    7).forEach((item, index)=> { %>
-                                    <% var rowname=row.name; %>
-                                    <div class="swiper-slide">
-                                        <div
-                                            class="product-card position-relative">
-                                            <div class="image-holder">
-                                                <a
-                                                    href="/getchitiet/<%= encodeURIComponent(item.name).replace(/%20/g, '-').replace(/%25/g, 'pt' ) %>/<%=
-                                  encodeURIComponent(rowname).replace(/%20/g, '-' ).replace(/%25/g, 'pt' ) %>">
-                                                    <img src="<%= item.image %>"
-                                                        alt="product-item"
-                                                        class="img-fluid anh"
-                                                        loading="lazy">
-                                                </a>
-                                            </div>
-                                            <div style="padding: 5%;"
-                                                class="cart-concern position-absolute ">
-                                                <div class="cart-button d-flex">
-                                                    <a
-                                                        style="font-size: 10px; max-height: 85%;"
-                                                        href="/getchitiet/<%= encodeURIComponent(item.name).replace(/%20/g, '-').replace(/%25/g, 'pt' ) %>/<%=
-                                  encodeURIComponent(rowname).replace(/%20/g, '-' ).replace(/%25/g, 'pt' ) %>"
-                                                        class="btn btn-medium btn-danger">Chi
-                                                        tiết</a>
-                                                    <a
-                                                        href="/muangay/<%= item.id %>"
-                                                        style="font-size: 10px; height: 85%;"
-                                                        class="btn btn-medium btn-danger">Mua
-                                                        ngay</a>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="card-detail text-center justify-content-between align-items-baseline pt-3 thanhphan">
-                                                <h6>
-                                                    <a
-                                                        href="/getchitiet/<%= encodeURIComponent(item.name).replace(/%20/g, '-').replace(/%25/g, 'pt' ) %>/<%=
-                                  encodeURIComponent(rowname).replace(/%20/g, '-' ).replace(/%25/g, 'pt' ) %>"
-                                                        class="name">
-                                                        <%= item.name %>
-                                                    </a>
-                                                </h6>
-                                                <span
-                                                    class="item-price text-black price text-wrap fw-bold">
-                                                    <%= item.price %>
-                                                </span>
+                        </div>
+                        <div class="swiper product-swiper swiper-container">
+                            <div class="swiper-wrapper"> <%
+                                    row.linkkienJson.slice(0,
+                                    7).forEach((item, index)=> { %> <% var
+                                    rowname=row.name; %> <div class="swiper-slide">
+                                    <div class="product-card position-relative">
+                                        <div class="image-holder">
+                                            <img src="<%= item.image %>" alt="product-item" class="img-fluid anh"
+                                                loading="lazy">
+                                        </div>
+                                        <div style="padding: 5%;" class="cart-concern position-absolute ">
+                                            <div class="cart-button d-flex">
+                                                <a style="font-size: 10px; max-height: 85%;" href
+                                                    class="btn btn-medium btn-danger">Gọi điện</a>
+                                                <a href style="font-size: 10px; height: 85%;"
+                                                    class="btn btn-medium btn-danger">Nhắn tin</a>
                                             </div>
                                         </div>
+                                        <div
+                                            class="card-detail text-center justify-content-between align-items-baseline pt-3 thanhphan">
+                                            <h6>
+                                                <a href class="name"> <%=
+                                                        item.name %> </a>
+                                            </h6>
+                                            <span class="item-price text-black price text-wrap fw-bold">
+                                                <%= item.price %> </span>
+                                        </div>
                                     </div>
-                                    <% }) %>
-                                </div>
-                                <div
-                                    class="swiper-pagination position-absolute text-center"
-                                    style="top: 90%;"></div>
-                            </div>
+                                </div> <% }) %> </div>
+                            <div class="swiper-pagination position-absolute text-center"></div>
                         </div>
                     </div>
-                </section>
-
-                <% }) %>
-
+                </div>
+            </section> <% }) %> </div>
+    </div>
+    <section id="latest-blog" class="padding-small section1">
+        <div class="container">
+            <div class="row">
+                <div class="display-header d-flex justify-content-center pb-3">
+                    <h2 class="display-7 text-dark ">Bài đăng và tiện ích</h2>
+                </div>
+                <div class="post-grid d-flex flex-wrap justify-content-center">
+                    <% listBl.slice(0, 3).forEach((item)=> { %> <div class="col-lg-3 col-sm-12 ">
+                        <div class="card border-none ">
+                            <div class="card-image text-center overflow-hidden ">
+                                <img src="<%= item.img_blog %>" alt="product-item" id="img-fluid">
+                            </div>
+                        </div>
+                        <div class="card-body text-center" style="word-wrap: break-word">
+                            <h3 class="card-title">
+                                <a
+                                    href="/contentBlog/<%= encodeURIComponent(item.tieude_khongdau).replace(/%20/g, '-')%>">
+                                    <%= item.tieude_blog %> </a>
+                            </h3>
+                        </div>
+                    </div> <% }); %> </div>
+                <div class="d-flex flex-wrap justify-content-center btn_docthem">
+                    <a href="/getblog" class="btn btn-medium btn-normal text-uppercase "> Xem tất cả </a>
+                </div>
             </div>
         </div>
-        <%- include('../include/footer2.ejs') %>
-
-        <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    const fanpageButton = document.getElementById("fanpageButton");
-                    var leftImage = document.getElementById("left");
-                    var rightImage = document.getElementById("right");
-                    var footer = document.getElementById("footer");
-
-                    fanpageButton.addEventListener("click", function() {
-                        // Thay thế "URL_FANPAGE_FACEBOOK_CUA_BAN" bằng đường dẫn fanpage của bạn
-                        window.location.href = "https://www.messenger.com/t/110013628554676/";
-                    });
-
-                    leftImage.style.transition = "bottom 0.3s ease-in-out";
-                    rightImage.style.transition = "bottom 0.3s ease-in-out";
-
-                    window.addEventListener("scroll", function() {
-                        var footerPosition = footer.getBoundingClientRect();
-                        var imagePosition = leftImage.getBoundingClientRect();
-
-                        // Kiểm tra nếu hình ảnh gần phần footer
-                        if (imagePosition.bottom >= footerPosition.top) {
-
-                            leftImage.style.bottom = "60%";
-                            rightImage.style.bottom = "60%";
-                        } else {
-                            // Nếu không, đặt lại vị trí của hình ảnh
-                            leftImage.style.bottom = "35%";
-                            rightImage.style.bottom = "35%";
-                        }
-                    });
-                });
-                document.addEventListener('DOMContentLoaded', function() {
-                    const searchInput = document.getElementById('search-input');
-
-                    searchInput.addEventListener('input', function() {
-                        if (searchInput.value.length > 0) {
-                            searchInput.classList.add('has-content');
-                        } else {
-                            searchInput.classList.remove('has-content');
-                        }
-                    });
-
-                    searchInput.addEventListener('click', function(event) {
-                        if (event.target === searchInput) {
-                            const clearIcon = getComputedStyle(searchInput, '::after').content;
-                            if (clearIcon === '"×"') {
-                                searchInput.value = '';
-                                searchInput.dispatchEvent(new Event('input')); // Để cập nhật hiển thị dấu x
-                                searchInput.focus(); // Đặt lại tiêu điểm cho ô nhập liệu
+    </section> <%- include('../include/footer2.ejs') %> <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fanpageButton = document.getElementById("fanpageButton");
+            var leftImage = document.getElementById("left");
+            var rightImage = document.getElementById("right");
+            var footer = document.getElementById("footer");
+            fanpageButton.addEventListener("click", function() {
+                // Thay thế "URL_FANPAGE_FACEBOOK_CUA_BAN" bằng đường dẫn fanpage của bạn
+                window.location.href = "https://www.messenger.com/t/110013628554676/";
+            });
+            leftImage.style.transition = "bottom 0.3s ease-in-out";
+            rightImage.style.transition = "bottom 0.3s ease-in-out";
+            window.addEventListener("scroll", function() {
+                var footerPosition = footer.getBoundingClientRect();
+                var imagePosition = leftImage.getBoundingClientRect();
+                // Kiểm tra nếu hình ảnh gần phần footer
+                if (imagePosition.bottom >= footerPosition.top) {
+                    leftImage.style.bottom = "60%";
+                    rightImage.style.bottom = "60%";
+                } else {
+                    // Nếu không, đặt lại vị trí của hình ảnh
+                    leftImage.style.bottom = "35%";
+                    rightImage.style.bottom = "35%";
+                }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', function() {
+                if (searchInput.value.length > 0) {
+                    searchInput.classList.add('has-content');
+                } else {
+                    searchInput.classList.remove('has-content');
+                }
+            });
+            searchInput.addEventListener('click', function(event) {
+                if (event.target === searchInput) {
+                    const clearIcon = getComputedStyle(searchInput, '::after').content;
+                    if (clearIcon === '"×"') {
+                        searchInput.value = '';
+                        searchInput.dispatchEvent(new Event('input')); // Để cập nhật hiển thị dấu x
+                        searchInput.focus(); // Đặt lại tiêu điểm cho ô nhập liệu
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        function makeCall() {
+            event.preventDefault();
+            // Thay đổi số điện thoại dưới đây bằng số điện thoại thực tế
+            var phoneNumber = "0816354354";
+            // Kiểm tra xem trình duyệt có hỗ trợ gọi điện không
+            if ("contacts" in navigator && "ContactsManager" in window) {
+                // Sử dụng API Contacts để gọi điện
+                navigator.contacts.select(["phone"]).then(contacts => {
+                    // Gọi điện đến số điện thoại đã được chỉ định
+                    contacts.forEach(contact => {
+                        contact.phoneNumbers.forEach(phone => {
+                            if (phone.value === phoneNumber) {
+                                contact.pick();
                             }
-                        }
-                    });
-                });
-            </script>
-        <script>
-                function makeCall() {
-                    event.preventDefault();
-                    // Thay đổi số điện thoại dưới đây bằng số điện thoại thực tế
-                    var phoneNumber = "0816354354";
-
-                    // Kiểm tra xem trình duyệt có hỗ trợ gọi điện không
-                    if ("contacts" in navigator && "ContactsManager" in window) {
-                        // Sử dụng API Contacts để gọi điện
-                        navigator.contacts.select(["phone"]).then(contacts => {
-                            // Gọi điện đến số điện thoại đã được chỉ định
-                            contacts.forEach(contact => {
-                                contact.phoneNumbers.forEach(phone => {
-                                    if (phone.value === phoneNumber) {
-                                        contact.pick();
-                                    }
-                                });
-                            });
                         });
-                    } else {
-                        // Mở giao diện gọi điện của trình duyệt
-                        window.location.href = "tel:" + phoneNumber;
-                    }
-                }
-                document.addEventListener("DOMContentLoaded", function() {
-                    const callA = document.getElementById("callA");
-
-                    if (callA) {
-                        callA.addEventListener("click", makeCall);
-                    }
-                });
-            </script>
-        <script>
-                function encodeSpecialCharacters(name) {
-                    // Thay thế các kí tự đặc biệt bằng dấu -
-                    const replacedName = name.replace(/[^\w\s]/gi, '-');
-                    // Mã hóa tên sản phẩm và trả về
-                    return encodeURIComponent(replacedName);
-                }
-                var swiper = new Swiper('.swiper-container', {
-                    // Cấu hình Swiper tại đây
-                    // Ví dụ:
-                    slidesPerView: 1,
-                    spaceBetween: 10,
-                    loop: true,
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
-                });
-            </script>
-        <script>
-                function showSuccessDialog() {
-                    event.preventDefault();
-                    // Hiển thị dialog thành công
-                    var dialog = document.getElementById('successDialog');
-                    dialog.style.display = 'block';
-                }
-
-                function hideDialog() {
-                    // Ẩn dialog
-                    event.preventDefault();
-                    var dialog = document.getElementById('successDialog');
-                    dialog.style.display = 'none';
-                }
-
-                function showSuccessDialogxemthem() {
-                    event.preventDefault();
-                    // Hiển thị dialog thành công
-                    var dialog = document.getElementById('dialogxemthem');
-                    dialog.style.display = 'block';
-                }
-
-                function hideDialogxemthem() {
-                    // Ẩn dialog
-                    event.preventDefault();
-                    var dialog = document.getElementById('dialogxemthem');
-                    dialog.style.display = 'none';
-                }
-
-                function showSendingMessage() {
-                    document.getElementById("sendingMessage").style.display = "block"; // Hiển thị dòng văn bản "Đang gửi đánh giá, vui lòng đợi giây lát..."
-                }
-            </script>
-        <script>
-                let selectedRating = 0;
-
-                document.querySelectorAll('.star').forEach(star => {
-                    star.addEventListener('click', () => {
-                        const value = parseInt(star.getAttribute('data-value'));
-                        if (value === selectedRating + 1) {
-                            selectedRating = value;
-                        } else {
-                            selectedRating = value - 1; // Xóa chọn sao nếu nhấp vào sao đã chọn trước đó
-                        }
-                        updateRating();
                     });
                 });
+            } else {
+                // Mở giao diện gọi điện của trình duyệt
+                window.location.href = "tel:" + phoneNumber;
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            const callA = document.getElementById("callA");
+            if (callA) {
+                callA.addEventListener("click", makeCall);
+            }
+        });
+    </script>
+    <script>
+        function encodeSpecialCharacters(name) {
+            // Thay thế các kí tự đặc biệt bằng dấu -
+            const replacedName = name.replace(/[^\w\s]/gi, '-');
+            // Mã hóa tên sản phẩm và trả về
+            return encodeURIComponent(replacedName);
+        }
+        var swiper = new Swiper('.swiper-container', {
+            // Cấu hình Swiper tại đây
+            // Ví dụ:
+            slidesPerView: 1,
+            spaceBetween: 10,
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    </script>
+    <script>
+        function showSuccessDialog() {
+            event.preventDefault();
+            // Hiển thị dialog thành công
+            var dialog = document.getElementById('successDialog');
+            dialog.style.display = 'block';
+        }
 
-                function updateRating() {
-                    document.querySelectorAll('.star').forEach((star, index) => {
-                        if (index < selectedRating) {
-                            star.style.color = '#ff0'; // Yellow color for selected stars
-                        } else {
-                            star.style.color = '#ccc'; // Gray color for unselected stars
-                        }
-                    });
-                    document.getElementById('ratingInput').value = selectedRating; // Update hidden input value
+        function hideDialog() {
+            // Ẩn dialog
+            event.preventDefault();
+            var dialog = document.getElementById('successDialog');
+            dialog.style.display = 'none';
+        }
+
+        function showSuccessDialogxemthem() {
+            event.preventDefault();
+            // Hiển thị dialog thành công
+            var dialog = document.getElementById('dialogxemthem');
+            dialog.style.display = 'block';
+        }
+
+        function hideDialogxemthem() {
+            // Ẩn dialog
+            event.preventDefault();
+            var dialog = document.getElementById('dialogxemthem');
+            dialog.style.display = 'none';
+        }
+
+        function showSendingMessage() {
+            document.getElementById("sendingMessage").style.display =
+            "block"; // Hiển thị dòng văn bản "Đang gửi đánh giá, vui lòng đợi giây lát..."
+        }
+    </script>
+    <script>
+        let selectedRating = 0;
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', () => {
+                const value = parseInt(star.getAttribute('data-value'));
+                if (value === selectedRating + 1) {
+                    selectedRating = value;
+                } else {
+                    selectedRating = value - 1; // Xóa chọn sao nếu nhấp vào sao đã chọn trước đó
                 }
-            </script>
-        <script src="/js/jquery-1.11.0.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-        <script type="text/javascript"
-            src="/js/bootstrap.bundle.min.js"></script>
-        <script type="text/javascript" src="/js/plugins.js"></script>
-        <script type="text/javascript" src="/js/script.js"></script>
-    </body>
+                updateRating();
+            });
+        });
+
+        function updateRating() {
+            document.querySelectorAll('.star').forEach((star, index) => {
+                if (index < selectedRating) {
+                    star.style.color = '#ff0'; // Yellow color for selected stars
+                } else {
+                    star.style.color = '#ccc'; // Gray color for unselected stars
+                }
+            });
+            document.getElementById('ratingInput').value = selectedRating; // Update hidden input value
+        }
+    </script>
+    <script src="/js/jquery-1.11.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/js/plugins.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+</body>
 
 </html>

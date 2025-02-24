@@ -672,6 +672,8 @@ router.get('/suachua', async (req, res) => {
     const loailinhkien = await LoaiLinkKien.loailinkkien
       .find()
       .populate('linhkien')
+      const listBl = await myMDBlog.blogModel.find().sort({ _id: -1 }).limit(3)
+
     const loailinhkienjson = await Promise.all(
       loailinhkien.map(async loai => {
         const linkkienJson = await Promise.all(
@@ -691,7 +693,7 @@ router.get('/suachua', async (req, res) => {
         }
       })
     )
-    res.render('home/linkkien.ejs', { loailinhkienjson })
+    res.render('home/linkkien.ejs', { loailinhkienjson,listBl })
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: `Đã xảy ra lỗi: ${error}` })
