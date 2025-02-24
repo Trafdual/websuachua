@@ -509,7 +509,7 @@
                 display: inline-block;
             }
             body {
-                background-color: rgb(131, 131, 131);
+                background-color: white;
             }
             .section {
                 padding-right: 3%;
@@ -583,14 +583,12 @@
                 background-color: rgb(251, 251, 252);
                 margin-top: 0.5%;
                 margin: 0 auto;
-                margin-left: 13%;
-                margin-right: 12%;
                 border-radius: 10px;
-                max-width: 74%;
                 max-height: 10%;
             }
             .imgbanner {
                 width: 100%;
+                height: 550px;
             }
             .divsale45 {
                 width: 70%;
@@ -809,6 +807,13 @@
             .searchSection {
                 display: none;
             }
+            .banner_carousel{
+                width: 100% !important;
+                max-width: unset !important;
+            }
+            .a_btn_title{
+                text-decoration: none !important;
+            }
         }
     </style>
         <!-- script
@@ -871,18 +876,15 @@ fbq('track', 'PageView');
 </script>
         <noscript><img height="1" width="1" style="display:none"
                 src="https://www.facebook.com/tr?id=1130264488606980&ev=PageView&noscript=1" /></noscript>
-        <!-- End Meta Pixel Code -->
     </head>
 
     <body data-bs-spy="scroll" data-bs-target="#navbar"
         data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true"
         tabindex="0">
-        <!-- Google Tag Manager (noscript) -->
         <noscript><iframe
                 src="https://www.googletagmanager.com/ns.html?id=GTM-KB5DNX5V"
                 height="0" width="0"
                 style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
         <div class="facezalo">
             <div class="anhfz">
                 <a href="https://zalo.me/0394692992">
@@ -903,72 +905,15 @@ fbq('track', 'PageView');
 
         <%- include('../include/header2.ejs') %>
 
-        <form action="/danhgia" method="post">
-
-            <div id="successDialog" class="dialog-overlay">
-                <div class="dialog-content">
-                    <h2>Đánh Giá</h2>
-                    <div class="d-flex flex-column">
-                        <input style="width: 100%;font-size: 20px;"
-                            class="text-black " placeholder="họ và tên"
-                            name="tenkhach">
-                        <textarea
-                            style="width: 100%; margin-top: 5%; font-size: 20px;"
-                            class="text-black" name="content"
-                            placeholder="nội dung"></textarea>
-                    </div>
-                    <div class="rating" style="font-size: 30px;">
-                        <span class="star" data-value="1">&#9733;</span>
-                        <span class="star" data-value="2">&#9733;</span>
-                        <span class="star" data-value="3">&#9733;</span>
-                        <span class="star" data-value="4">&#9733;</span>
-                        <span class="star" data-value="5">&#9733;</span>
-                    </div>
-                    <input type="hidden" name="rating" id="ratingInput">
-                    <p id="sendingMessage"
-                        style="display: none; font-size: 20px;">Đang gửi đánh
-                        giá, vui lòng đợi giây lát...</p>
-                    <div class="dialog-buttons">
-                        <button onclick="hideDialog()"
-                            class="btn btn-secondary">Không</button>
-                        <button type="submit" onclick="showSendingMessage()"
-                            class="btn btn-primary">Có</button>
-                    </div>
-                </div>
-            </div>
-
-        </form>
-
-        <div class="container" style="height: 100px;"></div>
-        <section id="mobile-products"
-            class="product-store position-relative no-padding-top section searchSection">
-            <div class="container sp">
-                <div class="row">
-                    <div class="display-header justify-content-between">
-                        <div>
-                            <form action="/search-products"
-                                style="display: flex; position: relative;"
-                                role="search" method="get">
-                                <input id="search-input" class="inputSearch"
-                                    type="text" placeholder="Tìm kiếm sản phẩm"
-                                    name="query">
-                                <button class="btnSearch" type="submit">Tìm
-                                    kiếm</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="overlay" class="overlay"></div>
-        </section>
+        <div class="container" style="height: 60px;"></div>
 
         <section id="yearly-sale"
             class="bg-light-blue mt-2 mb-2 overflow-hidden sale46">
-            <div class="container ">
+            <div class="container banner_carousel">
                 <div id="carouselExample" class="carousel slide"
                     data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
+                        <!-- <div class="carousel-item active">
                             <a
                                 href="https://www.facebook.com/profile.php?id=100086450281606">
                                 <img src="/images/banner2.png"
@@ -980,6 +925,13 @@ fbq('track', 'PageView');
                             <a
                                 href="https://www.facebook.com/profile.php?id=100086450281606">
                                 <img src="/images/banner2.jpg" class="imgbanner"
+                                    alt="Image 1"></a>
+                        </div> -->
+                        <div class="carousel-item active">
+
+                            <a
+                                href="https://www.facebook.com/profile.php?id=100086450281606">
+                                <img src="/images/banner3.jpg" class="imgbanner"
                                     alt="Image 1"></a>
                         </div>
                     </div>
@@ -1000,14 +952,7 @@ fbq('track', 'PageView');
         </section>
 
         <div id="hi">
-            <div id="imagedoi">
-                <img id="left"
-                    src="https://fptshop.com.vn/Content/images/tet-2024/img-left.png?v=1221"
-                    alt>
-                <img id="right"
-                    src="https://fptshop.com.vn/Content/images/tet-2024/img-right.png?v=1221"
-                    alt>
-            </div>
+
             <div id="thich">
 
                 <% loailinhkienjson.forEach((row, index)=> { %>
@@ -1016,27 +961,24 @@ fbq('track', 'PageView');
                     <div class="container sp">
                         <div class="row">
                             <div
-                                class="display-header d-flex justify-content-between pb-3 align-items-center">
+                                class="display-header d-flex justify-content-center pb-3 align-items-center">
                                 <a
                                     href="/getspchitiet/<%= encodeURIComponent(row.name).replace(/%20/g, '-') %>"
-                                    class="btn btn-normal text-uppercase">
+                                    class="btn btn-normal a_btn_title">
                                     <h2
-                                        class="display-7 text-dark text-uppercase">
+                                        class="display-7 text-dark">
                                         <%= row.name %>
                                     </h2>
                                 </a>
-                                <div class="btn-right">
+                                <!-- <div class="btn-right">
                                     <a
                                         href="/getspchitiet/<%= encodeURIComponent(row.name).replace(/%20/g, '-') %>"
                                         class="btn
                     btn-medium btn-normal text-uppercase">Xem Thêm</a>
 
-                                </div>
+                                </div> -->
                             </div>
-                            <div class="divimgsale">
-                                <img class="imgsale" src="/images/banner3.png"
-                                    alt>
-                            </div>
+
                             <div class="swiper product-swiper swiper-container">
                                 <div class="swiper-wrapper">
                                     <% row.linkkienJson.slice(0,
@@ -1097,48 +1039,8 @@ fbq('track', 'PageView');
                         </div>
                     </div>
                 </section>
-                <section class="bg-light-blue mt-2 mb-2 overflow-hidden sale47"
-                    style="background-image: url('/images/banner5.png');background-position: right; background-repeat: no-repeat; background-size: cover;">
 
-                </section>
                 <% }) %>
-
-                <section id="subscribe"
-                    class="container-grid padding-small position-relative overflow-hidden section">
-                    <div class="container">
-                        <div class="row">
-                            <div
-                                class="subscribe-content bg-dark d-flex flex-wrap justify-content-center align-items-center padding-medium">
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="display-header pe-3">
-                                        <h2
-                                            class="display-7 text-uppercase text-light">Đăng
-                                            ký cho chúng tôi ngay</h2>
-                                        <p>Nhận tin tức mới nhất, cập nhật và
-                                            giao dịch được gửi trực tiếp đến hộp
-                                            thư đến của bạn.</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-5 col-sm-12">
-                                    <form class="subscription-form validate">
-                                        <div class="input-group flex-wrap">
-                                            <input
-                                                class="form-control btn-rounded-none"
-                                                type="email" name="EMAIL"
-                                                placeholder="Địa chỉ email của bạn ở đây"
-                                                required>
-                                            <button
-                                                class="btn btn-medium btn-primary text-uppercase btn-rounded-none"
-                                                type="submit"
-                                                name="subscribe">Đăng
-                                                ký</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
             </div>
         </div>

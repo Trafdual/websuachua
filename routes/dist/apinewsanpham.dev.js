@@ -1554,7 +1554,6 @@ router.get('/suachua', function _callee38(req, res) {
 
         case 6:
           loailinhkienjson = _context38.sent;
-          // res.json(loailinhkienjson)
           res.render('home/linkkien.ejs', {
             loailinhkienjson: loailinhkienjson
           });
@@ -1590,7 +1589,7 @@ router.post('/postlinkkien/:idloailinkkien', uploads.fields([{
           _context39.prev = 0;
           _req$body7 = req.body, name = _req$body7.name, price = _req$body7.price;
           idloailinkkien = req.params.idloailinkkien;
-          _domain2 = 'http://localhost:3000';
+          _domain2 = 'https://baominhmobile.com/';
           _context39.next = 6;
           return regeneratorRuntime.awrap(LoaiLinkKien.loailinkkien.findById(idloailinkkien));
 

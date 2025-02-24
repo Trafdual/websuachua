@@ -691,7 +691,6 @@ router.get('/suachua', async (req, res) => {
         }
       })
     )
-    // res.json(loailinhkienjson)
     res.render('home/linkkien.ejs', { loailinhkienjson })
   } catch (error) {
     console.error(error)
@@ -708,7 +707,7 @@ router.post(
     try {
       const { name, price } = req.body
       const idloailinkkien = req.params.idloailinkkien
-      const domain = 'http://localhost:3000'
+      const domain = 'https://baominhmobile.com/'
       const loailinhkien = await LoaiLinkKien.loailinkkien.findById(
         idloailinkkien
       )
