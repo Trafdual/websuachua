@@ -1,41 +1,53 @@
 <%- include('../include/header.ejs') %>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
-    <div class="container">
-        <h3>
-            <a href="/main"><img style="width: 30px;" src="https://cdn-icons-png.flaticon.com/512/25/25694.png"></a> Cập nhật loại sản phẩm</h3>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<div class="container">
+    <h3>
+        <a href="/main"><img style="width: 30px;"
+                src="https://cdn-icons-png.flaticon.com/512/25/25694.png"></a>
+        Cập nhật loại sản phẩm</h3>
 
-        <form action="/putloaisp/<%= tensp._id %>" method="post">
-            <form class="px-4 py-3">
+    <form action="/putloaisp/<%= tensp._id %>" method="post">
+        <form class="px-4 py-3">
 
-                <label class="form-label">Tên sản phẩm</label>
-                <input type="text" name="name" class="form-control" value="<%=tensp.name %>"><br>
-                <label class="form-label">Màn hình</label>
-                <input type="text" name="manhinh" class="form-control" value="<%=tensp.manhinh %>"><br>
-                <label class="form-label">Chip</label>
-                <input type="text" name="chip" class="form-control" value="<%=tensp.chip %>"><br>
-                <label class="form-label">Ram</label>
-                <input type="text" name="ram" class="form-control" value="<%=tensp.ram %>"><br>
-                <label class="form-label">Dung lượng</label>
-                <input type="text" name="dungluong" class="form-control" value="<%=tensp.dungluong %>"><br>
-                <label class="form-label">Camera</label>
-                <input type="text" name="camera" class="form-control" value="<%=tensp.camera %>"><br>
-                <label class="form-label">Pin sạc</label>
-                <input type="text" name="pinsac" class="form-control" value="<%=tensp.pinsac %>"><br>
-                <label class="form-label">Cổng sạc</label>
-                <input type="text" name="congsac" class="form-control" value="<%=tensp.congsac %>"><br>
-                <label class="form-label">Hãng</label>
-                <input type="text" name="hang" class="form-control" value="<%=tensp.hang %>"><br>
-                <label class="form-label">Thông tin sản phẩm</label>
-                <div id="editor-container" style="height: 400px;"></div>
-                <input type="hidden" name="thongtin" id="editor-content" value="<%=tensp.thongtin %>">
-                <br>
-                <button type="submit" class="btn btn-danger">Cập nhật</button>
-            </form>
+            <label class="form-label">Tên sản phẩm</label>
+            <input type="text" name="name" class="form-control"
+                value="<%=tensp.name %>"><br>
+            <label class="form-label">Màn hình</label>
+            <input type="text" name="manhinh" class="form-control"
+                value="<%=tensp.manhinh %>"><br>
+            <label class="form-label">Chip</label>
+            <input type="text" name="chip" class="form-control"
+                value="<%=tensp.chip %>"><br>
+            <label class="form-label">Ram</label>
+            <input type="text" name="ram" class="form-control"
+                value="<%=tensp.ram %>"><br>
+            <label class="form-label">Dung lượng</label>
+            <input type="text" name="dungluong" class="form-control"
+                value="<%=tensp.dungluong %>"><br>
+            <label class="form-label">Camera</label>
+            <input type="text" name="camera" class="form-control"
+                value="<%=tensp.camera %>"><br>
+            <label class="form-label">Pin sạc</label>
+            <input type="text" name="pinsac" class="form-control"
+                value="<%=tensp.pinsac %>"><br>
+            <label class="form-label">Cổng sạc</label>
+            <input type="text" name="congsac" class="form-control"
+                value="<%=tensp.congsac %>"><br>
+            <label class="form-label">Hãng</label>
+            <input type="text" name="hang" class="form-control"
+                value="<%=tensp.hang %>"><br>
+            <label class="form-label">Thông tin sản phẩm</label>
+            <div id="editor-container" style="height: 400px;"></div>
+            <input type="hidden" name="thongtin" id="editor-content"
+                value="<%=tensp.thongtin %>">
+            <br>
+            <button type="submit" class="btn btn-danger">Cập nhật</button>
         </form>
-        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    </form>
 
-        <script>
+    <script>
             var quill = new Quill('#editor-container', {
                 theme: 'snow',
                 modules: {
@@ -109,4 +121,4 @@
                 content.value = quill.root.innerHTML;
             });
         </script>
-    </div>
+</div>
